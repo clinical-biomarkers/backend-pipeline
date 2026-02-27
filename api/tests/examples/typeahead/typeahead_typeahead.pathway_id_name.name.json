@@ -1,0 +1,7 @@
+{
+	"field_list": ["pathway_id", "pathway_name", "pathway_description"],
+	"limit": 10,
+	"value": "platel"        
+}
+
+

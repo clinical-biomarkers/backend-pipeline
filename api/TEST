@@ -1,0 +1,47 @@
+http POST :4040/pages/home_init/ 
+http POST :4040/pages/ontology/
+ 
+http POST :4040/log/logging/ < tests/examples/log/log_logging.json 
+
+http POST :4040/biomarker/detail/AN9919-1
+http POST :4040/biomarker/search_init/
+http POST :4040/biomarker/search_simple/ < tests/examples/biomarker/search_simple.json
+http POST :4040/biomarker/search < tests/examples/biomarker/search.1.json
+http POST :4040/biomarker/ai_search < tests/examples/biomarker/ai_search.json
+http POST :4040/biomarker/list < tests/examples/biomarker/list.json
+
+
+
+
+http POST :4040/pagination/page < tests/examples/pagination/protein.json
+http POST :4040/pagination/page < tests/examples/pagination/site.json
+http POST :4040/pagination/page < tests/examples/pagination/glycan.json
+http POST :4040/pagination/page < tests/examples/pagination/motif.json
+http POST :4040/pagination/page < tests/examples/pagination/publication.json
+http POST :4040/pagination/page < tests/examples/pagination/biomarker.json
+
+http POST :4040/data/section_download < tests/examples/data/section_download.protein.glycosylation.json
+http POST :4040/data/list_download < tests/examples/data/list_download.1.json
+
+
+
+http POST :4040/event/addnew/ < tests/examples/event/event_addnew.json
+http POST :4040/event/list/ < tests/examples/event/event_list.json
+http POST :4040/event/detail/ < tests/examples/event/event_detail.json
+http POST :4040/event/update/ < tests/examples/event/event_update.json
+http POST :4040/event/delete/ < tests/examples/event/event_delete.json
+
+http POST :4040/auth/userdelete/ < tests/examples/auth/auth_userdelete.json
+http POST :4040/auth/register/ < tests/examples/auth/auth_register.json
+http POST :4040/auth/userinfo/ < tests/examples/auth/auth_userinfo.json
+http POST :4040/auth/userupdate/ < tests/examples/auth/auth_userupdate.json
+http POST :4040/auth/login/ < tests/examples/auth/auth_login.json
+http POST :4040/auth/userid/ < tests/examples/auth/auth_userid.json
+http POST :4040/auth/contact/ < tests/examples/auth/auth_contact.json
+http POST :4040/auth/notify/ < tests/examples/auth/auth_notify.json
+http POST :4040/auth/contactlist/ < tests/examples/auth/auth_contactlist.json
+http POST :4040/auth/contactupdate/ < tests/examples/auth/auth_contactupdate.json
+http POST :4040/auth/contactdelete/ < tests/examples/auth/auth_contactdelete.json
+http POST :4040/auth/aisearch/ < tests/examples/auth/auth_aisearch.json
+
+

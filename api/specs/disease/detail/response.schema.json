@@ -1,0 +1,382 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "disease_id": {
+            "type": "string"
+        },
+        "recommended_name": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "resource": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "id",
+                "name",
+                "resource",
+                "url"
+            ]
+        },
+        "synonyms": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "resource": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "description",
+                    "id",
+                    "name",
+                    "resource",
+                    "url"
+                ]
+            }
+        },
+        "crossref": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "database": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "categories": {
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "categories",
+                    "database",
+                    "id",
+                    "url"
+                ]
+            }
+        },
+        "proteins": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "uniprot_ac": {
+                        "type": "string"
+                    },
+                    "uniprot_id": {
+                        "type": "string"
+                    },
+                    "refseq_ac": {
+                        "type": "string"
+                    },
+                    "glycoprotein": {
+                        "type": "string"
+                    },
+                    "species": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "taxid": {
+                                    "type": "integer"
+                                },
+                                "common_name": {
+                                    "type": "string"
+                                },
+                                "glygen_name": {
+                                    "type": "string"
+                                },
+                                "reference_species": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "common_name",
+                                "glygen_name",
+                                "name",
+                                "reference_species",
+                                "taxid"
+                            ]
+                        }
+                    },
+                    "protein_names": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "resource": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "resource",
+                                "type"
+                            ]
+                        }
+                    },
+                    "gene_names": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "resource": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "resource",
+                                "type"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "gene_names",
+                    "glycoprotein",
+                    "protein_names",
+                    "refseq_ac",
+                    "species",
+                    "uniprot_ac",
+                    "uniprot_canonical_ac",
+                    "uniprot_id"
+                ]
+            }
+        },
+        "glycans": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "glytoucan_ac": {
+                        "type": "string"
+                    },
+                    "names": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "domain": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "domain",
+                                "name"
+                            ]
+                        }
+                    },
+                    "species": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "taxid": {
+                                    "type": "integer"
+                                },
+                                "common_name": {
+                                    "type": "string"
+                                },
+                                "glygen_name": {
+                                    "type": "string"
+                                },
+                                "reference_species": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "common_name",
+                                "glygen_name",
+                                "name",
+                                "reference_species",
+                                "taxid"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "glytoucan_ac",
+                    "names",
+                    "species"
+                ]
+            }
+        },
+        "biomarkers": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "biomarker_id": {
+                        "type": "string"
+                    },
+                    "biomarker_canonical_id": {
+                        "type": "string"
+                    },
+                    "best_biomarker_role": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "role": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "role"
+                            ]
+                        }
+                    },
+                    "biomarker_component": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "assessed_biomarker_entity": {
+                                    "type": "object",
+                                    "properties": {
+                                        "recommended_name": {
+                                            "type": "string"
+                                        },
+                                        "synonyms": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "synonym": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "synonym"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "recommended_name",
+                                        "synonyms"
+                                    ]
+                                },
+                                "biomarker": {
+                                    "type": "string"
+                                },
+                                "assessed_biomarker_entity_id": {
+                                    "type": "string"
+                                },
+                                "assessed_entity_type": {
+                                    "type": "string"
+                                },
+                                "evidence": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "database": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "database",
+                                            "id",
+                                            "url"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "assessed_biomarker_entity",
+                                "assessed_biomarker_entity_id",
+                                "assessed_entity_type",
+                                "biomarker",
+                                "evidence"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "best_biomarker_role",
+                    "biomarker_canonical_id",
+                    "biomarker_component",
+                    "biomarker_id"
+                ]
+            }
+        },
+        "record_id": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "biomarkers",
+        "crossref",
+        "disease_id",
+        "glycans",
+        "proteins",
+        "recommended_name",
+        "record_id",
+        "synonyms"
+    ]
+}

@@ -1,0 +1,7 @@
+{
+	"biomarker_entity_type":"protein",
+	"biomarker_entity_id":"UPKB:P05231",
+	"biomarker_entity_name":"Interleukin-6",
+	"biomarker":"Increased level of protein IL6",
+	"best_biomarker_role":"prognostic"
+}

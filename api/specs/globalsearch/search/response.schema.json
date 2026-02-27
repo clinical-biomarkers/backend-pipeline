@@ -1,0 +1,512 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "exact_match": {
+            "type": "array"
+        },
+        "other_matches": {
+            "type": "object",
+            "properties": {
+                "total_match_count": {
+                    "type": "integer"
+                },
+                "protein": {
+                    "type": "object",
+                    "properties": {
+                        "identifiers": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "names": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "gene": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "species": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "publications": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "function": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "interactions": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "disease": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "all": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "all",
+                        "disease",
+                        "function",
+                        "gene",
+                        "identifiers",
+                        "interactions",
+                        "names",
+                        "publications",
+                        "species"
+                    ]
+                },
+                "glycoprotein": {
+                    "type": "object",
+                    "properties": {
+                        "identifiers": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "names": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "gene": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "species": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "publications": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "function": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "glycosylation": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "interactions": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "disease": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "all": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "all",
+                        "disease",
+                        "function",
+                        "gene",
+                        "glycosylation",
+                        "identifiers",
+                        "interactions",
+                        "names",
+                        "publications",
+                        "species"
+                    ]
+                },
+                "glycan": {
+                    "type": "object",
+                    "properties": {
+                        "motifs": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "species": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "enzyme": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "publications": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "sequences": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "identifiers": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "glycoproteins": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "type": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "subtype": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        },
+                        "all": {
+                            "type": "object",
+                            "properties": {
+                                "list_id": {
+                                    "type": "string"
+                                },
+                                "count": {
+                                    "type": "integer"
+                                }
+                            },
+                            "required": [
+                                "count",
+                                "list_id"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "all",
+                        "enzyme",
+                        "glycoproteins",
+                        "identifiers",
+                        "motifs",
+                        "publications",
+                        "sequences",
+                        "species",
+                        "subtype",
+                        "type"
+                    ]
+                }
+            },
+            "required": [
+                "glycan",
+                "glycoprotein",
+                "protein",
+                "total_match_count"
+            ]
+        }
+    },
+    "required": [
+        "exact_match",
+        "other_matches"
+    ]
+}

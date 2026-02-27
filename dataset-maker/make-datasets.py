@@ -12,7 +12,7 @@ import csvutil
 def load_geneid2uniprotac():
 
     tmp_dict = {}
-    in_file = "downloads/glygen/current/human_protein_xref_geneid.csv"
+    in_file = downloads_dir + "glygen/current/human_protein_xref_geneid.csv"
     with open(in_file, "r") as FR:
         f_list, lcount = [], 0
         for line in FR:
@@ -173,7 +173,7 @@ def has_mutation_word(orig):
 def load_cmb2id():
 
     cmb2id = {}
-    file_list = glob.glob("misc/cmb2biomarkerid.*-*.csv")
+    file_list = glob.glob(release_dir + "misc/cmb2biomarkerid.*-*.csv")
     for in_file in file_list:
         with open(in_file, "r") as FR:
             f_list, lcount = [], 0
@@ -210,7 +210,7 @@ def make_masterlist_ds(dataset):
     newrow += ["best_biomarker_role","specimen","specimen_id","loinc_code","evidence_source","evidence"]
     newrow += ["tag","data_source","flag"]
     row_list.append(newrow)
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         data_source = in_file.split("/")[-1].split(".")[0].replace("biomarkers_", "")
         df = {}
@@ -248,7 +248,7 @@ def make_masterlist_ds(dataset):
             row_list.append(newrow)
     
     file_format = "tsv"
-    out_file = "unreviewed/%s.%s" % (dataset, file_format)
+    out_file = release_dir + "unreviewed/%s.%s" % (dataset, file_format)
     write_output(row_list, out_file, file_format)
  
     return
@@ -263,7 +263,7 @@ def make_xrefmap_biomarkerkb2uniprotkb_ds(dataset):
     row_list = []
     newrow = ["uniprotkb_primary_accession","biomarkerkb_id","biomarker","disease"]
     row_list.append(newrow)
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         data_source = in_file.split("/")[-1].split(".")[0].replace("biomarkers_", "")
         df = {}
@@ -311,7 +311,7 @@ def make_xrefmap_biomarkerkb2uniprotkb_ds(dataset):
             
 
     file_format = "tsv"
-    out_file = "unreviewed/%s.%s" % (dataset, file_format)
+    out_file = release_dir + "unreviewed/%s.%s" % (dataset, file_format)
     write_output(row_list, out_file, file_format)
     
 
@@ -346,7 +346,7 @@ def get_gene_name(entity_id, entity_type, entity, ac2genename, genename2geneid):
 def get_entity_type_list():
 
     tmp_list = []
-    in_file = "generated/misc/biomarker_controlled_vocabulary/current/biomarker_entity_type.txt"
+    in_file = generated_dir + "misc/biomarker_controlled_vocabulary/current/biomarker_entity_type.txt"
     with open(in_file, "r") as FR:
         for line in FR:
             if line[0:2] == "ID":
@@ -447,18 +447,18 @@ def get_vocab_term(biomarker_orig, vocab_ptrn, entity, entity_id, entity_type, a
 
 def make_biomarker_ds(dataset):
 
-    cmb2grpid = csvutil.load_cmb2grpid()
+    cmb2grpid = csvutil.load_cmb2grpid(release_dir)
     ptrn_dict = json.load(open("conf/rules.json"))
     resource = dataset.replace("biomarkers_", "")
 
     entity_type_list = get_entity_type_list()
-    entity_type_map = json.load(open("misc/entity_type_map.json"))
+    entity_type_map = json.load(open(release_dir + "misc/entity_type_map.json"))
         
     mutation_term_list = get_mutation_term_list()
 
     out_rows = []
     for in_file_name in ds_dict["biomarkers"][dataset]:
-        in_file = "downloads/%s/current/%s" % (resource, in_file_name)
+        in_file = downloads_dir  + "%s/current/%s" % (resource, in_file_name)
         if os.path.isfile(in_file) == False:
             print ("input file %s does not exist" % (in_file))
             exit()
@@ -588,7 +588,7 @@ def make_biomarker_ds(dataset):
 
 
     file_format = "tsv"
-    out_file = "unreviewed/%s.%s" % (dataset, file_format)
+    out_file = release_dir + "unreviewed/%s.%s" % (dataset, file_format)
     write_output(out_rows, out_file, file_format)
  
 
@@ -618,7 +618,7 @@ def write_output(out_rows, out_file, file_format):
 def load_entityname2id():
 
     tmp_dict = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.csv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.csv")
     for in_file in file_list:
         if in_file.find("clinvar") != -1:
             continue
@@ -634,7 +634,7 @@ def load_entityname2id():
             tmp_dict[ent_name_lc][ent_id] = ent_name
 
 
-    in_file = "compiled/entity_name2id_map.csv"
+    in_file = release_dir + "compiled/entity_name2id_map.csv"
     df = {}
     csvutil.load_sheet(df, in_file, [], ",")
     f_list = df["fields"]
@@ -653,7 +653,7 @@ def load_entityname2id():
 def get_seen_comp_key(cmb_list):
 
     ignore_list = ["CSF", "CA-125"] 
-    in_file = "compiled/entity2ehr_mapping_gwdc.2.csv"
+    in_file = release_dir + "compiled/entity2ehr_mapping_gwdc.2.csv"
     df = {}
     csvutil.load_sheet(df, in_file, [], ",")
     f_list = df["fields"]
@@ -666,7 +666,7 @@ def get_seen_comp_key(cmb_list):
             if entity_name not in ignore_list:
                 ignore_list.append(entity_name)
     seen_comp_key = {}
-    in_file = "downloads/gwdc/current/stats.csv"
+    in_file = downloads_dir + "gwdc/current/stats.csv"
     df = {}
     csvutil.load_sheet(df, in_file, [], ",")
     f_list = df["fields"]
@@ -728,7 +728,7 @@ def make_entity_normalranges_ds(dataset):
         out_rows.append(newrow)
    
         seen_comp_key = get_seen_comp_key(cmb_list)
-        file_list = glob.glob("downloads/gwdc/current/measurements.*.csv")
+        file_list = glob.glob(downloads_dir + "gwdc/current/measurements.*.csv")
         # "DurableKey_e","Sex","AgeInYears","IsCancerPatient","lab_comp_key","comp_name","entity",
         # "entity_ids","Value","NumericValue","Unit","Abnormal","IsFinal","Count"
         m_dict = {}
@@ -806,8 +806,8 @@ def make_entity_normalranges_ds(dataset):
                     out_rows.append(newrow)
     elif dataset == "entity_normalranges_oracle_health":
         #entname2id = load_entityname2id()
-        entity_name_dict = json.load(open("misc/labterm2entityname_map.json"))
-        in_file = "downloads/oracle_health/current/stratified_stats_report_ALL.tsv"
+        entity_name_dict = json.load(open(release_dir + "misc/labterm2entityname_map.json"))
+        in_file = downloads_dir +  "oracle_health/current/stratified_stats_report_ALL.tsv"
         if os.path.isfile(in_file) == False:
             print ("input file %s does not exist" % (in_file))
             exit()
@@ -868,8 +868,8 @@ def make_entity_normalranges_ds(dataset):
                     #    out_rows.append(newrow)
 
     file_format = "tsv"
-    out_file = "unreviewed/%s.%s" % (dataset,file_format)
-    log_file = "logs/%s.csv" % (dataset)
+    out_file = release_dir + "unreviewed/%s.%s" % (dataset,file_format)
+    log_file = release_dir + "logs/%s.csv" % (dataset)
     write_output(out_rows, out_file, file_format)
     write_output(fl_rows,log_file, file_format)
  
@@ -879,7 +879,7 @@ def make_entity_normalranges_ds(dataset):
 def reduce_xref_dict(xref_dict):
 
     remove_dict = {}   
-    with open("misc/crossrefs-removelist.txt","r") as FR:
+    with open(release_dir + "misc/crossrefs-removelist.txt","r") as FR:
         for line in FR:
             src,ent_type,xref_key = line.strip().split(" ")
             ent_type = "amino acid" if ent_type == "amino_acid" else ent_type
@@ -900,13 +900,13 @@ def reduce_xref_dict(xref_dict):
 
 def make_xrefs_ds(dataset):
 
-    xref_dict = json.load(open("misc/crossrefs.json"))
+    xref_dict = json.load(open(release_dir + "misc/crossrefs.json"))
     #reduce_xref_dict(xref_dict)
 
     
     seen_debug = {}
     out_rows = [["source_file","biomarker_idx","xref_key","xref_id"]]
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
         df = {}
@@ -945,7 +945,7 @@ def make_xrefs_ds(dataset):
                             out_rows.append(newrow)
 
     file_format = "tsv"
-    out_file = "unreviewed/%s.%s" % (dataset,file_format)
+    out_file = release_dir + "unreviewed/%s.%s" % (dataset,file_format)
     write_output(out_rows, out_file, file_format)
 
 
@@ -958,22 +958,33 @@ def main():
 
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog " )
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
     parser.add_option("-d","--dataset",action="store",dest="dataset",help="")
 
     (options,args) = parser.parse_args()
-    for file in ([options.dataset]):
+    for file in ([options.dataset, options.rel]):
         if not (file):
             parser.print_help()
             sys.exit(0)
 
     dataset = options.dataset
+    rel = options.rel
+
 
     global ds_dict
     global ac2genename
     global genename2geneid
+    global downloads_dir
+    global generated_dir
+    global release_dir
 
-    ds_dict = json.load(open("misc/datasets.json"))
-    in_file = "downloads/uniprotkb/current/HUMAN_9606_idmapping.dat"
+    downloads_dir = "/data/shared/biomarkerdb/downloads/"
+    generated_dir = "/data/shared/biomarkerdb/generated/"
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+
+    ds_dict = json.load(open(release_dir + "misc/datasets.json"))
+    in_file = downloads_dir + "uniprotkb/current/HUMAN_9606_idmapping.dat"
     ac2genename, genename2geneid = load_geneinfo(in_file)
     
     

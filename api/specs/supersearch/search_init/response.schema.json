@@ -1,0 +1,87 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "string"
+            },
+            "label": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "fields": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "label": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        },
+                        "maxlength": {
+                            "type": "integer"
+                        },
+                        "url": {
+                            "type": "string"
+                        },
+                        "oplist": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "typeahead": {
+                            "type": "string"
+                        },
+                        "enum": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "order": {
+                            "type": "integer"
+                        },
+                        "default_value": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "enum",
+                        "id",
+                        "label",
+                        "maxlength",
+                        "oplist",
+                        "order",
+                        "type",
+                        "typeahead",
+                        "url"
+                    ]
+                }
+            },
+            "record_count": {
+                "type": "integer"
+            },
+            "list_id": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "description",
+            "fields",
+            "id",
+            "label",
+            "list_id",
+            "record_count"
+        ]
+    }
+}

@@ -1,0 +1,82 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "release_date": {
+                        "type": "string"
+                    },
+                    "component": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "component",
+                    "release_date",
+                    "version"
+                ]
+            }
+        },
+        "statistics": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "species": {
+                        "type": "string"
+                    },
+                    "glycans": {
+                        "type": "integer"
+                    },
+                    "proteins": {
+                        "type": "integer"
+                    },
+                    "glycoproteins": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "glycans",
+                    "glycoproteins",
+                    "proteins",
+                    "species"
+                ]
+            }
+        },
+        "events": {
+            "type": "array"
+        },
+        "video": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                },
+                "createdts": {
+                    "type": "string"
+                },
+                "visibility": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "createdts",
+                "url",
+                "visibility"
+            ]
+        }
+    },
+    "required": [
+        "events",
+        "statistics",
+        "version",
+        "video"
+    ]
+}

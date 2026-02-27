@@ -1,0 +1,1314 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "mass": {
+            "type": "object",
+            "properties": {
+                "chemical_mass": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "chemical_mass"
+            ]
+        },
+        "refseq": {
+            "type": "object",
+            "properties": {
+                "ac": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "summary": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ac",
+                "name",
+                "summary",
+                "url"
+            ]
+        },
+        "gene_names": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "resource": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "resource",
+                    "type",
+                    "url",
+                    "id"
+                ]
+            }
+        },
+        "protein_names": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "resource": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "resource",
+                    "type",
+                    "url",
+                    "id"
+                ]
+            }
+        },
+        "function": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "annotation": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "annotation",
+                    "evidence"
+                ]
+            }
+        },
+        "disease": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "disease_id": {
+                        "type": "string"
+                    },
+                    "recommended_name": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "resource": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "resource",
+                            "url",
+                            "name",
+                            "description"
+                        ]
+                    },
+                    "synonyms": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "resource": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "resource",
+                                "url",
+                                "name",
+                                "description"
+                            ]
+                        }
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "disease_id",
+                    "recommended_name"
+                ]
+            }
+        },
+        "snv": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database ",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "subjects_tested": {
+                        "type": "string"
+                    },
+                    "subjects_positive": {
+                        "type": "string"
+                    },
+                    "frequency": {
+                        "type": "string"
+                    },
+                    "sequence_org": {
+                        "type": "string"
+                    },
+                    "sequence_mut": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "chr_id": {
+                        "type": "string"
+                    },
+                    "chr_pos": {
+                        "type": "string"
+                    },
+                    "ref_nt": {
+                        "type": "string"
+                    },
+                    "alt_nt": {
+                        "type": "string"
+                    },
+                    "disease": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "disease_id": {
+                                    "type": "string"
+                                },
+                                "recommended_name": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "resource": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        [
+                                            "id",
+                                            "resource",
+                                            "url",
+                                            "name",
+                                            "evidence"
+                                        ]
+                                    ]
+                                },
+                                "synonyms": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "resource": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "resource",
+                                            "url",
+                                            "name",
+                                            "description"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "recommended_name"
+                            ]
+                        }
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "glycoeffect": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "evidence",
+                    "start_pos",
+                    "end_pos",
+                    "sequence_org",
+                    "alt_nt",
+                    "sequence_mut",
+                    "ref_nt",
+                    "chr_id",
+                    "keywords"
+                ]
+            }
+        },
+        "mutagenesis": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "sequence_org": {
+                        "type": "string"
+                    },
+                    "sequence_mut": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "start_pos",
+                    "end_pos",
+                    "sequence_org"
+                ]
+            }
+        },
+        "expression_tissue": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "tissue": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "uberon": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "url",
+                            "type"
+                        ]
+                    },
+                    "score": {
+                        "type": "string"
+                    },
+                    "present": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "tissue",
+                    "score",
+                    "present",
+                    "evidence"
+                ]
+            }
+        },
+        "expression_disease": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "significant": {
+                        "type": "string"
+                    },
+                    "trend": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "disease": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "disease_id": {
+                                    "type": "string"
+                                },
+                                "recommended_name": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "resource": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "resource",
+                                        "url",
+                                        "name",
+                                        "evidence"
+                                    ]
+                                },
+                                "synonyms": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "resource": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "resource",
+                                            "url",
+                                            "name",
+                                            "description"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "recommended_name"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "trend",
+                    "disease",
+                    "url",
+                    "evidence",
+                    "disease"
+                ]
+            }
+        },
+        "species": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "taxid": {
+                        "type": "integer"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "common_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "taxid",
+                    "evidence",
+                    "common_name"
+                ]
+            }
+        },
+        "gene": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "locus": {
+                        "type": "object",
+                        "properties": {
+                            "chromosome": {
+                                "type": "string"
+                            },
+                            "start_pos": {
+                                "type": "integer"
+                            },
+                            "end_pos": {
+                                "type": "integer"
+                            },
+                            "strand": {
+                                "type": "string"
+                            },
+                            "evidence": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "database": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "database",
+                                        "id",
+                                        "url"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": []
+                    }
+                },
+                "required": []
+            }
+        },
+        "crossref": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "database": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "url",
+                    "database"
+                ]
+            }
+        },
+        "sequence": {
+            "type": "object",
+            "properties": {
+                "sequence": {
+                    "type": "string"
+                },
+                "length": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "sequence",
+                "length"
+            ]
+        },
+        "isoforms": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "isoform_ac": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "sequence": {
+                        "type": "object",
+                        "properties": {
+                            "sequence": {
+                                "type": "string"
+                            },
+                            "length": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "sequence",
+                            "length"
+                        ]
+                    },
+                    "locus": {
+                        "type": "object",
+                        "properties": {
+                            "chromosome": {
+                                "type": "string"
+                            },
+                            "start_pos": {
+                                "type": "integer"
+                            },
+                            "end_pos": {
+                                "type": "integer"
+                            },
+                            "strand": {
+                                "type": "string"
+                            },
+                            "evidence": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "database": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": []
+                                }
+                            }
+                        },
+                        "required": []
+                    }
+                },
+                "required": [
+                    "isoform",
+                    "url",
+                    "sequence"
+                ]
+            }
+        },
+        "glycosylation": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "glytoucan_ac": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "site_category": {
+                        "type": "string"
+                    },
+                    "site_seq": {
+                        "type": "string"
+                    },
+                    "relation": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "start_aa": {
+                        "type": "string"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "end_aa": {
+                        "type": "string"
+                    },
+                    "residue": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "subtype": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "type",
+                    "evidence",
+                    "site_category",
+                    "residue",
+                    "relation",
+                    "type"
+                ]
+            }
+        },
+        "keywords": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "publication": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "journal": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "authors": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "reference": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "title",
+                    "journal",
+                    "data",
+                    "authors",
+                    "evidence",
+                    "reference"
+                ]
+            }
+        },
+        "pathway": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "resource": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "url",
+                    "resource"
+                ]
+            }
+        },
+        "orthologs": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "protein_name": {
+                        "type": "string"
+                    },
+                    "gene_name": {
+                        "type": "string"
+                    },
+                    "tax_id": {
+                        "type": "integer"
+                    },
+                    "organism": {
+                        "type": "string"
+                    },
+                    "sequence": {
+                        "type": "object",
+                        "properties": {
+                            "sequence": {
+                                "type": "string"
+                            },
+                            "length": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "sequence",
+                            "length"
+                        ]
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "url",
+                                "database"
+                            ]
+                        }
+                    },
+                    "common_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "uniprot_canonical_ac",
+                    "protein_name",
+                    "tax_id",
+                    "organism",
+                    "sequence",
+                    "evidence",
+                    "common_name"
+                ]
+            }
+        },
+        "go_annotation": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "total": {
+                                "type": "integer"
+                            },
+                            "go_terms": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "evidence": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "database": {
+                                                        "type": "string"
+                                                    },
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "url": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "id",
+                                                    "url",
+                                                    "database"
+                                                ]
+                                            }
+                                        },
+                                        "pmid": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "id",
+                                        "url",
+                                        "evidence"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "total",
+                            "go_terms"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "categories"
+            ]
+        },
+        "pro_annotation": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "definition": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "url",
+                                "database"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "definition",
+                    "evidence"
+                ]
+            }
+        },
+        "site_annotation": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "annotation": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "start_pos",
+                    "end_pos",
+                    "annotation"
+                ]
+            }
+        },
+        "interactions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "interactor_id": {
+                        "type": "string"
+                    },
+                    "interaction_name": {
+                        "type": "string"
+                    },
+                    "interaction_type": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "url",
+                                "database"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "interactor_id",
+                    "interaction_type",
+                    "evidence"
+                ]
+            }
+        },
+        "cluster_types": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "label"
+                ]
+            }
+        },
+        "uniprot": {
+            "type": "object",
+            "properties": {
+                "uniprot_canonical_ac": {
+                    "type": "string"
+                },
+                "uniprot_id": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "length": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "uniprot_canonical_ac",
+                "uniprot_id",
+                "url",
+                "length"
+            ]
+        }
+    },
+    "required": [
+        "mass",
+        "sequence",
+        "species",
+        "uniprot",
+        "publication"
+    ]
+}

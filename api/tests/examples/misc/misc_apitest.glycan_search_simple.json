@@ -1,0 +1,7 @@
+{
+    "name": "glycan_search_simple",
+    "payload": {
+      "term":"G17689DH",
+		"term_category":"any"
+	}
+}

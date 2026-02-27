@@ -1,0 +1,329 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "query": {
+            "type": "object",
+            "properties": {
+                "concept_query_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "concept": {
+                                "type": "string"
+                            },
+                            "query": {
+                                "type": "object",
+                                "properties": {
+                                    "aggregator": {
+                                        "type": "string"
+                                    },
+                                    "unaggregated_list": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "order": {
+                                                    "type": "integer"
+                                                },
+                                                "path": {
+                                                    "type": "string"
+                                                },
+                                                "operator": {
+                                                    "type": "string"
+                                                },
+                                                "string_value": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "operator",
+                                                "order",
+                                                "path"
+                                            ]
+                                        }
+                                    },
+                                    "aggregated_list": {
+                                        "type": "array"
+                                    }
+                                },
+                                "required": [
+                                    "aggregated_list",
+                                    "aggregator",
+                                    "unaggregated_list"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "concept",
+                            "query"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "concept_query_list"
+            ]
+        },
+        "results_summary": {
+            "type": "object",
+            "properties": {
+                "protein": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "result_count": {
+                            "type": "integer"
+                        },
+                        "bylinkage": {
+                            "type": "object",
+                            "properties": {
+                                "site": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list_id": {
+                                            "type": "string"
+                                        },
+                                        "result_count": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "list_id",
+                                        "result_count"
+                                    ]
+                                }
+                            },
+                            "required": [
+                            ]
+                        }
+                    },
+                    "required": [
+                        "bylinkage",
+                        "list_id",
+                        "result_count"
+                    ]
+                },
+                "enzyme": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "result_count": {
+                            "type": "integer"
+                        },
+                        "bylinkage": {
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "bylinkage",
+                        "list_id",
+                        "result_count"
+                    ]
+                },
+                "gene": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "result_count": {
+                            "type": "integer"
+                        },
+                        "bylinkage": {
+                            "type": "object",
+                            "properties": {
+                                "protein": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list_id": {
+                                            "type": "string"
+                                        },
+                                        "result_count": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "list_id",
+                                        "result_count"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "protein"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "bylinkage",
+                        "list_id",
+                        "result_count"
+                    ]
+                },
+                "glycan": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "result_count": {
+                            "type": "integer"
+                        },
+                        "bylinkage": {
+                            "type": "object",
+                            "properties": {
+                                "site": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list_id": {
+                                            "type": "string"
+                                        },
+                                        "result_count": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "list_id",
+                                        "result_count"
+                                    ]
+                                }
+                            },
+                            "required": [
+                            ]
+                        }
+                    },
+                    "required": [
+                        "bylinkage",
+                        "list_id",
+                        "result_count"
+                    ]
+                },
+                "motif": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "result_count": {
+                            "type": "integer"
+                        },
+                        "bylinkage": {
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "bylinkage",
+                        "list_id",
+                        "result_count"
+                    ]
+                },
+                "disease": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "result_count": {
+                            "type": "integer"
+                        },
+                        "bylinkage": {
+                            "type": "object",
+                            "properties": {
+                                "site": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list_id": {
+                                            "type": "string"
+                                        },
+                                        "result_count": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "list_id",
+                                        "result_count"
+                                    ]
+                                }
+                            },
+                            "required": [
+                            ]
+                        }
+                    },
+                    "required": [
+                        "bylinkage",
+                        "list_id",
+                        "result_count"
+                    ]
+                },
+                "species": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "result_count": {
+                            "type": "integer"
+                        },
+                        "bylinkage": {
+                            "type": "object",
+                            "properties": {
+                                "protein": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list_id": {
+                                            "type": "string"
+                                        },
+                                        "result_count": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "list_id",
+                                        "result_count"
+                                    ]
+                                }
+                            },
+                            "required": [
+                            ]
+                        }
+                    },
+                    "required": [
+                        "bylinkage",
+                        "list_id",
+                        "result_count"
+                    ]
+                },
+                "site": {
+                    "type": "object",
+                    "properties": {
+                        "list_id": {
+                            "type": "string"
+                        },
+                        "result_count": {
+                            "type": "integer"
+                        },
+                        "bylinkage": {
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "bylinkage",
+                        "list_id",
+                        "result_count"
+                    ]
+                }
+            },
+            "required": [
+            ]
+        }
+    },
+    "required": [
+        "query",
+        "results_summary"
+    ]
+}

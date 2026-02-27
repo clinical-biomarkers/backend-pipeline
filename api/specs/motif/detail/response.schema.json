@@ -1,0 +1,375 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "mass": {
+            "type": "number"
+        },
+        "iupac": {
+            "type": "string"
+        },
+        "wurcs": {
+            "type": "string"
+        },
+        "glycoct": {
+            "type": "string"
+        },
+        "crossref": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "database": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "database",
+                    "id",
+                    "url"
+                ]
+            }
+        },
+        "inchi": {
+            "type": "string"
+        },
+        "glycam": {
+            "type": "string"
+        },
+        "smiles_isomeric": {
+            "type": "string"
+        },
+        "publication": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "journal": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "authors": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "reference": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "type",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "authors",
+                    "date",
+                    "evidence",
+                    "journal",
+                    "reference",
+                    "title"
+                ]
+            }
+        },
+        "synonym": {
+            "type": "array"
+        },
+        "keywords": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "label": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "label",
+                    "url"
+                ]
+            }
+        },
+        "reducing_end": {
+            "type": "string"
+        },
+        "aglycon": {
+            "type": "string"
+        },
+        "alignment_method": {
+            "type": "string"
+        },
+        "dictionary": {
+            "type": "object",
+            "properties": {
+                "term": {
+                    "type": "string"
+                },
+                "term_in_sentence": {
+                    "type": "string"
+                },
+                "publication": {
+                    "type": "string"
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "term_xref": {
+                    "type": "string"
+                },
+                "best_match": {
+                    "type": "string"
+                },
+                "synonymns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "function": {
+                    "type": "string"
+                },
+                "disease_associations": {
+                    "type": "string"
+                },
+                "wikipedia": {
+                    "type": "string"
+                },
+                "essentials_of_glycobiology": {
+                    "type": "string"
+                },
+                "evidence": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            },
+                            "database": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "database",
+                            "id",
+                            "url"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "best_match",
+                "definition",
+                "disease_associations",
+                "essentials_of_glycobiology",
+                "evidence",
+                "function",
+                "publication",
+                "synonymns",
+                "term",
+                "term_in_sentence",
+                "term_xref",
+                "wikipedia"
+            ]
+        },
+        "motif": {
+            "type": "object",
+            "properties": {
+                "glytoucan_ac": {
+                    "type": "string"
+                },
+                "accession": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "glytoucan_url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "accession",
+                "glytoucan_ac",
+                "glytoucan_url",
+                "url"
+            ]
+        },
+        "history": {
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "glytoucan_ac": {
+                        "type": "string"
+                    },
+                    "mass": {
+                        "type": "number"
+                    },
+                    "number_monosaccharides": {
+                        "type": "integer"
+                    },
+                    "number_proteins": {
+                        "type": "integer"
+                    },
+                    "number_enzymes": {
+                        "type": "integer"
+                    },
+                    "iupac": {
+                        "type": "string"
+                    },
+                    "glycoct": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "glycoct",
+                    "glytoucan_ac",
+                    "iupac",
+                    "mass",
+                    "number_enzymes",
+                    "number_monosaccharides",
+                    "number_proteins"
+                ]
+            }
+        },
+        "pagination": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "total_length": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "limit",
+                "offset",
+                "order",
+                "sort",
+                "total_length"
+            ]
+        },
+        "query": {
+            "type": "object",
+            "properties": {
+                "motif_ac": {
+                    "type": "string"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "limit",
+                "motif_ac",
+                "offset",
+                "order",
+                "sort"
+            ]
+        }
+    },
+    "required": [
+        "aglycon",
+        "alignment_method",
+        "crossref",
+        "dictionary",
+        "glycam",
+        "glycoct",
+        "history",
+        "inchi",
+        "iupac",
+        "keywords",
+        "mass",
+        "motif",
+        "name",
+        "pagination",
+        "publication",
+        "query",
+        "reducing_end",
+        "results",
+        "smiles_isomeric",
+        "synonym",
+        "wurcs"
+    ]
+}

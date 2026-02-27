@@ -1,0 +1,43 @@
+{
+    "species": [
+        {
+            "source": "species",
+            "target": "protein",
+            "direction": "single"
+        },
+        {
+            "source": "species",
+            "target": "gene",
+            "direction": "single"
+        },
+        {
+            "source": "species",
+            "target": "glycan",
+            "direction": "single"
+        }
+    ],
+    "motif":[
+        {
+            "source": "motif",
+            "target": "glycan",
+            "direction": "single"
+        }
+    ],
+    "disease":[
+        {
+            "source": "disease",
+            "target": "protein",
+            "direction": "single"
+        },
+        {
+            "source": "disease",
+            "target": "gene",
+            "direction": "single"
+        },
+        {
+            "source": "disease",
+            "target": "site",
+            "direction": "single"
+        }
+    ]
+}

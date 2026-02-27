@@ -1,0 +1,53 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "fname": {
+                "type": "string"
+            },
+            "lname": {
+                "type": "string"
+            },
+            "email": {
+                "type": "string"
+            },
+            "subject": {
+                "type": "string"
+            },
+            "message": {
+                "type": "string"
+            },
+            "page": {
+                "type": "string"
+            },
+            "agent": {
+                "type": "string"
+            },
+            "comment": {
+                "type": "string"
+            },
+            "creation_time": {
+                "type": "string"
+            },
+            "update_time": {
+                "type": "string"
+            },
+            "status": {
+                "type": "string"
+            },
+            "visibility": {
+                "type": "string"
+            },
+            "message_status": {
+                "type": "string"
+            },
+            "id": {
+                "type": "string"
+            }
+        },
+        "required": [
+        ]
+    }
+}

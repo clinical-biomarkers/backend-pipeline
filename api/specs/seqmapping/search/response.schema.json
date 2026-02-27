@@ -1,0 +1,78 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "cache_info": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "object",
+                    "properties": {
+                        "glytoucan_ac_list": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "glytoucan_ac_list"
+                    ]
+                },
+                "ts": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query",
+                "ts"
+            ]
+        },
+        "results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "glytoucan_ac": {
+                        "type": "string"
+                    },
+                    "iupac": {
+                        "type": "string"
+                    },
+                    "wurcs": {
+                        "type": "string"
+                    },
+                    "glycam": {
+                        "type": "string"
+                    },
+                    "smiles_isomeric": {
+                        "type": "string"
+                    },
+                    "inchi": {
+                        "type": "string"
+                    },
+                    "glycoct": {
+                        "type": "string"
+                    },
+                    "byonic": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "byonic",
+                    "glycam",
+                    "glycoct",
+                    "glytoucan_ac",
+                    "inchi",
+                    "iupac",
+                    "smiles_isomeric",
+                    "wurcs"
+                ]
+            }
+        }
+    },
+    "required": [
+        "cache_info",
+        "results"
+    ]
+}

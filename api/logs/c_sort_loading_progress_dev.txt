@@ -1,0 +1,18 @@
+
+ ... started loading bmkbdb.c_sort version 3.1.1 [2026-02-27 14:11:34.598307]
+ ... dropping tmpdb.c_sort [2026-02-27 14:11:34.608576]
+ ... finished loading 36 documents to tmpdb.c_sort [2026-02-27 14:11:35.684341]
+
+ ... creating field index (path=sort_field) for tmpdb.c_sort [2026-02-27 14:11:35.695995]
+ ... finished creating field index (path=sort_field) for tmpdb.c_sort [2026-02-27 14:11:35.742338]
+
+ ... creating field index (path=record_type) for tmpdb.c_sort [2026-02-27 14:11:35.747333]
+ ... finished creating field index (path=record_type) for tmpdb.c_sort [2026-02-27 14:11:35.790759]
+
+ ... removing old tmpdb dump [2026-02-27 14:11:35.796024]
+
+ ... creating new tmpdb.c_sort dump [2026-02-27 14:11:35.962128]
+
+ ... restoring tmpdb dump to bmkbdb.c_sort [2026-02-27 14:11:36.225219]
+
+ ... finished restoring [2026-02-27 14:11:36.766687]

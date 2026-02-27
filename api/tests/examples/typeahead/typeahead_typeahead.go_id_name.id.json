@@ -1,0 +1,5 @@
+{
+	"field_list": ["go_id","go_term"],
+	"limit": 10,
+	"value": "GO:0060"        
+}

@@ -1,0 +1,73 @@
+{
+ 	"jobtype": "batch_retrieval",
+	"parameters":{
+		"inputnamespace":"AGR",
+		"acclist":[
+			"HGNC:24754",
+          "HGNC:37220",
+          "HGNC:37221",
+          "HGNC:37222",
+          "HGNC:37223"
+		],
+		"userfile":"",
+		"columns":[
+                {
+                        "id": "species",
+         "label": "Species",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":1
+                },
+                {
+         "id": "gene_locus",
+         "label": "Genomic Locus Gene",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":2
+      },
+                {
+         "id": "protein_locus",
+         "label": "Genomic Locus Protein",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":3
+      },
+                {
+         "id": "pdb_id",
+         "label": "PDB ID",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":4
+      },
+                {
+         "id": "pathways",
+         "label": "Pathways",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":5
+      },
+                {
+         "id": "disease_protein",
+         "label": "Disease",
+         "filter_type":"none",
+         "output_type": "id",
+         "order":6
+      },
+                {
+         "id": "disease_protein",
+         "label": "Disease",
+         "filter_type":"none",
+         "output_type": "name",
+         "order":7
+      },
+                {
+         "id": "disease_protein",
+         "label": "Disease",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":8
+      }
+        ]
+	}
+}
+

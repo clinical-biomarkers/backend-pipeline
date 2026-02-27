@@ -1,0 +1,12 @@
+Taken
+127.0.0.1:7071->27017/tcp   running_biomarker-api_mongo_dev
+127.0.0.1:6060->27017/tcp   running_biomarkerdb_mongo_dev
+
+127.0.0.1:8089->80/tcp      running_biomarker-api_api_dev
+127.0.0.1:8080->80/tcp      glygen-biomarker-dev
+127.0.0.1:8088->80/tcp      running_biomarkerdb_app_dev
+127.0.0.1:8081->80/tcp      running_biomarkerdb_api_dev
+
+BMKB
+127.0.0.1:9090->27017/tcp   running_bmkb_mongo_dev
+

@@ -1,0 +1,36 @@
+{
+  "jobtype": "batch_retrieval",
+  "parameters": {
+    "inputnamespace": "UniProtKB",
+    "acclist": [
+      "A0A8M2B367",
+      " A0A8M2B367-1",
+      " A0A8I5ZN42",
+      " A0A8I5ZN42-1",
+      " A0A8I5ZWX2"
+    ],
+    "columns": [
+      {
+        "id": "species",
+        "label": "Species",
+        "filter_type": "none",
+        "output_type": "id",
+        "order": 1
+      },
+      {
+        "id": "go_mf",
+        "label": "GO Molecular Function",
+        "filter_type": "none",
+        "output_type": "id",
+        "order": 2
+      },
+      {
+        "id": "disease_protein",
+        "label": "Disease Associated with Protein",
+        "filter_type": "none",
+        "output_type": "id",
+        "order": 3
+      }
+    ]
+  }
+}

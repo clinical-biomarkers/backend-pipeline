@@ -1,0 +1,377 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "journal": {
+            "type": "string"
+        },
+        "date": {
+            "type": "string"
+        },
+        "authors": {
+            "type": "string"
+        },
+        "reference": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "type",
+                "url"
+            ]
+        },
+        "referenced_proteins": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "species": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "taxid": {
+                        "type": "integer"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "common_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "common_name",
+                    "evidence",
+                    "name",
+                    "taxid"
+                ]
+            }
+        },
+        "mutagenesis": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "sequence_org": {
+                        "type": "string"
+                    },
+                    "sequence_mut": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "comment",
+                    "end_pos",
+                    "evidence",
+                    "sequence_mut",
+                    "sequence_org",
+                    "start_pos",
+                    "uniprot_canonical_ac"
+                ]
+            }
+        },
+        "snv": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "glycoeffect": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "sequence_org": {
+                        "type": "string"
+                    },
+                    "sequence_mut": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "chr_id": {
+                        "type": "string"
+                    },
+                    "chr_pos": {
+                        "type": "string"
+                    },
+                    "ref_nt": {
+                        "type": "string"
+                    },
+                    "alt_nt": {
+                        "type": "string"
+                    },
+                    "disease": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "disease_id": {
+                                    "type": "string"
+                                },
+                                "recommended_name": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "resource": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "description",
+                                        "id",
+                                        "name",
+                                        "resource",
+                                        "url"
+                                    ]
+                                },
+                                "synonyms": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "resource": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "name",
+                                            "resource",
+                                            "url"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "disease_id",
+                                "recommended_name",
+                                "synonyms"
+                            ]
+                        }
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "alt_nt",
+                    "chr_id",
+                    "chr_pos",
+                    "comment",
+                    "disease",
+                    "end_pos",
+                    "evidence",
+                    "glycoeffect",
+                    "keywords",
+                    "ref_nt",
+                    "sequence_mut",
+                    "sequence_org",
+                    "start_pos",
+                    "uniprot_canonical_ac"
+                ]
+            }
+        },
+        "phosphorylation": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "kinase_uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "kinase_gene_name": {
+                        "type": "string"
+                    },
+                    "residue": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "end_pos",
+                    "evidence",
+                    "residue",
+                    "start_pos",
+                    "uniprot_canonical_ac"
+                ]
+            }
+        },
+        "record_id": {
+            "type": "string"
+        },
+        "abstract": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "authors",
+        "date",
+        "journal",
+        "record_id",
+        "reference",
+        "title"
+    ]
+}

@@ -1,0 +1,7 @@
+{
+    "name": "protein_search_simple",
+    "payload": {
+      "term":"P14210",
+		"term_category":"any"
+	}
+}

@@ -1,0 +1,95 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "nodes": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "normal": {
+                        "type": "object",
+                        "properties": {
+                            "fill": {
+                                "type": "string"
+                            },
+                            "stroke": {
+                                "type": "string"
+                            },
+                            "height": {
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "fill",
+                            "height",
+                            "stroke"
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "normal"
+                ]
+            }
+        },
+        "edges": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "from": {
+                        "type": "string"
+                    },
+                    "to": {
+                        "type": "string"
+                    },
+                    "normal": {
+                        "type": "object",
+                        "properties": {
+                            "stroke": {
+                                "type": "object",
+                                "properties": {
+                                    "thickness": {
+                                        "type": "integer"
+                                    },
+                                    "color": {
+                                        "type": "string"
+                                    },
+                                    "format": {
+                                        "type": "string"
+                                    },
+                                    "dash": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "color",
+                                    "thickness"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "stroke"
+                        ]
+                    },
+                    "direction": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "from",
+                    "normal",
+                    "to"
+                ]
+            }
+        }
+    },
+    "required": [
+        "edges",
+        "nodes"
+    ]
+}

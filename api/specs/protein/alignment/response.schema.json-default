@@ -1,0 +1,447 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "cls_id": {
+            "type": "string"
+        },
+        "date": {
+            "type": "string"
+        },
+        "sequences": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uniprot_ac": {
+                        "type": "string"
+                    },
+                    "uniprot_id": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "aln": {
+                        "type": "string"
+                    },
+                    "tax_id": {
+                        "type": "integer"
+                    },
+                    "tax_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "aln",
+                    "id",
+                    "name",
+                    "tax_id",
+                    "tax_name",
+                    "uniprot_ac",
+                    "uniprot_id"
+                ]
+            }
+        },
+        "algorithm": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "parameter": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "parameter",
+                "url"
+            ]
+        },
+        "consensus": {
+            "type": "string"
+        },
+        "identical_positions": {
+            "type": "integer"
+        },
+        "similar_positions": {
+            "type": "integer"
+        },
+        "identity": {
+            "type": "string"
+        },
+        "details": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "ptm_annotation": {
+                        "type": "array"
+                    },
+                    "glycation": {
+                        "type": "array"
+                    },
+                    "snv": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "evidence": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "database": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "database",
+                                            "id",
+                                            "url"
+                                        ]
+                                    }
+                                },
+                                "glycoeffect": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "start_pos": {
+                                    "type": "integer"
+                                },
+                                "end_pos": {
+                                    "type": "integer"
+                                },
+                                "sequence_org": {
+                                    "type": "string"
+                                },
+                                "sequence_mut": {
+                                    "type": "string"
+                                },
+                                "comment": {
+                                    "type": "string"
+                                },
+                                "chr_id": {
+                                    "type": "string"
+                                },
+                                "chr_pos": {
+                                    "type": "string"
+                                },
+                                "ref_nt": {
+                                    "type": "string"
+                                },
+                                "alt_nt": {
+                                    "type": "string"
+                                },
+                                "minor_allelic_frequency": {
+                                    "type": "string"
+                                },
+                                "keywords": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "subjects_tested": {
+                                    "type": "string"
+                                },
+                                "subjects_positive": {
+                                    "type": "string"
+                                },
+                                "frequency": {
+                                    "type": "string"
+                                },
+                                "disease": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "disease_id": {
+                                                "type": "string"
+                                            },
+                                            "recommended_name": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "resource": {
+                                                        "type": "string"
+                                                    },
+                                                    "url": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "description",
+                                                    "id",
+                                                    "name",
+                                                    "resource",
+                                                    "url"
+                                                ]
+                                            },
+                                            "synonyms": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "resource": {
+                                                            "type": "string"
+                                                        },
+                                                        "url": {
+                                                            "type": "string"
+                                                        },
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "description": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "description",
+                                                        "id",
+                                                        "name",
+                                                        "resource",
+                                                        "url"
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "disease_id",
+                                            "recommended_name",
+                                            "synonyms"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "alt_nt",
+                                "chr_id",
+                                "chr_pos",
+                                "comment",
+                                "end_pos",
+                                "evidence",
+                                "glycoeffect",
+                                "keywords",
+                                "minor_allelic_frequency",
+                                "ref_nt",
+                                "sequence_mut",
+                                "sequence_org",
+                                "start_pos"
+                            ]
+                        }
+                    },
+                    "site_annotation": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "start_pos": {
+                                    "type": "integer"
+                                },
+                                "end_pos": {
+                                    "type": "integer"
+                                },
+                                "annotation": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "annotation",
+                                "end_pos",
+                                "start_pos"
+                            ]
+                        }
+                    },
+                    "glycosylation": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "glytoucan_ac": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                },
+                                "subtype": {
+                                    "type": "string"
+                                },
+                                "site_category": {
+                                    "type": "string"
+                                },
+                                "site_seq": {
+                                    "type": "string"
+                                },
+                                "relation": {
+                                    "type": "string"
+                                },
+                                "comment": {
+                                    "type": "string"
+                                },
+                                "start_pos": {
+                                    "type": "integer"
+                                },
+                                "start_aa": {
+                                    "type": "string"
+                                },
+                                "end_pos": {
+                                    "type": "integer"
+                                },
+                                "end_aa": {
+                                    "type": "string"
+                                },
+                                "residue": {
+                                    "type": "string"
+                                },
+                                "evidence": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "database": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "database",
+                                            "id",
+                                            "url"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "comment",
+                                "end_aa",
+                                "end_pos",
+                                "evidence",
+                                "glytoucan_ac",
+                                "relation",
+                                "residue",
+                                "site_category",
+                                "site_seq",
+                                "start_aa",
+                                "start_pos",
+                                "subtype",
+                                "type"
+                            ]
+                        }
+                    },
+                    "mutagenesis": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "start_pos": {
+                                    "type": "integer"
+                                },
+                                "end_pos": {
+                                    "type": "integer"
+                                },
+                                "sequence_org": {
+                                    "type": "string"
+                                },
+                                "sequence_mut": {
+                                    "type": "string"
+                                },
+                                "comment": {
+                                    "type": "string"
+                                },
+                                "evidence": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "database": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "database",
+                                            "id",
+                                            "url"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "comment",
+                                "end_pos",
+                                "evidence",
+                                "sequence_mut",
+                                "sequence_org",
+                                "start_pos"
+                            ]
+                        }
+                    },
+                    "phosphorylation": {
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "glycation",
+                    "glycosylation",
+                    "mutagenesis",
+                    "phosphorylation",
+                    "ptm_annotation",
+                    "site_annotation",
+                    "snv",
+                    "uniprot_canonical_ac"
+                ]
+            }
+        }
+    },
+    "required": [
+        "algorithm",
+        "cls_id",
+        "consensus",
+        "date",
+        "details",
+        "identical_positions",
+        "identity",
+        "sequences",
+        "similar_positions"
+    ]
+}

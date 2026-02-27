@@ -1,0 +1,1601 @@
+{
+    "glycan": {
+        "motifs": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "id",
+                    "label": "Motif ID"
+                },
+                {
+                    "path": "name",
+                    "label": "Motif Name"
+                }
+            ],
+            "sectionfield": "motifs"
+        },
+        "glycoprotein": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "protein_name",
+                    "label": "Protein Name"
+                },
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "tax_name",
+                    "label": "Organism"
+                }
+            ],
+            "sectionfield": "glycoprotein"
+        },
+        "interactions": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "interactor_name",
+                    "label": "Protein Name"
+                },
+                {
+                    "path": "interactor_id",
+                    "label": "UniProtKB Accession"
+                }
+            ],
+            "sectionfield": "interactions"
+        },
+        "enzyme": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "gene",
+                    "label": "Gene Name"
+                },
+                {
+                    "path": "protein_name",
+                    "label": "Protein Name"
+                },
+                {
+                    "path": "tax_name",
+                    "label": "Organism"
+                }
+            ],
+            "sectionfield": "enzyme"
+        },
+        "subsumption_ancestor": {
+            "filterinfo": {
+                "field": "relationship",
+                "valuelist": ["ancestor"]
+            },
+            "fieldmap": [
+                {
+                    "path": "related_accession",
+                    "label": "Glycan ID"
+                },
+                {
+                    "path": "relationship",
+                    "label": "Type"
+                }
+            ],
+            "sectionfield": "subsumption"
+        },
+        "subsumption_descendant": {
+            "filterinfo": {
+                "field": "relationship",
+                "valuelist": ["descendant"]
+            },
+            "fieldmap": [
+                {
+                    "path": "related_accession",
+                    "label": "Glycan ID"
+                },
+                {
+                    "path": "relationship",
+                    "label": "Type"
+                }
+            ],
+            "sectionfield": "subsumption"
+        },
+        "expression_tissue": {
+            "filterinfo": {
+                "field": "category",
+                "valuelist": ["tissue"]
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "tissue.name",
+                    "label": "Tissue / Bodily Fluid Expression"
+                },
+                {
+                    "path": "tissue.url",
+                    "label": "Tissue URL"
+                }
+            ],
+            "sectionfield": "expression"
+        },
+        "expression_cell_line": {
+            "filterinfo": {
+                "field": "category",
+                "valuelist": ["cell_line"]
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "cell_line.name",
+                    "label": "Cell / Cell Line Expression"
+                },
+                {
+                    "path": "cell_line.url",
+                    "label": "Cell Line URL"
+                }
+            ],
+            "sectionfield": "expression"
+        },
+        "tissue": {
+            "filterinfo": {
+                "field": "category",
+                "valuelist": ["tissue"]
+            },
+            "fieldmap": [
+                {
+                    "path": "species.name",
+                    "label": "Organism"
+                },
+					 {
+                    "path": "tissue.name",
+                    "label": "Tissue / Bodily Fluid"
+                },
+                {
+                    "path": "tissue.url",
+                    "label": "Tissue URL"
+                }
+            ],
+            "sectionfield": "tissue"
+		  },
+		  "biomarkers": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "biomarker_id",
+                    "label": "Biomarker ID"
+                },
+					 {
+                    "path": "biomarker_canonical_id",
+                    "label": "Biomarker Canonical ID"
+                },	
+                {
+                    "path": "best_biomarker_role",
+                    "label": "Best Biomarker Role"
+                },
+                {
+                    "path":"assessed_biomarker_entity",
+                    "label": "Assessed Biomarker Entity"
+                },
+					{
+                  "path":"condition.recommended_name.id",
+                  "label":"Condition ID"
+               },
+               {
+                  "path":"condition.recommended_name.name",
+                  "label":"Condition"
+               }
+            ],
+            "sectionfield": "biomarkers"
+        }
+    },
+    "protein": {
+        "glycosylation_reported_with_glycans": {
+            "filterinfo": {
+                "field": "site_category",
+                "valuelist": ["reported_with_glycan"]
+            },
+            "fieldmap": [
+					 {
+                    "path": "type",
+                    "label": "Type"
+                },
+					 {
+                    "path": "glytoucan_ac",
+                    "label": "GlyTouCan Accession"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "start_aa",
+                    "label": "Start Amino Acid"
+                },
+                {
+                    "path": "end_aa",
+                    "label": "End Amino Acid"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycosylation"
+        },
+        "glycosylation_reported": {
+            "filterinfo": {
+                "field": "site_category",
+                "valuelist": ["reported"]
+            },
+            "fieldmap": [
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "start_aa",
+                    "label": "Start Amino Acid"
+                },  
+                {
+                    "path": "end_aa",
+                    "label": "End Amino Acid"
+                },       
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycosylation"
+        },
+        "glycosylation_predicted": {
+            "filterinfo": {
+                "field": "site_category",
+                "valuelist": ["predicted", "predicted_with_glycan"]
+            },
+            "fieldmap": [
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "start_aa",
+                    "label": "Start Amino Acid"
+                },  
+                {
+                    "path": "end_aa",
+                    "label": "End Amino Acid"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycosylation"
+        },
+        "glycosylation_automatic_literature_mining": {
+            "filterinfo": {
+                "field": "site_category_dict",
+                "valuelist": ["automatic_literature_mining", "automatic_literature_mining_with_glycan"]
+            },
+            "fieldmap": [
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "start_aa",
+                    "label": "Start Amino Acid"
+                },  
+                {
+                    "path": "end_aa",
+                    "label": "End Amino Acid"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycosylation"
+        },
+        "phosphorylation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "kinase_uniprot_canonical_ac",
+                    "label": "Kinase Protein"
+                },
+                {
+                    "path": "kinase_gene_name",
+                    "label": "Kinase Gene"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "residue",
+                    "label": "Residue"
+                },  
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "phosphorylation"
+        },
+        "glycation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "glytoucan_ac",
+                    "label": "GlyTouCan Accession"
+                },
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "relation",
+                    "label": "Relation"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "residue",
+                    "label": "Residue"
+                },  
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycation"
+        },
+        "snv_mutations": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+                {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+                {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                }, 
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "disease",
+                    "label": "Disease"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+            ],
+            "sectionfield": "snv"
+        },
+        "snv_disease_associated_mutations": {
+            "filterinfo": {
+                "field": "keywords",
+                "valuelist": ["disease"]
+            },
+            "fieldmap": [
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+                {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+					 {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Pos"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "disease",
+                    "label": "Disease"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+
+            ],
+            "sectionfield": "snv"
+        },
+        "snv_non_disease_associated_mutations": {
+            "filterinfo": {
+                "field": "keywords",
+                "filtertype":"exclude",
+                "valuelist": ["disease"]
+            },
+            "fieldmap": [
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+                {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+                {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Pos"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+            ],
+            "sectionfield": "snv"
+        },
+        "mutagenesis": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Pos"
+                },
+                {
+                    "path": "sequence_org",
+                    "label": "Ref Amino Acid"
+                },
+                {
+                    "path": "sequence_mut",
+                    "label": "Alt Amino Acid"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "mutagenesis"
+        },
+        "interactions": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "interactor_id",
+                    "label": "GlyTouCan Accession"
+                }
+            ],
+            "sectionfield": "interactions"
+        },
+        "ptm_annotation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "annotation",
+                    "label": "Annotation"
+                }
+            ],
+            "sectionfield": "ptm_annotation"
+        },
+        "pro_annotation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "name",
+                    "label": "Proteoform/Glycoform"
+                },
+                {
+                    "path": "definition",
+                    "label": "Description"
+                }
+            ],
+            "sectionfield": "pro_annotation"
+        },
+        "synthesized_glycans": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+           "fieldmap": [
+                {
+                    "path": "glytoucan_accession",
+                    "label": "GlyTouCan Accession"
+                },
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "subtype",
+                    "label": "Subtype"
+                }
+            ],
+            "sectionfield": "synthesized_glycans"
+        },
+        "expression_tissue": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "tissue.name",
+                    "label": "Tissue Name"
+                },
+                {
+                    "path": "tissue.url",
+                    "label": "Tissue URL"
+                },
+                {
+                    "path": "present",
+                    "label": "Expression Relative"
+                },
+                {
+                    "path": "score",
+                    "label": "Expression Score"
+                }
+            ],
+            "sectionfield": "expression_tissue"
+        },
+        "expression_disease": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "disease",
+                    "label": "Disease"
+                },
+                {
+                    "path": "trend",
+                    "label": "Expression Trend"
+                },
+                {
+                    "path": "significant",
+                    "label": "Significant"
+                }
+            ],
+            "sectionfield": "expression_disease"
+        },
+		  "disease": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "disease_id",
+                    "label": "Disease Recommended ID"
+                },
+					 {
+                    "path": "recommended_name.name",
+                    "label": "Disease Recommended Name"
+                },
+					 {
+                    "path": "recommended_name.description",
+                    "label": "Disease Description"
+                }
+            ],
+            "sectionfield": "disease"
+        },
+		  "biomarkers": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "biomarker_id",
+                    "label": "Biomarker ID"
+                },
+                {
+                    "path": "biomarker_canonical_id",
+                    "label": "Biomarker Canonical ID"
+                },
+					 {
+                    "path": "best_biomarker_role",
+                    "label": "Best Biomarker Role"
+                },
+					{
+		    				"path":"assessed_biomarker_entity",
+                    "label": "Assessed Biomarker Entity"
+					},
+					{
+						"path":"condition.recommended_name.id",
+						"label":"Condition ID"
+					},
+					{
+                  "path":"condition.recommended_name.name",
+                  "label":"Condition"
+               }
+            ],
+            "sectionfield": "biomarkers"
+        }
+    },
+    "site": {
+        "glycosylation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "glytoucan_ac",
+                    "label": "GlyTouCan Accession"
+                },
+                {
+                    "path": "start_aa",
+                    "label": "Start Amino Acid"
+                },  
+                {
+                    "path": "end_aa",
+                    "label": "End Amino Acid"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycosylation"
+        },
+        "phosphorylation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "kinase_uniprot_canonical_ac",
+                    "label": "Kinase Protein"
+                },
+                {
+                    "path": "kinase_gene_name",
+                    "label": "Kinase Gene"
+                },
+                {
+                    "path": "residue",
+                    "label": "Residue"
+                },  
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "phosphorylation"
+        },
+        "glycation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "relation",
+                    "label": "Relation"
+                },
+                {
+                    "path": "residue",
+                    "label": "Residue"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycation"
+        },
+        "snv_mutations": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+                {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+                {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "disease",
+                    "label": "Disease"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+            ],
+            "sectionfield": "snv"
+        },
+        "snv_disease_associated_mutations": {
+            "filterinfo": {
+                "field": "keywords",
+                "valuelist": ["disease"]
+            },
+            "fieldmap": [
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+                {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+                {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                },
+                {
+                    "path": "position",
+                    "label": "Position"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "disease",
+                    "label": "Disease"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+            ],
+            "sectionfield": "snv"
+        },
+        "snv_non_disease_associated_mutations": {
+            "filterinfo": {
+                "field": "keywords",
+                "filtertype":"exclude",
+                "valuelist": ["disease"]
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+                {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+                {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+            ],
+            "sectionfield": "snv"
+        },
+        "mutagenesis": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "sequence_org",
+                    "label": "Ref Amino Acid"
+                },
+                {
+                    "path": "sequence_mut",
+                    "label": "Alt Amino Acid"
+                },                                                      
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "mutagenesis"
+        }
+    },
+    "publication": {
+        "referenced_proteins": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+		    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Canonical Accession"
+                },
+		{
+			"path": "protein_name",
+			"label": "Protein Name"
+		},
+		{
+			"path": "gene_name",
+                        "label": "Gene Name"
+		},
+		{
+			"path": "tax_name",
+                        "label": "Species"
+		}            
+            ],
+            "sectionfield": "referenced_proteins"
+        },
+        "referenced_glycans": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "glytoucan_ac",
+                    "label": "GlyTouCan Accession"
+                }
+            ],
+            "sectionfield": "referenced_glycans"
+        },
+        "glycosylation_reported_with_glycans": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "glytoucan_ac",
+                    "label": "GlyTouCan Accession"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "start_aa",
+                    "label": "Start Amino Acid"
+                },  
+                {
+                    "path": "end_aa",
+                    "label": "End Amino Acid"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycosylation"
+        },
+        "glycosylation_reported": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "start_aa",
+                    "label": "Start Amino Acid"
+                },  
+                {
+                    "path": "end_aa",
+                    "label": "End Amino Acid"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycosylation"
+        },
+        "glycosylation_automatic_literature_mining": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "start_aa",
+                    "label": "Start Amino Acid"
+                },  
+                {
+                    "path": "end_aa",
+                    "label": "End Amino Acid"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycosylation"
+        },
+        "phosphorylation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+					 {
+                    "path": "kinase_uniprot_canonical_ac",
+                    "label": "Kinase Protein"
+                },
+                {
+                    "path": "kinase_gene_name",
+                    "label": "Kinase Gene"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },                                                      
+                {
+                    "path": "residue",
+                    "label": "Residue"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "phosphorylation"
+        },
+        "glycation": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "glytoucan_ac",
+                    "label": "GlyTouCan Accession"
+                },
+                {
+                    "path": "type",
+                    "label": "Type"
+                },
+                {
+                    "path": "relation",
+                    "label": "Relation"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "residue",
+                    "label": "Residue"
+                },
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],
+            "sectionfield": "glycation"
+        },
+        "snv_mutations": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+            	 {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+                {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                },    
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "disease",
+                    "label": "Disease"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+            ],
+            "sectionfield": "snv"
+        },
+        "snv_disease_associated_mutations": {
+            "filterinfo": {
+                "field": "keywords",
+                "valuelist": ["disease"]
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+                {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+                {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "disease",
+                    "label": "Disease"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+            ],
+            "sectionfield": "snv"
+        },
+        "snv_non_disease_associated_mutations": {
+            "filterinfo": {
+                "field": "keywords",
+                "filtertype":"exclude",
+                "valuelist": ["disease"]
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "comment",
+                    "label": "Filter Annotations"
+                },
+                {
+                    "path": "chr_id",
+                    "label": "Chromosome ID"
+                },
+                {
+                    "path": "chr_pos",
+                    "label": "Chromosome Position"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "sequence",
+                    "label": "Sequence"
+                },
+                {
+                    "path": "minor_allelic_frequency",
+                    "label": "MAF"
+                }
+            ],
+            "sectionfield": "snv"
+        },
+        "mutagenesis": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "sequence_org",
+                    "label": "Ref Amino Acid"
+                },
+                {
+                    "path": "sequence_mut",
+                    "label": "Alt Amino Acid"
+                },                                                      
+                {
+                    "path": "comment",
+                    "label": "Comment"
+                }
+            ],    
+            "sectionfield": "mutagenesis"
+        },
+        "expression_tissue": {
+            "filterinfo": {
+                "field": "category",
+                "valuelist": ["tissue"]
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "tissue.name",
+                    "label": "Tissue / Bodily Fluid Expression"
+                },
+                {
+                    "path": "tissue.url",
+                    "label": "Tissue URL"
+                }
+            ],    
+            "sectionfield": "glycan_expression"
+        },
+       "tissue": {
+            "filterinfo": {
+                "field": "category",
+                "valuelist": ["cell_line"]
+            },
+            "fieldmap": [
+                {
+                    "path": "glytoucan_ac",
+                    "label": "ID"
+                },
+                {
+                    "path": "tissue.name",
+                    "label": "Tissue / Bodily Fluid Expression"
+                },
+                {
+                    "path": "tissue.url",
+                    "label": "Tissue URL"
+                }
+            ],
+            "sectionfield": "glycan_expression"
+        },
+		  "expression_cell_line": {
+            "filterinfo": {
+                "field": "category",
+                "valuelist": ["cell_line"]
+            },
+            "fieldmap": [
+                {
+                    "path": "uniprot_canonical_ac",
+                    "label": "UniProtKB Accession"
+                },
+                {
+                    "path": "start_pos",
+                    "label": "Start Position"
+                },
+                {
+                    "path": "end_pos",
+                    "label": "End Position"
+                },
+                {
+                    "path": "tissue.name",
+                    "label": "Tissue / Bodily Fluid Expression"
+                },
+                {
+                    "path": "tissue.url",
+                    "label": "Tissue URL"
+                }
+            ],
+            "sectionfield": "glycan_expression"
+        },
+	"biomarkers": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "biomarker_id",
+                    "label": "Biomarker ID"
+                },
+					 {
+                    "path": "biomarker_canonical_id",
+                    "label": "Biomarker Canonical ID"
+                },
+                {
+                    "path": "best_biomarker_role",
+                    "label": "Best Biomarker Role"
+                },
+                {
+                    "path":"assessed_biomarker_entity",
+                    "label": "Assessed Biomarker Entity"
+                },
+					{
+                  "path":"condition.recommended_name.id",
+                  "label":"Condition ID"
+               },
+               {
+                  "path":"condition.recommended_name.name",
+                  "label":"Condition"
+               }
+            ],
+            "sectionfield": "biomarkers"
+        }
+    },
+    "motif": {
+        "glycans": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "glytoucan_ac",
+                    "label": "GlyTouCan Accession"
+                }
+            ],
+            "sectionfield": "glycans"
+        },
+        "biomarkers": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "biomarker_id",
+                    "label": "Biomarker ID"
+                },
+				 	 {
+                    "path": "biomarker_canonical_id",
+                    "label": "Biomarker Canonical ID"
+                },
+                {
+                    "path": "best_biomarker_role",
+                    "label": "Best Biomarker Role"
+                },
+                {
+                    "path":"assessed_biomarker_entity",
+                    "label": "Assessed Biomarker Entity"
+                },
+					{
+                  "path":"condition.recommended_name.id",
+                  "label":"Condition ID"
+               },
+               {
+                  "path":"condition.recommended_name.name",
+                  "label":"Condition"
+               }
+            ],
+            "sectionfield": "biomarkers"
+        }
+    }, 
+    "biomarker": {
+        "biomarker_component": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+                {
+                    "path": "biomarker_component.assessed_biomarker_entity_id",
+                    "label": "Biomarker Entity ID"
+                },
+		{
+                    "path": "biomarker_component.assessed_entity_type",
+                    "label": "Biomarker Entity Type"
+                },
+		{
+                    "path": "biomarker_component.biomarker",
+                    "label": "Biomarker"
+                },
+		{   
+                    "path": "biomarker_component.assessed_biomarker_entity.recommended_name",
+                    "label": "Biomarker Entity"
+                }
+            ],
+            "sectionfield": "biomarker_component"
+        }
+   },
+	"disease": {
+        	"proteins": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+           	 	{"path":"uniprot_canonical_ac", "label":"UniProtKB Canonical AC"},
+            	{"path":"uniprot_id", "label":"UniProtKB ID"},
+            	{"path":"refseq_ac", "label":"RefSeq AC"},
+            	{"path":"glycoprotein", "label":"Glycoprotein"},
+            	{"path":"species.taxid", "label":"Tax ID"},
+					{"path":"species.name", "label":"Organism"},
+            	{"path":"protein_names.name", "label":"Protein Name"},
+            	{"path":"gene_names.name", "label":"Gene Name"}
+				],
+            "sectionfield": "proteins"
+       	},
+			"glycans": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+               {"path":"glytoucan_ac", "label":"GlyTouCan AC"},
+               {"path":"species.taxid", "label":"Tax ID"},
+               {"path":"species.name", "label":"Organism"}
+            ],
+            "sectionfield": "glycans"
+        },
+		  "biomarkers": {
+            "filterinfo": {
+                "field": "",
+                "valuelist": []
+            },
+            "fieldmap": [
+               {"path":"biomarker_id", "label":"Biomarker ID"},
+               {"path":"best_biomarker_role.role", "label":"Biomarker Role"}
+            ],
+            "sectionfield": "biomarkers"
+        }
+    } 
+}

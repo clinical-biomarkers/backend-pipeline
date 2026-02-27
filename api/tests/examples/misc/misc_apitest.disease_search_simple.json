@@ -1,0 +1,7 @@
+{
+    "name": "disease_search_simple",
+    "payload": {
+      "term":"DOID:1612",
+		"term_category":"any"
+	}
+}

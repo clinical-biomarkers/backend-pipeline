@@ -1,0 +1,67 @@
+{
+ 	"jobtype": "batch_retrieval",
+	"parameters":{
+		"inputnamespace":"UniProtKB",
+		"acclist":[
+        	"P14210-1", "P12960-1", "P12383-1", "F1SB93-1","Q08048-1"
+		],
+		"userfile":"",
+		"columns":[
+
+			 {
+                        "id": "species",
+         "label": "Species",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":1
+                },
+                {
+         "id": "gene_locus",
+         "label": "Genomic Locus Gene",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":2
+      },
+                {
+         "id": "protein_locus",
+         "label": "Genomic Locus Protein",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":3
+      },
+                {
+         "id": "pdb_id",
+         "label": "PDB ID",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":4
+      },
+                {
+         "id": "pathways",
+         "label": "Pathways",
+         "filter_type":"none",
+         "output_type": "both",
+         "order":5
+      },
+                {
+        "id": "disease_protein",
+        "label": "Disease",
+        "filter_type":"exact",
+        "output_type": "both",
+        "filter":"colorectal cancer",
+        "order":6
+                },
+        {
+        "id": "disease_protein",
+        "label": "Disease",
+        "filter_type":"exact",
+        "output_type": "both",
+        "filter":"DOID:1612",
+        "order":7
+                }      
+
+  
+		]
+	}
+}
+

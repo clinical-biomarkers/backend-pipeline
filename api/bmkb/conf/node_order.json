@@ -1,0 +1,10 @@
+{
+    "protein": ["protein","site","glycan","enzyme","species","disease","gene","motif"],
+    "site": ["site","protein","disease","enzyme","species","gene","glycan","motif"],
+    "disease": ["disease","protein","gene","site","enzyme","species","glycan","motif"],
+    "enzyme": ["enzyme","protein","glycan","site","gene","disease","species","motif"],
+    "gene": ["gene","protein","disease","species","site","glycan","enzyme","motif"],
+    "glycan": ["glycan","protein","species","site","motif","enzyme","gene","disease"],
+    "species": ["species","protein","gene","glycan","enzyme","site","disease","motif"],
+    "motif": ["motif","glycan","site","protein","species","enzyme","gene","disease"]
+}

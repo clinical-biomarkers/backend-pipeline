@@ -1,0 +1,37 @@
+{
+        "c_index":{
+            "phraselist":"phraselist_index"
+        },
+        "c_biomarker":{
+            "biomarker_id":"biomarker_id_index",
+      		"biomarker_component.assessed_entity_type":"entity_type_index",
+         	"condition.recommended_name.id":"condition_id_index",
+         	"condition.synonyms.id":"condition_synonym_id_index",
+        		"citation.reference.id":"citation_id_index",
+        		"best_biomarker_role.role":"biomarker_role_index"
+		  },
+		  "c_list":{
+            "record_id":"record_id_index"
+        },	
+        "c_idtrack":{
+            "record_id":"record_id_index"
+        },
+		  "c_initcache":{
+				"list_id":"list_id_index"
+			},
+			"c_initlistcache":{
+            "list_id":"list_id_index",
+				"glbl.cache_info.cache_id":"glbl_cache_info_cache_id_index"
+         },
+			"c_usercache":{
+            "list_id":"list_id_index"
+         },
+         "c_userlistcache":{
+            "list_id":"list_id_index",
+         	"glbl.cache_info.cache_id":"glbl_cache_info_cache_id_index"
+			},
+			"c_sort":{
+				"sort_field":"sort_field_index",
+				"record_type":"record_type_index"
+			}
+}

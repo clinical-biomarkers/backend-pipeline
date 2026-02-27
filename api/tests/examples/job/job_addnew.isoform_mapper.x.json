@@ -1,0 +1,19 @@
+{
+    "jobtype": "isoform_mapper",
+    "sequence": "MDTQGPVSQPFQQPEKPGRVRRRKTRRERNKALVGSRRPLAHHDPPVAIRDPPVVPTASKLVVITQGRLSREHRGLFNHEVKSLDVARLLSSGTLVPGSPTLPAKPSPSPGRAQEPAPRSRDKENQVPGGSGPGPPSSPELSGVGQLLAELQCQLSLPQAFPRRNLIQDARDAIVHTLQACHGCVPDLALVLRGCQPPLPGERPSCPCTPLSFVGSSSASLYASFLCARGQAWGL",
+    "intable": [
+        [
+            "amino_acid_pos",
+            "amino_acid"
+        ],
+        [
+            "3",
+            "T"
+        ],
+        [
+            "8",
+            "F"
+        ]
+    ],
+    "parameters": "{}"
+}

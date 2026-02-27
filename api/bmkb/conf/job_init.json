@@ -1,0 +1,461 @@
+{
+    "batch_retrieval": {
+        "input_namespaces": {
+            "GeneID": {
+                "example_id_list": [
+                    "827806",
+                    "827807",
+                    "827808",
+                    "827809",
+                    "827810"
+                ]
+            },
+            "RefSeq": {
+                "example_id_list": [
+                    "NP_001320013",
+                    "NP_001171015",
+                    "NP_001117349",
+                    "NP_001123876",
+                    "XP_006716273"
+                ]
+            },
+            "UniProtKB": {
+                "example_id_list": [
+                    "P14210-1",
+                    "P12960-1",
+                    "P12383-1",
+                    "F1SB93-1",
+                    "Q08048-1"
+                ]
+            },
+            "AGR": {
+                "example_id_list": [
+                    "HGNC:24754",
+                    "HGNC:37220",
+                    "HGNC:37221",
+                    "HGNC:37222",
+                    "HGNC:37223"
+                ]
+            },
+            "Bgee": {
+                "example_id_list": [
+                    "ENSMUSG00000061615",
+                    "ENSBTAG00000054949",
+                    "ENSSSCG00000003891",
+                    "ENSSSCG00000032113",
+                    "ENSSSCG00000017448"
+                ]
+            },
+            "IntAct": {
+                "example_id_list": [
+                    "M0R9T2",
+                    "Q15326",
+                    "O70373",
+                    "Q9C5U3",
+                    "Q9C7N3"
+                ]
+            }
+        },
+        "categories": [
+            {
+                "id": "General",
+                "label": "General",
+                "order": 1,
+                "tooltip": ""
+            },
+            {
+                "id": "GO annotation",
+                "label": "GO annotation",
+                "order": 2,
+                "tooltip": ""
+            },
+            {
+                "id": "Glycosylation",
+                "label": "Glycosylation",
+                "order": 3,
+                "tooltip": ""
+            },
+				{
+                "id": "PTM",
+                "label": "PTM",
+                "order": 3.5,
+                "tooltip": ""
+            },
+            {
+                "id": "Disease",
+                "label": "Disease",
+                "order": 4,
+                "tooltip": ""
+            },
+            {
+                "id": "Identifier",
+                "label": "Identifier",
+                "order": 5,
+                "tooltip": ""
+            }
+        ],
+        "columns": {
+            "pdb_id": {
+                "label": "PDB ID",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Identifier",
+                        "order": 1
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "species": {
+                "label": "Species",
+                "oplist": [
+                    "none",
+                    "exact"
+                ],
+                "field_list": [
+                    "tax_id",
+                    "tax_name"
+                ],
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 1
+                    }
+                ],
+                "output_type": [
+                    "id",
+                    "name",
+                    "both"
+                ]
+            },
+            "gene_locus": {
+                "label": "Genomic Locus Gene",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 2
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "protein_locus": {
+                "label": "Genomic Locus Protein",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 3
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "pathways": {
+                "label": "Pathways",
+                "oplist": [
+                    "none",
+                    "exact"
+                ],
+                "field_list": [
+                    "pathway_id",
+                    "pathway_name",
+                    "pathway_description"
+                ],
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 4
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "go_mf": {
+                "label": "GO Molecular Function",
+                "oplist": [
+                    "none",
+                    "exact",
+                    "hierarchy"
+                ],
+                "field_list": [
+                    "go_id",
+                    "go_term"
+                ],
+                "categories": [
+                    {
+                        "id": "GO annotation",
+                        "order": 1
+                    }
+                ],
+                "output_type": [
+                    "id",
+                    "name",
+                    "both"
+                ]
+            },
+            "go_cc": {
+                "label": "GO Cellular Component",
+                "oplist": [
+                    "none",
+                    "exact",
+                    "hierarchy"
+                ],
+                "field_list": [
+                    "go_id",
+                    "go_term"
+                ],
+                "categories": [
+                    {
+                        "id": "GO annotation",
+                        "order": 2
+                    }
+                ],
+                "output_type": [
+                    "id",
+                    "name",
+                    "both"
+                ]
+            },
+            "go_bp": {
+                "label": "GO Biological Process",
+                "oplist": [
+                    "none",
+                    "exact",
+                    "hierarchy"
+                ],
+                "field_list": [
+                    "go_id",
+                    "go_term"
+                ],
+                "categories": [
+                    {
+                        "id": "GO annotation",
+                        "order": 3
+                    }
+                ],
+                "output_type": [
+                    "id",
+                    "name",
+                    "both"
+                ]
+            },
+            "disease_protein": {
+                "label": "Disease Associated with Protein",
+                "oplist": [
+                    "none",
+                    "exact",
+                    "hierarchy"
+                ],
+                "field_list": [
+                    "disease_id",
+                    "disease_name"
+                ],
+                "categories": [
+                    {
+                        "id": "Disease",
+                        "order": 1
+                    }
+                ],
+                "output_type": [
+                    "id",
+                    "name",
+                    "both"
+                ]
+            },
+            "disease_snv": {
+                "label": "Disease Associated with Mutation",
+                "oplist": [
+                    "none",
+                    "exact",
+                    "hierarchy"
+                ],
+                "field_list": [
+                    "disease_id",
+                    "disease_name"
+                ],
+                "categories": [
+                    {
+                        "id": "Disease",
+                        "order": 2
+                    }
+                ],
+                "output_type": [
+                    "id",
+                    "name",
+                    "both"
+                ]
+            },
+            "disease_expression": {
+                "label": "Disease Associated with Expression",
+                "oplist": [
+                    "none",
+                    "exact",
+                    "hierarchy"
+                ],
+                "field_list": [
+                    "disease_id",
+                    "disease_name"
+                ],
+                "categories": [
+                    {
+                        "id": "Disease",
+                        "order": 3
+                    }
+                ],
+                "output_type": [
+                    "id",
+                    "name",
+                    "both"
+                ]
+            },
+            "is_biomarker": {
+                "label": "Is a biomarker",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Disease",
+                        "order": 4
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "n_glycosites_confirmed": {
+                "label": "Reported N-glycosylation sites",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Glycosylation",
+                        "order": 1
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "n_glycosites_predicted": {
+                "label": "Predicted N-glycosylation sites",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Glycosylation",
+                        "order": 2
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "o_glycosites_confirmed": {
+                "label": "Reported O-glycosylation sites",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Glycosylation",
+                        "order": 3
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "o_glycosites_predicted": {
+                "label": "Predicted O-glycosylation sites",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Glycosylation",
+                        "order": 4
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "glycosite_count_confirmed": {
+                "label": "Number of reported glycosylation sites",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Glycosylation",
+                        "order": 5
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "glycosite_count": {
+                "label": "Number of glycosylation sites",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Glycosylation",
+                        "order": 6
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+				"is_glycosylated": {
+                "label": "Is Glycosylated",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "Glycosylation",
+                        "order": 7
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            },
+            "phosphosite_count": {
+                "label": "Number of phophorylation sites",
+                "oplist": [
+                    "none"
+                ],
+                "categories": [
+                    {
+                        "id": "PTM",
+                        "order": 1
+                    }
+                ],
+                "output_type": [
+                    "id"
+                ]
+            }
+        }
+    }
+}

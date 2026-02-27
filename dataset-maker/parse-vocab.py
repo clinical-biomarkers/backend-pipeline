@@ -9,6 +9,9 @@ import subprocess
 
 def main():
 
+    rel = "3.1.1"
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+    
     vocab_structure_list = [
         "{presence of} {entity_id} {sequence variation} in {gene}"
         ,"{presence of} {entity_id} {sequence variation} in {protein}"
@@ -67,7 +70,7 @@ def main():
     for vocab_structure in vocab_structure_list:
         stat_dict[vocab_structure] = 0
     seen_disease_id = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
         with open(in_file, "r") as FR:

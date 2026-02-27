@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "aa_type_list": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "label"
+                ]
+            }
+        },
+        "annotation_type_list": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "label"
+                ]
+            }
+        }
+    },
+    "required": [
+        "aa_type_list",
+        "annotation_type_list"
+    ]
+}

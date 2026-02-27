@@ -1,0 +1,7 @@
+{
+    "name": "biomarker_detail",
+    "payload": {
+      "biomarker_id":"AN6278-5",
+		"paginated_tables":[{"table_id":"publication","offset":1,"limit":200,"sort":"date","order":"desc"}]
+	}
+}

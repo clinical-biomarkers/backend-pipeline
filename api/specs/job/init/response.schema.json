@@ -1,0 +1,90 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "structure_search": {
+            "type": "object",
+            "properties": {
+                "paramlist": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "label",
+                            "value"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "paramlist"
+            ]
+        },
+        "blastp": {
+            "type": "object",
+            "properties": {
+                "paramlist": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": [
+                                    "number",
+                                    "string"
+                                ]
+                            },
+                            "optlist": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "value": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "value"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "label"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "paramlist"
+            ]
+        }
+    },
+    "required": [
+        "blastp",
+        "structure_search"
+    ]
+}

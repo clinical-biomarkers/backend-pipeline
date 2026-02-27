@@ -1,0 +1,72 @@
+{
+	"protein": {
+		"protein.name":"protein_names",
+		"gene.name":"gene_names",
+		"uniprot_ac":"protein_id",
+		"refseq.ac":"protein_id",
+		"pathway.id":"pathway",
+		"pathway.name": "pathway",
+     	"go_annotation.categories.go_terms.id":"go_id",
+		"go_annotation.categories.go_terms.name": "go_term",
+		"ortholog.name": "orthologs",
+		"orthologs.uniprot_canonical_ac": "orthologs",
+		"crossref.id": "crossref",
+		"crossref.database": "crossref",
+		"expression_tissue.tissue.id": "tissue_id",
+		"expression_tissue.tissue.name": "tissue_name",
+		"publication.title": "publication",
+		"publication.date": "publication",
+		"publication.authors": "publication",
+		"publication.journal": "publication",
+		"publication.reference.id": "publication"
+	},
+	"enzyme": {
+      "uniprot_ac": "protein_id",
+		"refseq.ac": "protein_id",
+		"protein.name": "protein_names",
+		"gene.name": "gene_names",
+      "pathway.id": "pathway",  
+		"pathway.name": "pathway",
+		"crossref.id": "crossref",
+		"crossref.database": "crossref",
+		"publication.reference.id": "publication",
+		"enzyme_annotation.ec": "enzyme_annotation"
+	},
+	"gene": {
+		"gene.locus.chromosome": "gene",
+		"gene.name": "gene_names",
+		"gene.locus.strand": "gene"
+	},
+	"glycan": {
+		"glytoucan_ac":"glycan_id",
+		"classification.type.name":"classification",
+		"classification.subtype.name":"classification",
+		"fully_determined":"keywords",
+		"subsumption.id": "subsumption",
+		"names.name": "names",
+		"crossref.id": "crossref",
+		"crossref.database": "crossref",
+		"publication.title": "publication",
+      "publication.date": "publication",
+      "publication.authors": "publication",
+      "publication.journal": "publication",
+      "publication.reference.id": "publication"
+	},
+	"disease": {
+		"disease_id":"disease_id",
+		"name":"disease_name"
+	},
+	"site": {
+		"start_aa": "seqinfo",
+		"up_seq": "seqinfo",
+		"down_seq": "seqinfo",
+		"site_seq": "seqinfo",
+		"neighbors.categories": "seqinfo",
+		"neighbors.direction": "seqinfo",
+		"glycosylation_flag": "category",
+		"phosphorylation_flag": "category",
+		"glycation_flag": "category",
+		"snv_flag": "category",
+		"mutagenesis_flag": "category"
+	}
+}

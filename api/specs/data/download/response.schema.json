@@ -1,0 +1,719 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "number_monosaccharides": {
+            "type": "integer"
+        },
+        "number_monosaccharides_suffix": {
+            "type": "string"
+        },
+        "mass": {
+            "type": "number"
+        },
+        "mass_pme": {
+            "type": "number"
+        },
+        "tool_support": {
+            "type": "object",
+            "properties": {
+                "gnome": {
+                    "type": "string"
+                },
+                "sandbox": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "gnome",
+                "sandbox"
+            ]
+        },
+        "fully_determined": {
+            "type": "string"
+        },
+        "missing_score": {
+            "type": "integer"
+        },
+        "glycan_type": {
+            "type": "string"
+        },
+        "iupac": {
+            "type": "string"
+        },
+        "wurcs": {
+            "type": "string"
+        },
+        "glycoct": {
+            "type": "string"
+        },
+        "inchi": {
+            "type": "string"
+        },
+        "glycam": {
+            "type": "string"
+        },
+        "smiles_isomeric": {
+            "type": "string"
+        },
+        "inchi_key": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "key",
+                "url"
+            ]
+        },
+        "byonic": {
+            "type": "string"
+        },
+        "gwb": {
+            "type": "string"
+        },
+        "species": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "taxid": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "annotation_category": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "common_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "annotation_category",
+                    "common_name",
+                    "evidence",
+                    "name",
+                    "taxid"
+                ]
+            }
+        },
+        "classification": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "url"
+                        ]
+                    },
+                    "subtype": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ]
+                    }
+                },
+                "required": [
+                    "subtype",
+                    "type"
+                ]
+            }
+        },
+        "enzyme": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "protein_name": {
+                        "type": "string"
+                    },
+                    "gene": {
+                        "type": "string"
+                    },
+                    "gene_link": {
+                        "type": "string"
+                    },
+                    "tax_id": {
+                        "type": "integer"
+                    },
+                    "tax_name": {
+                        "type": "string"
+                    },
+                    "tax_common_name": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "evidence",
+                    "gene",
+                    "gene_link",
+                    "protein_name",
+                    "tax_common_name",
+                    "tax_id",
+                    "tax_name",
+                    "uniprot_canonical_ac"
+                ]
+            }
+        },
+        "crossref": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "database": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "database",
+                    "id",
+                    "url"
+                ]
+            }
+        },
+        "glycoprotein": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "residue": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "protein_name": {
+                        "type": "string"
+                    },
+                    "gene_name": {
+                        "type": "string"
+                    },
+                    "tax_id": {
+                        "type": "integer"
+                    },
+                    "tax_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "evidence",
+                    "gene_name",
+                    "protein_name",
+                    "tax_id",
+                    "tax_name",
+                    "uniprot_canonical_ac"
+                ]
+            }
+        },
+        "publication": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "journal": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "authors": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "reference": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "type",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "authors",
+                    "date",
+                    "evidence",
+                    "journal",
+                    "reference",
+                    "title"
+                ]
+            }
+        },
+        "residues": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "attachedby": {
+                        "type": "string"
+                    },
+                    "detachedby": {
+                        "type": "string"
+                    },
+                    "parentid": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "attachedby",
+                    "detachedby",
+                    "id",
+                    "name",
+                    "parentid"
+                ]
+            }
+        },
+        "composition": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "residue": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "integer"
+                    },
+                    "cid": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "cid",
+                    "count",
+                    "name",
+                    "residue",
+                    "url"
+                ]
+            }
+        },
+        "composition_expanded": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "residue": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "integer"
+                    },
+                    "cid": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "count",
+                    "name",
+                    "residue"
+                ]
+            }
+        },
+        "motifs": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "synonym": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "keywords",
+                    "name",
+                    "synonym"
+                ]
+            }
+        },
+        "interactions": {
+            "type": "array"
+        },
+        "expression": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "start_pos": {
+                        "type": "integer"
+                    },
+                    "end_pos": {
+                        "type": "integer"
+                    },
+                    "residue": {
+                        "type": "string"
+                    },
+                    "tissue": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "uberon": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "cell_line": {
+                        "type": "object"
+                    },
+                    "abundance": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "abundance",
+                    "cell_line",
+                    "end_pos",
+                    "evidence",
+                    "residue",
+                    "start_pos",
+                    "tissue",
+                    "uniprot_canonical_ac"
+                ]
+            }
+        },
+        "subsumption": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "related_accession": {
+                        "type": "string"
+                    },
+                    "relationship": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "related_accession",
+                    "relationship"
+                ]
+            }
+        },
+        "names": {
+            "type": "array"
+        },
+        "keywords": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "glycotree_pathways": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string"
+                    },
+                    "target": {
+                        "type": "string"
+                    },
+                    "residue_affected": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "full_name": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "full_name",
+                            "id"
+                        ]
+                    },
+                    "enzymes": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "uniprotkb_ac": {
+                                    "type": "string"
+                                },
+                                "tax_name": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "tax_name",
+                                "uniprotkb_ac"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "enzymes",
+                    "residue_affected",
+                    "source",
+                    "target"
+                ]
+            }
+        },
+        "dictionary": {
+            "type": "object"
+        },
+        "glytoucan": {
+            "type": "object",
+            "properties": {
+                "glytoucan_ac": {
+                    "type": "string"
+                },
+                "glytoucan_url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "glytoucan_ac",
+                "glytoucan_url"
+            ]
+        },
+        "results": {
+            "type": "array"
+        }
+    },
+    "required": [
+        "byonic",
+        "classification",
+        "composition",
+        "composition_expanded",
+        "crossref",
+        "dictionary",
+        "enzyme",
+        "expression",
+        "fully_determined",
+        "glycam",
+        "glycan_type",
+        "glycoct",
+        "glycoprotein",
+        "glycotree_pathways",
+        "glytoucan",
+        "gwb",
+        "inchi",
+        "inchi_key",
+        "interactions",
+        "iupac",
+        "keywords",
+        "mass",
+        "mass_pme",
+        "missing_score",
+        "motifs",
+        "names",
+        "number_monosaccharides",
+        "number_monosaccharides_suffix",
+        "publication",
+        "residues",
+        "results",
+        "smiles_isomeric",
+        "species",
+        "subsumption",
+        "tool_support",
+        "wurcs"
+    ]
+}

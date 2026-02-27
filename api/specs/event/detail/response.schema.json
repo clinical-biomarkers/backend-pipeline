@@ -1,0 +1,52 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "start_date": {
+            "type": "string"
+        },
+        "end_date": {
+            "type": "string"
+        },
+        "venue": {
+            "type": "string"
+        },
+        "url": {
+            "type": "string"
+        },
+        "url_name": {
+            "type": "string"
+        },
+        "visibility": {
+            "type": "string"
+        },
+        "createdts": {
+            "type": "string"
+        },
+        "updatedts": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "createdts",
+        "description",
+        "end_date",
+        "id",
+        "start_date",
+        "title",
+        "updatedts",
+        "url",
+        "url_name",
+        "venue",
+        "visibility"
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "initial":{
+        "protein":["site","enzyme","glycan","disease","gene","species"],
+        "site":["protein","glycan","disease"],
+        "enzyme":["protein","glycan"],
+        "glycan":["site","enzyme","protein","species","motif"],
+        "motif":["glycan"],
+        "disease":["protein","site","gene"],
+        "gene":["protein","disease","species"],
+        "species":["protein","glycan","gene"]
+    }
+}
+

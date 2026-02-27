@@ -1,0 +1,12 @@
+
+ ... started loading bmkbdb.c_searchinit version 3.1.1 [2026-02-27 13:49:54.905089]
+ ... dropping tmpdb.c_searchinit [2026-02-27 13:49:54.915973]
+ ... finished loading 1 documents to tmpdb.c_searchinit [2026-02-27 13:49:54.952249]
+
+ ... removing old tmpdb dump [2026-02-27 13:49:54.955183]
+
+ ... creating new tmpdb.c_searchinit dump [2026-02-27 13:49:54.980113]
+
+ ... restoring tmpdb dump to bmkbdb.c_searchinit [2026-02-27 13:49:55.063199]
+
+ ... finished restoring [2026-02-27 13:49:55.149522]

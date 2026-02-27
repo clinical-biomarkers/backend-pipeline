@@ -1,0 +1,19 @@
+{
+	"jobtype": "isoform_mapper",
+	"parameters":{},
+	"intable":[
+		["isoform_ac","amino_acid_pos","amino_acid"],
+		["A6NJB7-2","3","T"],
+		["A6NJB7-2","8","S"],
+		["P08697-2","36","T"],
+		["P08697-2","37","S"],
+		["P19827-2","514","S"],
+		["P19827-2","516","N"],
+		["P19827-2","517","T"]
+	]
+}
+
+
+
+
+

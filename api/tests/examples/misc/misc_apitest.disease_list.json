@@ -1,0 +1,6 @@
+{
+    "name": "disease_list",
+    "payload": {
+		"id":"d10a46b42d8fce81b961d6578117bb40","offset":1,"sort":"hit_score","limit":20,"order":"desc","filters":[]
+	}
+}

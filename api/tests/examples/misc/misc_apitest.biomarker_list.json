@@ -1,0 +1,6 @@
+{
+    "name": "biomarker_list",
+    "payload": {
+		"id":"6f528cefc376f3260a40b4e10dc60494","offset":1,"sort":"hit_score","limit":20,"order":"desc","filters":[]
+	}
+}

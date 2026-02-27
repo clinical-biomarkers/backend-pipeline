@@ -1,0 +1,12 @@
+{
+    "jobtype": "clustalw",
+    "parameters": {
+			"ac_list":[
+				"F1SB93-1","P14210-1","Q08048-1"
+			],
+			"output": "fasta"
+    }
+}
+
+
+

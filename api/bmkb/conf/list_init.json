@@ -1,0 +1,195 @@
+{
+	"biomarker": {
+        "columns": [
+            {
+                "id": "biomarker_canonical_id",
+                "property_name": "biomarker_canonical_id",
+                "label": "Biomarker Canonical ID",
+                "order": 1,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 10
+                    }
+                ]
+            },
+            {
+                "id": "biomarker_id",
+                "property_name": "biomarker_id",
+                "label": "Biomarker ID",
+                "order": 2,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 20
+                    }
+                ]
+            },
+            {
+                "id": "biomarker",
+                "property_name": "biomarker",
+                "label": "Biomarker",
+                "order": 3,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 30
+                    }
+                ]
+            },
+            {
+                "id": "assessed_biomarker_entity_id",
+                "property_name": "assessed_biomarker_entity_id",
+                "label": "Assessed Biomarker Entity ID",
+                "order": 4,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 40
+                    }
+                ]
+            },
+            {
+                "id": "assessed_entity_type",
+                "property_name": "assessed_entity_type",
+                "label": "Assessed Entity Type",
+                "order": 5,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 50
+                    }
+                ]
+            },
+            {
+                "id": "assessed_biomarker_entity",
+                "property_name": "assessed_biomarker_entity",
+                "label": "Assessed Biomarker Entity",
+                "order": 6,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 60
+                    }
+                ]
+            },
+            {
+                "id": "specimen",
+                "property_name": "specimen",
+                "label": "Specimen",
+                "order": 7,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 70
+                    }
+                ]
+            },
+            {
+                "id": "best_biomarker_role",
+                "property_name": "best_biomarker_role",
+                "label": "Best Biomarker Role",
+                "order": 8,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 80
+                    }
+                ]
+            },
+            {
+                "id": "condition",
+                "property_name": "condition",
+                "label": "Condition",
+                "order": 9,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 90
+                    }
+                ]
+            },
+            {
+                "id": "component_count",
+                "property_name": "component_count",
+                "label": "Component Count",
+                "order": 10,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 100
+                    }
+                ]
+            },
+            {
+                "id": "component_evidence_count",
+                "property_name": "component_evidence_count",
+                "label": "Component Evidence Count",
+                "order": 11,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 110
+                    }
+                ]
+            },
+            {
+                "id": "global_evidence_count",
+                "property_name": "global_evidence_count",
+                "label": "Global Evidence Count",
+                "order": 12,
+                "tooltip": "",
+                "immutable": true,
+                "default": true,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            }
+        ],
+        "categories": [
+            {
+                "id": "General",
+                "label": "General",
+                "order": 1,
+                "tooltip": ""
+            }
+        ]
+    }
+}
+

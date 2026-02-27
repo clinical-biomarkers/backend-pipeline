@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "submission": {
+            "type": "string"
+        },
+        "status": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "status"
+            ]
+        },
+        "jobid": {
+            "type": "integer"
+        }
+    },
+    "required": [
+    ]
+}

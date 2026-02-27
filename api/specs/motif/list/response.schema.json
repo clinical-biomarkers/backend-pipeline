@@ -1,0 +1,94 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "cache_info": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "object"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        },
+        "results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "glytoucan_ac": {
+                        "type": "string"
+                    },
+                    "motif_ac": {
+                        "type": "string"
+                    },
+                    "motif_name": {
+                        "type": "string"
+                    },
+                    "glycan_count": {
+                        "type": "integer"
+                    },
+                    "protein_count": {
+                        "type": "integer"
+                    },
+                    "synonyms": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pmidlist": {
+                        "type": "array"
+                    },
+                    "record_type": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "glycan_count",
+                    "glytoucan_ac",
+                    "motif_ac",
+                    "motif_name",
+                    "pmidlist",
+                    "protein_count",
+                    "record_type",
+                    "synonyms"
+                ]
+            }
+        },
+        "pagination": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "total_length": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "limit",
+                "offset",
+                "order",
+                "sort",
+                "total_length"
+            ]
+        }
+    },
+    "required": [
+        "cache_info",
+        "pagination",
+        "results"
+    ]
+}

@@ -1,0 +1,535 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "start_pos": {
+            "type": "integer"
+        },
+        "end_pos": {
+            "type": "integer"
+        },
+        "up_seq": {
+            "type": "string"
+        },
+        "site_seq": {
+            "type": "string"
+        },
+        "down_seq": {
+            "type": "string"
+        },
+        "uniprot_canonical_ac": {
+            "type": "string"
+        },
+        "species": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "taxid": {
+                        "type": "integer"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "database": {
+                                    "type": "string"
+                                },
+                                "id": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "common_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "common_name",
+                    "evidence",
+                    "name",
+                    "taxid"
+                ]
+            }
+        },
+        "glycosylation": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "glytoucan_ac": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "subtype": {
+                        "type": "string"
+                    },
+                    "site_category": {
+                        "type": "string"
+                    },
+                    "site_seq": {
+                        "type": "string"
+                    },
+                    "relation": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "start_aa": {
+                        "type": "string"
+                    },
+                    "end_aa": {
+                        "type": "string"
+                    },
+                    "residue": {
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "comment",
+                    "end_aa",
+                    "evidence",
+                    "glytoucan_ac",
+                    "relation",
+                    "residue",
+                    "site_category",
+                    "site_seq",
+                    "start_aa",
+                    "subtype",
+                    "type"
+                ]
+            }
+        },
+        "snv": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "evidence": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "id",
+                                "url"
+                            ]
+                        }
+                    },
+                    "glycoeffect": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "sequence_org": {
+                        "type": "string"
+                    },
+                    "sequence_mut": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "chr_id": {
+                        "type": "string"
+                    },
+                    "chr_pos": {
+                        "type": "string"
+                    },
+                    "ref_nt": {
+                        "type": "string"
+                    },
+                    "alt_nt": {
+                        "type": "string"
+                    },
+                    "minor_allelic_frequency": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "alt_nt",
+                    "chr_id",
+                    "chr_pos",
+                    "comment",
+                    "evidence",
+                    "glycoeffect",
+                    "keywords",
+                    "minor_allelic_frequency",
+                    "ref_nt",
+                    "sequence_mut",
+                    "sequence_org"
+                ]
+            }
+        },
+        "all_sites": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "site_list": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "start_pos": {
+                                    "type": "string"
+                                },
+                                "end_pos": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "end_pos",
+                                "start_pos"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "site_list",
+                    "type"
+                ]
+            }
+        },
+        "categories": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "mutagenesis": {
+            "type": "array"
+        },
+        "phosphorylation": {
+            "type": "array"
+        },
+        "glycation": {
+            "type": "array"
+        },
+        "neighbors": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "distance": {
+                        "type": "integer"
+                    },
+                    "direction": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "categories",
+                    "direction",
+                    "distance",
+                    "id"
+                ]
+            }
+        },
+        "uniprot_id": {
+            "type": "string"
+        },
+        "uniprot": {
+            "type": "object",
+            "properties": {
+                "uniprot_canonical_ac": {
+                    "type": "string"
+                },
+                "uniprot_id": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "length": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "length",
+                "uniprot_canonical_ac",
+                "uniprot_id",
+                "url"
+            ]
+        },
+        "sequence": {
+            "type": "object",
+            "properties": {
+                "sequence": {
+                    "type": "string"
+                },
+                "length": {
+                    "type": "integer"
+                },
+                "header": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "header",
+                "length",
+                "sequence"
+            ]
+        },
+        "mass": {
+            "type": "object",
+            "properties": {
+                "chemical_mass": {
+                    "type": "number"
+                },
+                "monoisotopic_mass": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "chemical_mass",
+                "monoisotopic_mass"
+            ]
+        },
+        "protein_names": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "resource": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "resource",
+                    "type",
+                    "url"
+                ]
+            }
+        },
+        "gene": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "locus": {
+                        "type": "object",
+                        "properties": {
+                            "chromosome": {
+                                "type": "string"
+                            },
+                            "start_pos": {
+                                "type": "integer"
+                            },
+                            "end_pos": {
+                                "type": "integer"
+                            },
+                            "strand": {
+                                "type": "string"
+                            },
+                            "evidence": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "database": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "database",
+                                        "id",
+                                        "url"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "chromosome",
+                            "end_pos",
+                            "evidence",
+                            "start_pos",
+                            "strand"
+                        ]
+                    }
+                },
+                "required": [
+                    "locus",
+                    "name",
+                    "url"
+                ]
+            }
+        },
+        "gene_names": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "resource": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "resource",
+                    "type",
+                    "url"
+                ]
+            }
+        },
+        "refseq": {
+            "type": "object",
+            "properties": {
+                "ac": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "summary": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ac",
+                "name",
+                "summary",
+                "url"
+            ]
+        }
+    },
+    "required": [
+        "all_sites",
+        "categories",
+        "down_seq",
+        "end_pos",
+        "gene",
+        "gene_names",
+        "glycation",
+        "glycosylation",
+        "id",
+        "mass",
+        "mutagenesis",
+        "neighbors",
+        "phosphorylation",
+        "protein_names",
+        "refseq",
+        "sequence",
+        "site_seq",
+        "snv",
+        "species",
+        "start_pos",
+        "uniprot",
+        "uniprot_canonical_ac",
+        "uniprot_id",
+        "up_seq"
+    ]
+}

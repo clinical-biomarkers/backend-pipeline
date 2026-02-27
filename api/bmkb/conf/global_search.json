@@ -1,0 +1,50 @@
+[
+        {
+            "searchname":"protein.all",
+            "targetcollection":"c_protein",
+            "mongoquery":{
+                "$text": { "$search": "query_term"}
+            }
+        },
+        {
+            "searchname":"glycoprotein.all",
+            "targetcollection":"c_protein",
+            "mongoquery":{
+                "$and":[
+                    {"$text": { "$search": "query_term"}},
+                    {"glycosylation": {"$gt":[]}}
+                ]
+            }
+        },
+        {
+            "searchname":"glycan.all",
+            "targetcollection":"c_glycan",
+            "mongoquery":{
+                "$text": { "$search": "query_term"}
+            }
+        },
+	{
+            "searchname":"biomarker.all",
+            "targetcollection":"c_biomarker",
+            "mongoquery":{
+                "$text": { "$search": "query_term"}
+            }
+        },
+	{
+            "searchname":"motif.all",
+            "targetcollection":"c_motif",
+            "mongoquery":{
+                "$text": { "$search": "query_term"}
+            }
+        },
+	{
+            "searchname":"publication.all",
+            "targetcollection":"c_publication",
+            "mongoquery":{
+                "$text": { "$search": "query_term"}
+            }
+        }
+]
+
+
+

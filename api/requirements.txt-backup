@@ -1,0 +1,14 @@
+FLASK==1.1.4
+Flask-Cors==3.0.10
+Flask-JWT-Extended==3.25.1
+flask-restx==0.5.1
+pymongo==3.10.0
+pytz==2013.7
+bcrypt==3.1.7
+gunicorn==20.1.0
+bio==1.3.3
+requests==2.27.1
+user_agents==2.2.0
+Pillow==8.4.0
+openai
+marshmallow

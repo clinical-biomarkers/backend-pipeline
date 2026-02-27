@@ -1,0 +1,55 @@
+{
+"glycan":{
+    "motifs": {"sectionfield":"motifs"},
+    "associated_protein": {"sectionfield":"glycoprotein"},
+    "glycan_binding_protein": {"sectionfield":"interactions"},
+    "biosynthetic_enzymes": {"sectionfield":"enzyme"},
+    "subsumption_ancestor": {"sectionfield":"subsumption"},
+    "subsumption_descendant": {"sectionfield":"subsumption"},
+    "expression_tissue_bodily_fluid": {"sectionfield":"expression"},
+    "expression_cell_cell_line": {"sectionfield":"expression"}
+},
+"protein":{
+    "glycosylation_reported_with_glycans": {"sectionfield":"glycosylation"},
+    "glycosylation_reported": {"sectionfield":"glycosylation"},
+    "glycosylation_predicted": {"sectionfield":"glycosylation"},
+    "glycosylation_text_mining": {"sectionfield":"glycosylation"},
+    "phosphorylation": {"sectionfield":"phosphorylation"},
+    "glycation": {"sectionfield":"glycation"},
+    "snv_disease_associated_mutations": {"sectionfield":"snv"},
+    "snv_non_disease_associated_mutations": {"sectionfield":"snv"},
+    "mutagenesis": {"sectionfield":"mutagenesis"},
+    "glycan_ligands" : {"sectionfield":"interactions"},
+    "ptm_annotation" : {"sectionfield":"ptm_annotation"},
+    "proteoform_annotation": {"sectionfield":"pro_annotation"},
+    "synthesized_glycans": {"sectionfield":"synthesized_glycans"},
+    "expression_tissue": {"sectionfield":"expression_tissue"},
+    "expression_disease": {"sectionfield":"expression_disease"}
+},
+"site":{
+    "glycosylation": {"sectionfield":"glycosylation"},
+    "phosphorylation": {"sectionfield":"phosphorylation"},
+    "glycation": {"sectionfield":"glycation"},
+    "snv_disease_associated_mutations": {"sectionfield":"snv"},
+    "mutagenesis": {"sectionfield":"mutagenesis"}
+},
+"publication":{
+    "referenced_proteins": {"sectionfield":"referenced_proteins"},
+    "referenced_glycans": {"sectionfield":"referenced_glycans"},
+    "glycosylation_reported_with_glycans": {"sectionfield":"glycosylation"},
+    "glycosylation_reported": {"sectionfield":"glycosylation"},
+    "glycosylation_text_mining": {"sectionfield":"glycosylation"},
+    "phosphorylation": {"sectionfield":"phosphorylation"},
+    "glycation": {"sectionfield":"glycation"},
+    "snv_disease_associated_mutations": {"sectionfield":"snv"},
+    "snv_non_disease_associated_mutations": {"sectionfield":"snv"},
+    "mutagenesis": {"sectionfield":"mutagenesis"},
+    "expression_tissue_bodily_fluid": {"sectionfield":"expression"},
+    "expression_cell_cell_line": {"sectionfield":"expression"}
+},
+"motif":{
+    "glycans_with_this_motif":{"sectionfield":"glycans"}
+}
+
+}
+

@@ -85,13 +85,13 @@ def load_sheet(sheet_obj, in_file, field_list, separator):
 
 
 
-def load_cmb2grpid():
+def load_cmb2grpid(release_dir):
 
     file_list = []
-    ds_dict = json.load(open("misc/datasets.json"))
+    ds_dict = json.load(open(release_dir + "misc/datasets.json"))
     for ds in ds_dict["biomarkers"]:
         for file_name in ds_dict["biomarkers"][ds]:
-            in_file = "downloads/%s/current/%s" % (ds.replace("biomarkers_",""), file_name)
+            in_file = "/data/shared/biomarkerdb/downloads/%s/current/%s" % (ds.replace("biomarkers_",""), file_name)
             file_list.append(in_file)
 
 

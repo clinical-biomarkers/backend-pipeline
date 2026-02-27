@@ -1,0 +1,15 @@
+{
+	"biomarker_canonical_id":"A0001.1",
+        "biomarker":"increased IL6 level",
+        "biomarker_entity_name":"Interleukin-6",
+        "biomarker_entity_id":"P05231-1",
+        "biomarker_entity_type":"P05231-1",
+        "specimen_name":"blood",
+        "specimen_id":"0000178",
+        "specimen_loinc_code":"26881-3",
+        "best_biomarker_role":"prognostic",
+        "condition_id":"DOID:10283",
+        "condition_name":"prostate cancer"
+}
+
+

@@ -1,0 +1,4 @@
+
+{"id":"14c27a20d52d4f92d6204b935b44b84b","download_type":"protein_list","format":"csv","compressed":false,"filters":[{"id":"by_ptm","operator":"OR","selected":["N-Glycosylation predicted"]},{"id":"by_evidence_type","operator":"OR","selected":["Reported"]},{"id":"by_organism","operator":"OR","selected":["Mouse","Fruit fly"]},{"id":"by_data","operator":"OR","selected":["Disease"]},{"id":"by_mass","operator":"OR","selected":["100k_300k"]}]}
+
+

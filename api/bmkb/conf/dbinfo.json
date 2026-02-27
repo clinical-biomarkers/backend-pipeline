@@ -1,0 +1,22 @@
+{
+    "dev":{
+        "mongodbname":"glydb"
+        ,"mongodbuser":"glydbadmin"
+        ,"mongodbpassword":"glydbpass"
+    }
+    ,"tst":{
+        "mongodbname":"glydb"
+        ,"mongodbuser":"glydbadmin"
+        ,"mongodbpassword":"glydbpass"
+    }
+    ,"beta":{
+        "mongodbname":"glydb_beta"
+        ,"mongodbuser":"glydb_betaadmin"
+        ,"mongodbpassword":"glydb_betapass"
+    }
+    ,"prd":{
+        "mongodbname":"glydb"
+        ,"mongodbuser":"glydbadmin"
+        ,"mongodbpassword":"glydbpass"
+    }
+}

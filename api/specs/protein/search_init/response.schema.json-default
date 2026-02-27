@@ -1,0 +1,121 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "protein_mass": {
+            "type": "object",
+            "properties": {
+                "min": {
+                    "type": "number"
+                },
+                "max": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "max",
+                "min"
+            ]
+        },
+        "organism": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ]
+            }
+        },
+        "glycosylation_types": {
+            "type": "object",
+            "properties": {
+                "O-linked": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "N-linked": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "C-linked": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "S-linked": {
+                    "type": "array"
+                }
+            },
+            "required": [
+                "C-linked",
+                "N-linked",
+                "O-linked",
+                "S-linked"
+            ]
+        },
+        "id_namespace": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "simple_search_category": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "display": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "display",
+                    "id"
+                ]
+            }
+        },
+        "aa_list": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "key": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key",
+                    "name"
+                ]
+            }
+        }
+    },
+    "required": [
+        "aa_list",
+        "glycosylation_types",
+        "id_namespace",
+        "organism",
+        "protein_mass",
+        "simple_search_category"
+    ]
+}

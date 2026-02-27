@@ -1,0 +1,12 @@
+
+ ... started loading bmkbdb.c_init version 3.1.1 [2026-01-26 22:44:36.554129]
+ ... dropping tmpdb.c_init [2026-01-26 22:44:36.619372]
+ ... finished loading 1 documents to tmpdb.c_init [2026-01-26 22:44:37.276458]
+
+ ... removing old tmpdb dump [2026-01-26 22:44:37.388615]
+
+ ... creating new tmpdb.c_init dump [2026-01-26 22:44:37.434493]
+
+ ... restoring tmpdb dump to bmkbdb.c_init [2026-01-26 22:44:37.994426]
+
+ ... finished restoring [2026-01-26 22:44:38.530696]

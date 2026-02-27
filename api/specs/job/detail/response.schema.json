@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "jobtype": {
+            "type": "string"
+        },
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "seq": {
+                    "type": "string"
+                },
+                "targetdb": {
+                    "type": "string"
+                },
+                "num_alignments": {
+                    "type": "integer"
+                },
+                "evalue": {
+                    "type": "number"
+                }
+            },
+            "required": [
+            ]
+        },
+        "cmd": {
+            "type": "string"
+        },
+        "seq_id": {
+            "type": "string"
+        },
+        "md5sum": {
+            "type": "string"
+        },
+        "jobid": {
+            "type": "integer"
+        },
+        "cmdout": {
+            "type": "string"
+        },
+        "tsid": {
+            "type": "string"
+        },
+        "status": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "status"
+            ]
+        },
+        "id": {
+            "type": "string"
+        }
+    },
+    "required": [
+    ]
+}

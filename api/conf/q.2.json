@@ -1,0 +1,6 @@
+{
+    "empty_search_flag":true,
+    "concept_query_list": [
+        {"query": {}, "concept": "site"}
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "access_csrf": {
+            "type": "string"
+        },
+        "access_token": {
+            "type": "string"
+        },
+        "refresh_csrf": {
+            "type": "string"
+        },
+        "status": {
+            "type": "integer"
+        },
+        "username": {
+            "type": "string"
+        }
+    },
+    "required": [
+    ]
+}

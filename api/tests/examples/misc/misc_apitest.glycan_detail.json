@@ -1,0 +1,7 @@
+{
+    "name": "glycan_detail",
+    "payload": {
+      "glytoucan_ac":"G17689DH",
+		"paginated_tables":[{"table_id":"glycoprotein","offset":1,"limit":20,"sort":"uniprot_canonical_ac","order":"asc"},{"table_id":"expression_tissue","offset":1,"limit":20,"sort":"start_pos","order":"asc"},{"table_id":"expression_cell_line","offset":1,"limit":20,"sort":"start_pos","order":"asc"},{"table_id":"publication","offset":1,"limit":200,"sort":"date","order":"desc"}]
+	}
+}

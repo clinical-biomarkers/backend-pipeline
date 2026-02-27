@@ -1,0 +1,24 @@
+{
+	"biomarker":{
+    	"misc":{
+            "biomarker_exact_match": {"weight":50.0}
+     	},
+    	"direct_boolean":{
+		},
+		"direct_numeric":{
+     		"global_evidence_count":{
+                "weight":20.0,
+                "fieldlist":["global_evidence_count"]
+            
+			},
+	    	"component_evidence_count":{
+                "weight":20.0,
+                "fieldlist":["component_evidence_count"]
+       	},
+	    	"component_count":{
+                "weight":5.0,
+                "fieldlist":["component_count"]
+        	}
+		}  
+    }
+}

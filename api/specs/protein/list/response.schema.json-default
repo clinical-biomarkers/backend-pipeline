@@ -1,0 +1,344 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "cache_info": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "object",
+                    "properties": {
+                        "uniprot_canonical_ac": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uniprot_canonical_ac"
+                    ]
+                },
+                "ts": {
+                    "type": "string"
+                },
+                "record_type": {
+                    "type": "string"
+                },
+                "search_type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query",
+                "record_type",
+                "search_type",
+                "ts"
+            ]
+        },
+        "filters": {
+            "type": "object",
+            "properties": {
+                "applied": {
+                    "type": "array"
+                },
+                "available": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "order": {
+                                "type": "integer"
+                            },
+                            "tooltip": {
+                                "type": "string"
+                            },
+                            "options": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "count": {
+                                            "type": "integer"
+                                        },
+                                        "order": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "count",
+                                        "id",
+                                        "label",
+                                        "order"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "label",
+                            "options",
+                            "order",
+                            "tooltip"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "applied",
+                "available"
+            ]
+        },
+        "results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uniprot_canonical_ac": {
+                        "type": "string"
+                    },
+                    "mass": {
+                        "type": "number"
+                    },
+                    "protein_name": {
+                        "type": "string"
+                    },
+                    "gene_name": {
+                        "type": "string"
+                    },
+                    "organism": {
+                        "type": "string"
+                    },
+                    "refseq_name": {
+                        "type": "string"
+                    },
+                    "refseq_ac": {
+                        "type": "string"
+                    },
+                    "gene_names_uniprotkb": {
+                        "type": "string"
+                    },
+                    "gene_names_refseq": {
+                        "type": "string"
+                    },
+                    "protein_names_uniprotkb": {
+                        "type": "string"
+                    },
+                    "protein_names_refseq": {
+                        "type": "string"
+                    },
+                    "tax_id": {
+                        "type": "integer"
+                    },
+                    "disease": {
+                        "type": "string"
+                    },
+                    "pathway": {
+                        "type": "string"
+                    },
+                    "publication_count": {
+                        "type": "integer"
+                    },
+                    "function": {
+                        "type": "string"
+                    },
+                    "predicted_glycosites": {
+                        "type": "integer"
+                    },
+                    "predicted_n_glycosites": {
+                        "type": "integer"
+                    },
+                    "predicted_o_glycosites": {
+                        "type": "integer"
+                    },
+                    "reported_n_glycosites": {
+                        "type": "integer"
+                    },
+                    "reported_o_glycosites": {
+                        "type": "integer"
+                    },
+                    "reported_n_glycosites_with_glycan": {
+                        "type": "integer"
+                    },
+                    "reported_o_glycosites_with_glycan": {
+                        "type": "integer"
+                    },
+                    "total_reported_n_glycosites": {
+                        "type": "integer"
+                    },
+                    "total_reported_o_glycosites": {
+                        "type": "integer"
+                    },
+                    "total_n_glycosites": {
+                        "type": "integer"
+                    },
+                    "total_o_glycosites": {
+                        "type": "integer"
+                    },
+                    "reported_fully_resolved_glycans": {
+                        "type": "integer"
+                    },
+                    "reported_phosphosites": {
+                        "type": "integer"
+                    },
+                    "reported_mutagensis": {
+                        "type": "integer"
+                    },
+                    "reported_glycation": {
+                        "type": "integer"
+                    },
+                    "reported_snv": {
+                        "type": "integer"
+                    },
+                    "reported_interactions": {
+                        "type": "integer"
+                    },
+                    "missing_score": {
+                        "type": "integer"
+                    },
+                    "record_type": {
+                        "type": "string"
+                    },
+                    "hit_score": {
+                        "type": "number"
+                    },
+                    "score_info": {
+                        "type": "object",
+                        "properties": {
+                            "contributions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "c": {
+                                            "type": "string"
+                                        },
+                                        "w": {
+                                            "type": "number"
+                                        },
+                                        "f": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "c",
+                                        "f",
+                                        "w"
+                                    ]
+                                }
+                            },
+                            "formula": {
+                                "type": "string"
+                            },
+                            "variables": {
+                                "type": "object",
+                                "properties": {
+                                    "c": {
+                                        "type": "string"
+                                    },
+                                    "w": {
+                                        "type": "string"
+                                    },
+                                    "f": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "c",
+                                    "f",
+                                    "w"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "contributions",
+                            "formula",
+                            "variables"
+                        ]
+                    }
+                },
+                "required": [
+                    "disease",
+                    "function",
+                    "gene_name",
+                    "gene_names_refseq",
+                    "gene_names_uniprotkb",
+                    "hit_score",
+                    "mass",
+                    "missing_score",
+                    "organism",
+                    "pathway",
+                    "predicted_glycosites",
+                    "predicted_n_glycosites",
+                    "predicted_o_glycosites",
+                    "protein_name",
+                    "protein_names_refseq",
+                    "protein_names_uniprotkb",
+                    "publication_count",
+                    "record_type",
+                    "refseq_ac",
+                    "refseq_name",
+                    "reported_fully_resolved_glycans",
+                    "reported_glycation",
+                    "reported_interactions",
+                    "reported_mutagensis",
+                    "reported_n_glycosites",
+                    "reported_n_glycosites_with_glycan",
+                    "reported_o_glycosites",
+                    "reported_o_glycosites_with_glycan",
+                    "reported_phosphosites",
+                    "reported_snv",
+                    "score_info",
+                    "tax_id",
+                    "total_n_glycosites",
+                    "total_o_glycosites",
+                    "total_reported_n_glycosites",
+                    "total_reported_o_glycosites",
+                    "uniprot_canonical_ac"
+                ]
+            }
+        },
+        "pagination": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "total_length": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "limit",
+                "offset",
+                "order",
+                "sort",
+                "total_length"
+            ]
+        }
+    },
+    "required": [
+        "cache_info",
+        "filters",
+        "pagination",
+        "results"
+    ]
+}

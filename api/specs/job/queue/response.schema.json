@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "header": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "rows": {
+            "type": "array"
+        }
+    },
+    "required": [
+        "header",
+        "rows"
+    ]
+}

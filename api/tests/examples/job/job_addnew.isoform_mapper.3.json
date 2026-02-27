@@ -1,0 +1,17 @@
+{
+	"jobtype": "isoform_mapper",
+	"parameters":{},
+	"sequence":"XXXXXXXXYYYYYYYYY",
+	"intable":[
+		["amino_acid_pos","amino_acid"],
+		["3","T"],
+		["8","S"]
+	]
+}
+
+
+
+
+
+
+

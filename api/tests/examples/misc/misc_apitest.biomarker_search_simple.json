@@ -1,0 +1,7 @@
+{
+    "name": "biomarker_search_simple",
+    "payload": {
+      "term":"AN6278-5",
+		"term_category":"any"
+	}
+}

@@ -1,0 +1,24 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "url": {
+            "type": "string"
+        },
+        "createdts": {
+            "type": "string"
+        },
+        "visibility": {
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "createdts",
+        "id",
+        "url",
+        "visibility"
+    ]
+}

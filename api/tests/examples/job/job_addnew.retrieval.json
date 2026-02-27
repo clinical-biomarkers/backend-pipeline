@@ -1,0 +1,37 @@
+{
+  "jobtype": "batch_retrieval",
+  "parameters": {
+    "inputnamespace": "UniProtKB",
+    "acclist": [
+      "P14210-1",
+      "P12960-1",
+      "P12383-1",
+      "F1SB93-1",
+      "Q08048-1"
+    ],
+    "columns": [
+      {
+        "id": "species",
+        "label": "Species",
+        "filter_type": "exact",
+        "filter": "Human",
+        "output_type": "id",
+        "order": 1
+      },
+      {
+        "id": "go_mf",
+        "label": "GO Molecular Function",
+        "filter_type": "none",
+        "output_type": "id",
+        "order": 2
+      },
+      {
+        "id": "go_cc",
+        "label": "GO Cellular Component",
+        "filter_type": "none",
+        "output_type": "id",
+        "order": 3
+      }
+    ]
+  }
+}

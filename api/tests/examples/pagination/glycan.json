@@ -1,0 +1,5 @@
+{"record_type":"glycan","table_id":"glycoprotein",
+	"record_id":"G49108TO",
+	"offset":21,"limit":20,"order":"asc","sort":"uniprot_canonical_ac"
+}
+

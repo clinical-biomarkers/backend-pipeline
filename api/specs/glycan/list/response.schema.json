@@ -1,0 +1,140 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "cache_info": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "object",
+                    "properties": {
+                        "glycan_identifier": {
+                            "type": "object",
+                            "properties": {
+                                "glycan_id": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "glycan_id"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "glycan_identifier"
+                    ]
+                },
+                "ts": {
+                    "type": "string"
+                },
+                "record_type": {
+                    "type": "string"
+                },
+                "search_type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query",
+                "record_type",
+                "search_type",
+                "ts"
+            ]
+        },
+        "filters": {
+            "type": "object",
+            "properties": {
+                "applied": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "selected": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "operator": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "operator",
+                            "selected"
+                        ]
+                    }
+                },
+                "available": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "order": {
+                                "type": "integer"
+                            },
+                            "tooltip": {
+                                "type": "string"
+                            },
+                            "options": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "count": {
+                                            "type": "integer"
+                                        },
+                                        "order": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "count",
+                                        "id",
+                                        "label",
+                                        "order"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "label",
+                            "options",
+                            "order",
+                            "tooltip"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "applied",
+                "available"
+            ]
+        },
+        "results": {
+            "type": "array"
+        }
+    },
+    "required": [
+        "cache_info",
+        "filters",
+        "results"
+    ]
+}

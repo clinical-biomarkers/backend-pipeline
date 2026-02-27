@@ -1,0 +1,6 @@
+{
+    "name": "disease_detail",
+    "payload": {
+      "record_id":"doid.1612"
+	}
+}

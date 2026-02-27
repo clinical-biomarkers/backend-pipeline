@@ -1,0 +1,126 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "cache_info": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "object",
+                    "properties": {
+                        "glycan_identifier": {
+                            "type": "object",
+                            "properties": {
+                                "glycan_id": {
+                                    "type": "string"
+                                },
+                                "subsumption": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "glycan_id",
+                                "subsumption"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "glycan_identifier"
+                    ]
+                },
+                "ts": {
+                    "type": "string"
+                },
+                "record_type": {
+                    "type": "string"
+                },
+                "search_type": {
+                    "type": "string"
+                },
+                "batch_info": {
+                    "type": "object",
+                    "properties": {
+                        "unmapped": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "input_id": {
+                                        "type": "string"
+                                    },
+                                    "reason": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "input_id",
+                                    "reason"
+                                ]
+                            }
+                        }
+                    },
+                    "required": [
+                        "unmapped"
+                    ]
+                }
+            },
+            "required": [
+                "batch_info",
+                "query",
+                "record_type",
+                "search_type",
+                "ts"
+            ]
+        },
+        "filters": {
+            "type": "object",
+            "properties": {
+                "applied": {
+                    "type": "array"
+                },
+                "available": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "order": {
+                                "type": "integer"
+                            },
+                            "tooltip": {
+                                "type": "string"
+                            },
+                            "options": {
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "label",
+                            "options",
+                            "order",
+                            "tooltip"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "applied",
+                "available"
+            ]
+        },
+        "results": {
+            "type": "array"
+        }
+    },
+    "required": [
+        "cache_info",
+        "filters",
+        "results"
+    ]
+}
