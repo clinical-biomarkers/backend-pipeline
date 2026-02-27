@@ -1,3 +1,7 @@
+### Downloads
+dfafdasfadsfads
+
+
 ### Dataset Maker
 #### Step-1: creating directory structure for a release 
 Run the following commands to create required subdirectories for your release ( release 3.1.1 is used as an example here).
@@ -5,26 +9,34 @@ Run the following commands to create required subdirectories for your release ( 
 ```
 $ mkdir -p /../../biomarkerdb/releases/data/v-3.1.1/unreviewed
 $ mkdir -p /../../biomarkerdb/releases/data/v-3.1.1/reviewed
-$ mkdir -p /../../biomarkerdb/releases/data/v-3.1.1/misc
-$ mkdir -p /../../biomarkerdb/releases/data/v-3.1.1/compiled
 $ mkdir -p /../../biomarkerdb/releases/data/v-3.1.1/logs
 ```
-Under the   "dataset-maker" subdirectory, create the following symbolic links 
 
+For the "misc" and "compiled", use the following command to inherit it from the last production release $PREV_REL
 ```
-$ cd dataset-maker
-$ ln -s /data/shared/biomarkerdb/downloads downloads
-$ 
+$ cp -r /../../biomarkerdb/releases/data/v-$PREV_REL/misc /../../biomarkerdb/releases/data/v-3.1.1/
+$ cp -r /../../biomarkerdb/releases/data/v-$PREV_REL/compiled /../../biomarkerdb/releases/data/v-3.1.1/
 ```
 
-Under the "dataset-maker" folder, create the following 
+#### Step-2: creating dataset files
+Run the following commands to create all datasets. This step depends on the file /../../biomarkerdb/releases/data/v-3.1.1/misc/datasets.json.
 ```
-fdfdafa
-compiled -> /data/shared/biomarkerdb/releases/data/v-3.1.1/compiled
-downloads -> /data/shared/biomarkerdb/downloads
-generated -> /data/shared/biomarkerdb/generated
-logs -> /data/shared/biomarkerdb/releases/data/v-3.1.1/logs
-misc -> /data/shared/biomarkerdb/releases/data/v-3.1.1/misc
-reviewed -> /data/shared/biomarkerdb/releases/data/v-3.1.1/reviewed
-unreviewed -> /data/shared/biomarkerdb/releases/data/v-3.1.1/unreviewed
+python3 wrap-make-datasets.py -r 3.1.1
 ```
+The output datasets will be created under /../../biomarkerdb/releases/data/v-3.1.1/unreviewed/
+
+#### Step-3: qualtity control of dataset files
+Compare dataset files created above to older version files from $PREV_REL
+```
+python3 qc-datasets.py -r 3.1.1 -p $PREV_REL
+```
+The output for this step will be created under /../../biomarkerdb/releases/data/v-3.1.1/logs/qc-datasets.csv
+
+
+
+
+
+
+
+
+
