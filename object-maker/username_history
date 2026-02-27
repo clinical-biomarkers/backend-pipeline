@@ -1,0 +1,1334 @@
+vim conversion.log 
+cd
+tail nohup.out 
+cd /data/shared/repos/format-converter/utils/converters/
+vim add_xrefs.py 
+cd
+rm nohup.out 
+nohup python main.py /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json --xref &
+cd /data/shared/repos/format-converter/
+senv
+nohup python main.py /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json --xref &
+ps -ux
+nohup python main.py /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json --xref &
+ps -ux
+vim nohup.out 
+cd /data/shared/repos/format-converter/utils/converters/
+vim add_xrefs.py 
+cd ../..
+rm nohup.out 
+nohup python main.py /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json --xref &
+ps -ux
+tail -f nohup.out 
+deactivate
+bash /software/biomarkerdb/shell_scripts/upd_scores.sh
+ps -ux
+cd
+tail -f logs/score-nohup.out 
+ps -ux
+vim /data/shared/biomarkerdb/releases/data/v-y.y.y/misc/datasets.json
+mkdir /data/shared/biomarkerdb/generated/datamodel/merged/current/merged_json_updated
+ ~/shell_scripts/run_update_biomarker.sh
+nohup ~/shell_scripts/run_update_biomarker.sh &
+ps -ux
+cd /data/shared/biomarkerdb/generated/datamodel/merged/current/
+ls
+ls merged_json_updated | wc -l
+cd /data/shared/repos/biomarker-backend-api/
+senv
+cd load
+python load_data.py dev
+bg
+disown
+ps -ux
+cd /data/shared/repos/biomarker-backend-api/
+senv 
+cd load
+python load_data.py prd
+bg
+disown
+cd ..
+python misc_scripts/update_version_info.py prd --data-version 2.4.0
+ps -ux
+cd /data/shared/repos/biomarker-backend-api/
+ls
+cd load
+ls
+cd ..
+ls
+cd api
+ls
+vim TEST
+cd queries/
+ls
+cd ..
+more TEST 
+http POST :8089/biomarker/search_init
+vim queries/list.json 
+more TEST 
+http POST :8089/biomarker/list < queries/list.json
+vim queries/search.json 
+vim queries/search_simple.json
+vim TEST 
+more TEST 
+http POST :8089/biomarker/search_simple < queries/search_simple.json
+vim queries/list.json 
+http POST :8089/biomarker/list < queries/list.json
+vim queries/list.json 
+http POST :8089/biomarker/list < queries/list.json
+vim queries/list.json 
+vim queries/search.json 
+more TEST 
+http POST :8089/biomarker/search < queries/search.json
+vim queries/list.json 
+more TEST 
+http POST :8089/biomarker/list < queries/list.json
+vim queries/biomarker_id.json
+more TEST 
+http GET :8089/biomarker/detail/AN6373-1?query={"paginated_tables":[{"table_id":"publication","offset":1,"limit":200,"sort":"date","order":"desc"}]}
+http GET :8089/biomarker/detail/AN6373-1
+vim queries/list.json 
+more TEST 
+http POST :8089/biomarker/list < queries/list.json
+more TEST 
+http GET :8089/biomarker/detail/BD0173-1
+bash /data/shared/repos/biomarker-backend-api/misc_scripts/data_manipulation/batch_process_tsv.sh --from-config ~/shell_scripts/data_sources.conf
+vim bash /software/biomarkerdb/shell_scripts/upd_symlinks.sh
+vim /software/biomarkerdb/shell_scripts/upd_symlinks.sh
+cd /software/biomarkerdb/shell_scripts/
+ls -a
+rm .upd_symlinks.sh.swp
+vim nohup.out 
+rm nohup.out 
+vim upd_symlinks.sh 
+./upd_symlinks.sh 
+ls /data/shared/biomarkerdb/downloads/oncomx/
+./upd_symlinks.sh 
+head /data/shared/biomarkerdb/downloads/oncomx/current/oncomx.tsv 
+bash /data/shared/repos/biomarker-backend-api/misc_scripts/data_manipulation/batch_process_tsv.sh --from-config ~/shell_scripts/data_sources.conf
+head /data/shared/biomarkerdb/downloads/cgi/current/cgi.tsv
+head /data/shared/biomarkerdb/downloads/civic/current/civic_metakb.tsv
+ll /data/shared/biomarkerdb/downloads/civic/
+bash /software/biomarkerdb/shell_scripts/upd_symlinks.sh
+head /data/shared/biomarkerdb/downloads/clinvar/current/clinvar.tsv
+head /data/shared/biomarkerdb/downloads/edrn/current/edrn.tsv
+head /data/shared/biomarkerdb/downloads/gwas/current/gwas.tsv
+head /data/shared/biomarkerdb/downloads/llm_glycan/current/llm_glycan_biomarkers.tsv
+head /data/shared/biomarkerdb/downloads/mw/current/mw_loinc_biomarkers.tsv
+head /data/shared/biomarkerdb/downloads/mw/current/mw.tsv
+head /data/shared/biomarkerdb/downloads/oncomx/current/oncomx.tsv
+head -n 2 /data/shared/biomarkerdb/downloads/opentargets/current/opentargets.tsv
+head -n 2 /data/shared/biomarkerdb/downloads/PMC_biomarker_sets/current/PMC_biomarker_sets.tsv
+head -n 2 /data/shared/biomarkerdb/downloads/sennet/current/sennet.tsv
+head -n 2 /data/shared/biomarkerdb/downloads/top_50/current/top_50.tsv
+head -n 2 /data/shared/biomarkerdb/downloads/upkb_reviewed_v2/current/upkb_reviewed_v2.tsv
+cd /data/shared/biomarkerdb/downloads/bco
+sl
+ls
+head BMK_000001_0.2.json 
+head BMK_000002_0.2.json 
+head BMK_000003_1.2.json 
+head BMK_000004_0.2.json 
+head BMK_000005_0.5.json 
+head BMK_000006_0.2.json 
+head -n 6 BMK_000007_0.2.json 
+head -n 6 BMK_000008_0.2.json 
+head -n 6 BMK_000009_0.1.json 
+head -n 6 BMK_000010_0.1.json 
+head -n 6 BMK_000011_0.2.json 
+head -n 6 BMK_000012_0.1.json 
+head -n 7 BMK_000012_0.1.json 
+head BMK_000012_0.1.json 
+vim BMK_000012_0.1.json 
+head -n 6 BMK_000013_0.1.json 
+head -n 6 BMK_000014_0.1.json 
+head -n 6 BMK_000015_0.1.json 
+head -n 6 BMK_000016_0.3.json 
+head -n 6 BMK_000017_1.0.json 
+head -n 6 BMK_000018_0.1.json 
+cd /data/shared/biomarkerdb/generated/datasets/recipes
+ls
+rm markerdb.json 
+vim masterlist.json 
+vim /data/shared/biomarkerdb/releases/data/v-y.y.y/reviewed/masterlist.csv
+cd
+./shell_scripts/make_datasets.sh
+cd /data/shared/biomarkerdb/generated/datasets/recipes
+ls
+vim edrn.json 
+cd /data/shared/biomarkerdb/downloads/bco
+ls
+rm BMK_000012_0.1.json
+vim BMK_000012_0.2.json
+cd
+./shell_scripts/make_datasets.sh
+./shell_scripts/make_mongodb_obj.sh
+ps -ux
+ls -ux
+ps -ux
+logout
+./shell_scripts/make_mongodb_obj.sh
+ps -ux
+cd /software/biomarkerdb/object-maker/
+vim make-recordsdb.py 
+cd logs/
+ls
+cd ..
+vim make-recordsdb.py 
+cd
+vim ./shell_scripts/make_mongodb_obj.sh
+cd /software/biomarkerdb/
+ls
+tail nohup.out 
+ll
+cd
+ls
+ll
+vim nohup.out 
+cd /software/
+ls
+cd biomarkerdb/
+ls
+ll
+cd object-maker/
+ls
+ll
+cd
+cat
+cat ./shell_scripts/make_mongodb_obj.sh
+cd /software/biomarkerdb/
+ls
+ll
+tail nohup.out 
+cat object-maker/make-recordsdb.py 
+ps -ux
+ll
+ls -l /proc/125431/fd/1
+lsof -p 125431 | grep nohup
+tail -f /software/biomarkerdb/logs/make-recordsdb.log
+tail -f /software/biomarkerdb/nohup.out
+cd /data/shared/biomarkerdb/releases/data
+ll
+grep -l "xrefs.tsv" /software/biomarkerdb/object-maker/jsondb/bcodb/*.json
+grep "xrefs.tsv" /software/biomarkerdb/logs/make-recordsdb.log | head -1
+ls /software/biomarkerdb/object-maker/jsondb/bcodb/*.json | sort
+du -sh /software/biomarkerdb/object-maker/jsondb/recordsdb/
+du -sh /software/biomarkerdb/object-maker/reviewed/
+ls /software/biomarkerdb/object-maker/jsondb/recordsdb/
+ll /software/biomarkerdb/object-maker/jsondb/recordsdb/
+ls /software/biomarkerdb/object-maker/jsondb/recordsdb/BMK_000001 | wc -l
+head -n 6 /software/biomarkerdb/object-maker/jsondb/bcodb/BMK_000001.json
+head -n 6 /software/biomarkerdb/object-maker/jsondb/bcodb/BMK_000002.json
+head -n 6 /software/biomarkerdb/object-maker/jsondb/bcodb/BMK_000003.json
+head -n 6 /software/biomarkerdb/object-maker/jsondb/bcodb/BMK_000004.json
+head -n 6 /software/biomarkerdb/object-maker/jsondb/bcodb/BMK_000005.json
+head -n 6 /software/biomarkerdb/object-maker/jsondb/bcodb/BMK_000006.json
+head -n 6 /software/biomarkerdb/object-maker/jsondb/bcodb/BMK_000007.json
+pwd
+cd /software/biomarkerdb/object-maker/
+ls
+cd logs/
+ls
+pwd
+cd ..
+ll
+cd /data/shared/biomarkerdb/generated/datasets/logs/
+ls
+ls /software/biomarkerdb/logs
+pwd
+cd /software/biomarkerdb/
+ls
+cd logs/
+ls
+tail -f make-recordsdb.log 
+cat make-recordsdb.log | grep 2026-02-06 15:00
+cat make-recordsdb.log | grep "2026-02-06 15:00"
+cat make-recordsdb.log | grep "2026-02-06 14:00"
+cat make-recordsdb.log | grep "2026-02-06 13:00"
+cat make-recordsdb.log | grep "2026-02-06 13:01"
+cat make-recordsdb.log | grep "2026-02-06 13:02"
+cat make-recordsdb.log | grep "2026-02-06 13:03"
+cat make-recordsdb.log | grep "2026-02-06 13:04"
+cat make-recordsdb.log | grep "2026-02-06 13:10"
+cat make-recordsdb.log | grep "2026-02-06 13:20"
+cat make-recordsdb.log | grep "2026-02-06 13:30"
+cat make-recordsdb.log | grep "2026-02-06 13:40"
+cat make-recordsdb.log | grep "2026-02-06 13:50"
+cat make-recordsdb.log | grep "2026-02-06 13:51"
+cat make-recordsdb.log | grep "2026-02-06 13:52"
+cat make-recordsdb.log | grep "2026-02-06 13:53"
+cat make-recordsdb.log | grep "2026-02-06 13:54"
+cat make-recordsdb.log | grep "2026-02-06 13:55"
+cat make-recordsdb.log | grep "2026-02-06 14:55"
+cat make-recordsdb.log | grep "2026-02-06 15:55"
+cat make-recordsdb.log | grep "2026-02-06 15:59"
+cat make-recordsdb.log | grep "2026-02-06 16:09"
+cat make-recordsdb.log | grep "2026-02-06 16:10"
+cat make-recordsdb.log | grep "2026-02-06 16:15"
+cat make-recordsdb.log | grep "2026-02-06 16:20"
+cat make-recordsdb.log | grep "2026-02-06 16:30"
+cat make-recordsdb.log | grep "2026-02-06 16:40"
+cat make-recordsdb.log | grep "2026-02-06 16:45"
+cat make-recordsdb.log | grep "2026-02-06 16:50"
+cat make-recordsdb.log | grep "2026-02-06 17:00"
+cat make-recordsdb.log | grep "2026-02-06 17:10"
+cat make-recordsdb.log | grep "2026-02-06 17:20"
+cat make-recordsdb.log | grep "2026-02-06 17:30"
+cat make-recordsdb.log | grep "2026-02-06 17:40"
+cat make-recordsdb.log | grep "2026-02-06 17:50"
+cat make-recordsdb.log | grep "2026-02-06 18:00"
+cat make-recordsdb.log | grep "2026-02-06 18:10"
+cat make-recordsdb.log | grep "2026-02-06 18:30"
+cat make-recordsdb.log | grep "2026-02-06 19:00"
+cat make-recordsdb.log | grep "2026-02-06 20:00"
+cat make-recordsdb.log | grep "2026-02-06 21:00"
+cat make-recordsdb.log | grep "2026-02-06 21:30"
+cat make-recordsdb.log | grep "2026-02-06 21:20"
+cat make-recordsdb.log | grep "2026-02-06 21:10"
+cat make-recordsdb.log | grep "2026-02-06 21:11"
+cat make-recordsdb.log | grep "2026-02-06 21:12"
+cat make-recordsdb.log | grep "2026-02-06 21:13"
+cat make-recordsdb.log | grep "2026-02-06 21:14"
+cat make-recordsdb.log | grep "2026-02-06 21:15"
+cat make-recordsdb.log | grep "2026-02-06 21:16"
+cat make-recordsdb.log | grep "2026-02-06 21:17"
+cat make-recordsdb.log | grep "2026-02-06 21:18"
+cd /software/biomarkerdb/
+cat release-maker/make-dataset-files.py
+ps -ux
+./shell_scripts/make_data_release_part1.sh $ver
+./shell_scripts/make_data_release_part1.sh 2.4.0
+ps -ux
+grep -r "recordsdb" /software/biomarkerdb --include="*.py" | grep -v "make-recordsdb"
+grep -r "recordsdb.*\.json" /software/biomarkerdb --include="*.py"
+grep -r "recordid" /software/biomarkerdb --include="*.py"
+cd /software/biomarkerdb/
+cat object-maker/make-historydb-pairs.py
+cat object-maker/make-historydb-track.py
+cat object-maker/make-initdb.py
+cat /data/shared/biomarkerdb/deployment/deploy-data.sh
+cat /data/shared/repos/biomarker-backend-api/misc_scripts/prepare_ftp.py
+cat /data/shared/repos/biomarker-datasetviewer/api/load_current_release.py
+ps -ux
+sh /data/shared/biomarkerdb/deployment/deploy-data.sh $server $ver
+sh /data/shared/biomarkerdb/deployment/deploy-data.sh prd 2.4.0
+bg
+disown
+cd /data/shared/repos/biomarker-backend-api
+senv
+python misc_scripts/prepare_ftp.py prd
+bg
+disown
+ps -ux
+./shell_scripts/make_data_release_part2.sh 2.4.0
+ps -ux
+sh /data/shared/biomarkerdb/deployment/deploy-data.sh $server $ver
+sh /data/shared/biomarkerdb/deployment/deploy-data.sh dev 2.4.0
+bg
+disown
+ps -ux
+cd /data/shared/repos/
+ls
+cd biomarker-chatbot/
+ls
+pwd
+ls
+cd api
+ls
+vim config.json 
+cd biomarker
+ls
+cd backend_utils/
+ls
+vim ai_search.py 
+cat ai_search.py 
+ls
+cd llm
+ls
+cat openai_api.py 
+vim openai_api.py 
+cd ..
+ls
+cd ..
+ls
+cd ..
+ls
+cd ..
+ls
+senv
+cd api
+python create_api_container.py dev
+bg
+disown
+ps -ux
+docker ps -a
+ps -ux
+cd /data/shared/biomarkerdb/
+ls
+cd releases/
+ls
+cd data/
+ls
+cd v-3.1.1/
+ls
+ls misc/
+more misc/xref_info.csv 
+cd /data/shared/repos/
+ls
+cd dataset-maker/
+cd object-maker/
+cd /data/shared/biomarkerdb/
+ls
+cd releases/
+ls
+cd data/
+ls
+cd v-3.1.1/
+ls
+ps -ux
+ps -ux
+logout
+ps -ux
+lsof -p 540356
+cat /data/shared/biomarkerdb/deployment/deploy-data.sh | grep log
+cat /data/shared/biomarkerdb/deployment/deploy-data.sh
+cat /data/shared/repos/biomarker-datasetviewer/api/load_current_release.py
+cd /data/shared/biomarkerdb/deployment/
+ls
+cd ..
+ls
+cat /data/shared/repos/biomarker-datasetviewer/api/logs/c_records_loading_progress_prd.txt
+cd /data/shared/biomarkerdb/downloads/
+ls
+cd ..
+ls
+cd releases/
+ls
+cd ftp/
+ls
+cd current/
+ls
+cd ..
+cd biomarkerkb_kgfiles/
+ls
+cd current/
+ls
+ls ~
+ps -ux
+cd /data/shared/biomarkerdb/downloads/bco
+cat *.json | grep masterlist
+cat *.json | grep -l masterlist
+grep -l masterlist *.json
+cd /data/shared/biomarkerdb/releases/data/v-3.1.1/reviewed/
+cd ../..
+ll
+mkdir v-2.5.0
+ln -sfn v-2.5.0 current
+ll
+ls current/
+cd /data/shared/biomarkerdb/downloads/bco
+ls
+rm BMK_000007_0.2.json
+vim BMK_000007_0.3.json
+cd /data/shared/biomarkerdb/generated/datasets/recipes
+ls
+vim masterlist.json 
+cd /data/shared/repos/format-converter/
+ls
+cd utils/converters/
+ls
+cat json_to_nt.py 
+cd /data/shared/biomarkerdb/downloads/
+ls
+mkdir nt
+ls
+cd nt
+mkdir 2026_02_12
+ln -sfn 2026_02_12 current
+cd current/
+pwd
+cd
+ls
+cd shell_scripts/
+ls
+cp tsv_to_json.sh json_to_nt.sh
+vim json_to_nt.sh 
+rm json_to_nt.sh 
+cp generate_tsvs.sh generate_nts.sh
+vim generate_nts.sh 
+ls
+./generate_nts.sh 
+ls /tmp/
+head /data/shared/biomarkerdb/downloads/nt/current/all-biomarkers.nt
+wc -l /data/shared/biomarkerdb/downloads/nt/current/all-biomarkers.nt
+ls /data/shared/biomarkerdb/downloads/nt/current
+ls -ltr /data/shared/biomarkerdb/downloads/nt/current
+ls /data/shared/biomarkerdb/downloads/bco
+ll
+cd /data/shared/biomarkerdb/downloads/bco/
+ls
+vim BMK_000019_0.1.json
+chmod a+x *.json
+ls
+cd /data/shared/biomarkerdb/generated/datasets/recipes
+ls
+cp masterlist.json nt.json
+vim nt.json 
+vim masterlist.json 
+cd /data/shared/biomarkerdb/downloads/bco/
+cd /data/shared/biomarkerdb/generated/
+ls
+cd datamodel/
+ls
+cd ../datasets/
+ls
+cd recipes/
+ls
+cat masterlist.json 
+cat nt.json 
+vim /software/biomarkerdb/shell_scripts/upd_symlinks.sh
+cd /data/shared/repos/biomarker-backend-api/
+senv
+python misc_scripts/update_version_info.py prd --data-version 2.4.1
+cd /data/shared/biomarkerdb/releases/data
+ls
+ll
+mv v-2.5.0 v-2.4.1
+ln -sfn v-2.4.1 current
+ll
+cd current/
+ls
+vim /software/biomarkerdb/object-maker/conf/init.json
+cd/data/shared/biomarkerdb/releases/ftp
+cd /data/shared/biomarkerdb/releases/ftp
+ls
+mkdir 2.4.1
+ln -sfn 2.4.1 current
+ll
+cd masterlist/
+ls
+ll
+cd ..
+ll
+cp /data/shared/biomarkerdb/downloads/oncomx/current/oncomx.tsv /data/shared/biomarkerdb/releases/ftp/current/
+cd current/
+ls
+cd /data/shared/repos/biomarker-backend-api/
+senv
+python misc_scripts/update_version_info.py prd --data-version 2.4.1
+vim misc_scripts/update_version_info.py
+cd
+deactivate
+./shell_scripts/make_datasets.sh
+cd cd /data/shared/biomarkerdb/releases/data/current/reviewed
+ls
+cd /data/shared/biomarkerdb/releases/data/current/reviewed
+cd /data/shared/biomarkerdb/releases/data/
+ls
+cd current/
+ls
+pwd
+mkdir reviewed
+cd reviewed/
+pwd
+cp /data/shared/biomarkerdb/releases/data/v-3.1.1/reviewed/masterlist.tsv ./
+ls
+cd
+./shell_scripts/make_datasets.sh
+vim /software/biomarkerdb/dataset-maker/check-bco-sanity-without-authentication.py
+./shell_scripts/make_datasets.sh
+vim /data/shared/biomarkerdb/generated/datasets/recipes/nt.json 
+rm /data/shared/biomarkerdb/downloads/bco/BMK_000019_0.1.json 
+vim /data/shared/biomarkerdb/downloads/bco/BMK_000019_0.2.json 
+./shell_scripts/make_datasets.sh
+cd /software/biomarkerdb/
+python3 dataset-maker/check-recipe-sanity.py
+python3 dataset-maker/make-dataset-all.py
+python3 dataset-maker/copy-to-reviewed.py
+python3 dataset-maker/check-bco-sanity-without-authentication.py
+vim dataset-maker/check-bco-sanity-without-authentication.py
+cd /software/biomarkerdb/dataset-maker/reviewed/
+ls
+rm masterlist.csv
+cp /data/shared/biomarkerdb/downloads/nt/current/all-biomarkers.nt ./
+ls
+chmod a+x all-biomarkers.nt 
+cd /software/biomarkerdb/
+python3 dataset-maker/check-bco-sanity-without-authentication.py
+python3 /software/biomarkerdb/object-maker/make-bcodb-no-api.py
+python3 object-maker/make-htmldb.py
+cd /software/biomarkerdb/object-maker/
+ll
+vim make-recordsdb.py 
+cd
+ls
+rm nohup.out 
+nohup python3 /software/biomarkerdb/object-maker/make-recordsdb.py
+bg
+disown
+ps -ux
+cat /software/biomarkerdb/object-maker/make-recordsdb.py
+vim /data/shared/biomarkerdb/deployment/deploy-data.sh
+cd /data/shared/repos/biomarker-datasetviewer/api/
+ll
+vim load_current_release.py 
+ps -ux
+cat /software/biomarkerdb/release-maker/make-dataset-files.py
+vim /software/biomarkerdb/release-maker/make-dataset-files.py
+ps -ux
+cd /data/shared/biomarkerdb/
+ls
+cd releases/
+ls
+cd data/
+ls
+cd current/
+ls
+cd reviewed/
+ls
+cd ../..
+ls v-0.1/
+ls v-0.1/reviewed/
+cd
+vim /software/biomarkerdb/release-maker/make-dataset-files.py
+cd /data/shared/biomarkerdb/generated/datasets/reviewed/
+ls
+ls | wc -l
+du -sh .
+vim /software/biomarkerdb/release-maker/make-dataset-files.py
+cd /data/shared/biomarkerdb/generated/datasets/jsondb/
+ls
+ls bcodb | wc -l
+ls extractdb | wc -l
+ls htmldb | wc -l
+ls initdb | wc -l
+ls recordsdb | wc -l
+cd recordsdb/
+ls
+cd BMK_000017
+ls
+ls | wc -l
+vim /software/biomarkerdb/release-maker/make-dataset-files.py
+cd /data/shared/biomarkerdb/generated/misc/
+ls
+cd biomarker_controlled_vocabulary/
+ls
+cd current/
+ls
+du -sh .
+cd ..
+ls
+cd ..
+pwd
+ls /data/shared/biomarkerdb/generated/misc/biomarker_controlled_vocabulary/
+vim /software/biomarkerdb/release-maker/make-dataset-files.py
+cd /data/shared/biomarkerdb/documentation/
+cd /data/shared/biomarkerdb/releases/data/
+ls
+cd v-1.0.6
+ls
+cd documentation/
+ls
+vim /software/biomarkerdb/release-maker/make-dataset-files.py
+cd /data/shared/biomarkerdb/generated/datasets/logs/
+ls
+du -sh .
+ls | wc -l
+vim /software/biomarkerdb/release-maker/make-dataset-files.py
+cd /data/shared/biomarkerdb/generated/datasets/datamodel/existing_data
+cd /data/shared/biomarkerdb/generated/datamodel/existing_data/
+vim /software/biomarkerdb/release-maker/make-dataset-files.py
+ls | wc -l
+du -sh
+ps -ux
+cd /software/biomarkerdb/
+cat /software/biomarkerdb/release-maker/make-dataset-files.py
+df /software/
+df /data/shared/
+cat object-maker/make-recordsdb.py 
+ls
+cd object-maker/
+cd ..
+cd release-maker/
+vim make-dataset-files.py 
+ps -ux
+vim make-dataset-files.py 
+vim /data/shared/biomarkerdb/deployment/deploy-data.sh
+cd /data/shared/repos/biomarker-datasetviewer/api/
+vim load_current_release.py 
+ps -ux
+cd /software/biomarkerdb/release-maker/
+vim make-dataset-files.py 
+ps -ux
+cd ../object-maker/
+vim make-recordsdb.py 
+cat make-recordsdb.py 
+vim make-recordsdb.py 
+#1770919678
+cd /software/biomarkerdb/release-maker/
+#1770919678
+vim make-dataset-files.py 
+#1770919678
+ps -ux
+#1770919678
+cd ../object-maker/
+#1770919678
+vim make-recordsdb.py 
+#1770919678
+cat make-recordsdb.py 
+#1770919678
+vim make-recordsdb.py 
+#1770919683
+cat username_history 
+#1770919699
+cat ~/maria_bash_history 
+#1770919710
+python3 id-comparison.2.py 
+#1770919721
+ cat junk
+#1770919724
+ cat junk | grep BB1536
+#1770919736
+vi make-biomarkerdb.py 
+#1770919754
+ cat junk | grep "NCBI:25"
+#1770919789
+vi make-biomarkerdb.py 
+#1770919825
+vi csvutil.py 
+#1770919884
+vi make-biomarkerdb.py 
+#1770919907
+ls -ltr
+#1770919913
+python3 make-biomarkerdb.py 
+#1770919919
+python3 make-biomarkerdb.py -s 1 -e 1000000 > j
+#1770919938
+more j
+#1770919953
+python3 id-comparison.2.py > jj
+#1770919957
+head -1 jj
+#1770919967
+cat j | grep BB1536
+#1770919983
+cat j | grep BB1536 |sort -u
+#1770919999
+vi csvutil.py 
+#1770920061
+python3 make-biomarkerdb.py -s 1 -e 1000000 > j
+#1770920083
+cat j | grep BB1536 |sort -u
+#1770920146
+vi csvutil.py 
+#1770920391
+python3 make-biomarkerdb.py -s 1 -e 1000000 > j
+#1770920415
+cat j | grep BB1536 |sort -u
+#1770920491
+cat j
+#1770920503
+vi csvutil.py 
+#1770920555
+python3 make-biomarkerdb.py -s 1 -e 1000000 > junk1
+#1770920557
+vi csvutil.py 
+#1770920562
+python3 make-biomarkerdb.py -s 1 -e 1000000 > junk1
+#1770920582
+cat junk1
+#1770920595
+cat junk1 |wc
+#1770920599
+cat junk1 |sort -u |wc
+#1770920603
+cat junk1 |sort -u > j
+#1770920606
+mv j junk1
+#1770920627
+vi id-comparison.2.py 
+#1770920640
+python3 id-comparison.2.py 
+#1770920647
+vi id-comparison.2.py 
+#1770920670
+python3 id-comparison.2.py 
+#1770920674
+vi id-comparison.2.py 
+#1770920689
+python3 id-comparison.2.py 
+#1770920692
+vi id-comparison.2.py 
+#1770920783
+python3 id-comparison.2.py 
+#1770920821
+vi id-comparison.2.py 
+#1770920853
+python3 id-comparison.2.py 
+#1770920949
+ vi csvutil.py 
+#1770920968
+python3 make-biomarkerdb.py -s 1 -e 1000000 > junk2
+#1770920991
+cat junk2 | grep AN4974-1
+#1770920998
+cat junk2 | grep AN4974-1 |sort -u
+#1770921081
+ vi csvutil.py 
+#1770921152
+python3 make-biomarkerdb.py -s 1 -e 1000000 > junk2
+#1770921166
+ vi csvutil.py 
+#1770921174
+python3 make-biomarkerdb.py -s 1 -e 1000000 > junk2
+#1770921193
+cat junk2 | grep AN4974-1 |sort -u
+#1770921214
+ vi csvutil.py 
+#1770921225
+vi make-biomarkerdb.py 
+#1770921406
+grep load_cmb2biomarkerid *.py
+#1770921417
+vi make-biomarkerdb.py 
+#1770921471
+python3 make-biomarkerdb.py -s 1 -e 1000000 
+#1770921512
+vi make-biomarkerdb.py 
+#1770921571
+python3 make-biomarkerdb.py -s 1 -e 1000000 
+#1770921594
+vi make-biomarkerdb.py 
+#1770921720
+python3 wrap-make-biomarkerdb.py 
+#1770921728
+ps
+#1770921732
+ls -ltr jsondb/biomarkerdb/
+#1770921743
+rm jsondb/biomarkerdb/batch.1-602.*
+#1770921744
+ls -ltr jsondb/biomarkerdb/
+#1770921746
+ps
+#1770921760
+ls -ltr jsondb/biomarkerdb/
+#1770921772
+ps
+#1770921791
+vi wrap-make-biomarkerdb.py 
+#1770921808
+python3 wrap-make-biomarkerdb.py 
+#1770921836
+vi make-biomarkerdb.py 
+#1770921926
+nohup python3 make-biomarkerdb.py -s 1 -e 41030  &
+#1770921933
+ls -ltr jsondb/biomarkerdb/
+#1770921944
+ps
+#1770921946
+ls -ltr jsondb/biomarkerdb/
+#1770921947
+ps
+#1770921949
+ls -ltr jsondb/biomarkerdb/
+#1770921958
+rm jsondb/biomarkerdb/batch.1-602.*
+#1770921960
+ls -ltr jsondb/biomarkerdb/
+#1770921964
+nohup python3 make-biomarkerdb.py -s 1 -e 41030  &
+#1770921967
+ls -ltr jsondb/biomarkerdb/
+#1770921977
+ps
+#1770921978
+ls -ltr jsondb/biomarkerdb/
+#1770921994
+vi make-biomarkerdb.py 
+#1770922039
+ python3 make-biomarkerdb.py -s 1 -e 41030  
+#1770922061
+vi make-biomarkerdb.py 
+#1770922075
+ python3 make-biomarkerdb.py -s 1 -e 41030  
+#1770922097
+vi make-biomarkerdb.py 
+#1770922124
+rm jsondb/biomarkerdb/batch.1-602.*
+#1770922127
+vi wrap-make-biomarkerdb.py 
+#1770922138
+python3 wrap-make-biomarkerdb.py 
+#1770922156
+ls -ltr jsondb/biomarkerdb/
+#1770922160
+ls -ltr jsondb/biomarkerdb_backup/
+#1770922162
+ls -ltr jsondb/biomarkerdb_backup/ |wc
+#1770922172
+ls -ltr jsondb/biomarkerdb_backup/batch.1-41030.* |wc
+#1770922176
+ls -ltr jsondb/biomarkerdb/
+#1770922201
+ps
+#1770922206
+ls -ltr jsondb/biomarkerdb/
+#1770922209
+ls -ltr jsondb/biomarkerdb/ |wc
+#1770922216
+ls -ltr jsondb/biomarkerdb_backup/ |wc
+#1770922233
+ps
+#1770922252
+kill -9 618394 618396 618398 618400 618402 
+#1770922252
+ps
+#1770922269
+ls -ltr jsondb/biomarkerdb/
+#1770922278
+rm jsondb/biomarkerdb/*
+#1770922281
+rm jsondb/biomarkerdb/* &
+#1770922291
+cat reviewed/biomarkers_markerdb.tsv 
+#1770922342
+rm reviewed/biomarkers_markerdb.tsv 
+#1770922363
+cat reviewed/masterlist.tsv |grep markerdb
+#1770922366
+cat reviewed/masterlist.tsv |grep markerdb |wc
+#1770922383
+ cd ..
+#1770922385
+cd dataset-maker/
+#1770922402
+python3 make-datasets.py -d masterlist &
+#1770922405
+cd ../object-maker/
+#1770922418
+ls -ltr jsondb/biomarkerdb/
+#1770922425
+python3 wrap-make-biomarkerdb.py 
+#1770922434
+ps
+#1770922438
+ls -ltr reviewed/
+#1770922443
+cat reviewed/masterlist.tsv |grep markerdb |wc
+#1770922450
+cat reviewed/masterlist.tsv |wc
+#1770922457
+ps
+#1770922462
+ps -aef |grep ryka
+#1770922499
+cat reviewed/masterlist.tsv |wc
+#1770922511
+ls -ltr jsondb/biomarkerdb/
+#1770922514
+ls -ltr jsondb/biomarkerdb/ |ev
+#1770922519
+ls -ltr jsondb/biomarkerdb/ |wc
+#1770922681
+vi make-idtrackdb.py 
+#1770922776
+vi make-biomarkerdb.py 
+#1770922793
+vi make-idtrackdb.py 
+#1770923187
+python3 make-idtrackdb.py 
+#1770923192
+python3 make-idtrackdb.py -r 3.1.1
+#1770923241
+vi make-idtrackdb.py 
+#1770923580
+python3 make-idtrackdb.py -r 3.1.1
+#1770923599
+vi make-idtrackdb.py 
+#1770923616
+python3 make-idtrackdb.py -r 3.1.1
+#1770923636
+vi csvutil.py 
+#1770923658
+python3 make-idtrackdb.py -r 3.1.1
+#1770923672
+vi csvutil.py 
+#1770923684
+python3 make-idtrackdb.py -r 3.1.1
+#1770923708
+vi make-idtrackdb.py 
+#1770923957
+python3 make-idtrackdb.py -r 3.1.1
+#1770923971
+vi make-idtrackdb.py 
+#1770923982
+python3 make-idtrackdb.py -r 3.1.1
+#1770924004
+vi make-idtrackdb.py 
+#1770924768
+python3 make-idtrackdb.py -r 3.1.1
+#1770924827
+vi make-idtrackdb.py 
+#1770924861
+ls jsondb/idtrackdb/
+#1770924865
+rm jsondb/idtrackdb/*
+#1770924869
+python3 make-idtrackdb.py -r 3.1.1 &
+#1770924890
+ls jsondb/biomarkerdb/
+#1770924891
+ls jsondb/biomarkerdb/ |wc
+#1770924895
+ls jsondb/biomarkerdb_backup/ |wc
+#1770924902
+python3 id-comparison.1.py > junk
+#1770924957
+cat junk
+#1770924976
+cat junk | grep ^111|wc
+#1770924979
+cat junk | grep -v ^111|wc
+#1770924981
+cat junk | grep -v ^111
+#1770924993
+cat junk | grep -v ^111|wc
+#1770925031
+ vi id-comparison.1.py 
+#1770925154
+cat junk | grep -v ^111|wc
+#1770925160
+cat junk | grep -v ^111|grep -v ^001
+#1770925165
+cat junk | grep -v ^111|grep -v ^001 |wc
+#1770925186
+cat junk | grep -v ^111|wc
+#1770925188
+cat junk | grep -v ^111
+#1770925217
+grep AO0002 downloads/*/current/*.tsv
+#1770925275
+ vi id-comparison.1.py 
+#1770925298
+ls jsondb/interm/
+#1770925299
+ls jsondb/interm/listdb/
+#1770925308
+rm jsondb/interm/listdb/*
+#1770925314
+rm jsondb/interm/listdb/* &
+#1770925317
+ls jsondb/interm/listdb/
+#1770925320
+ls jsondb/interm/listdb/|wc
+#1770925336
+cat make-listdb.py 
+#1770925339
+ls jsondb/interm/listdb/|wc
+#1770925354
+python3 wrap-make-listdb.py 
+#1770925358
+ls jsondb/interm/listdb/|wc
+#1770925415
+ls jsondb/biomarkerdb/|wc
+#1770925423
+vi id-comparison.1.py 
+#1770925460
+python3 id-comparison.1.py > junk &
+#1770925467
+vi id-comparison.1.py 
+#1770925487
+python3 id-comparison.1.py > junk &
+#1770925489
+ps
+#1770925495
+ps -aef | grep ryka
+#1770925508
+kill -9 618886 618889
+#1770925515
+ls jsondb/interm/listdb/|wc
+#1770925547
+ls jsondb/idtrackdb/
+#1770925550
+ls jsondb/idtrackdb/ |wc
+#1770925570
+ ps
+#1770925577
+vi make-idtrackdb.py 
+#1770925604
+ps -aef | grep idtrackdb
+#1770925617
+kill -9 618689
+#1770925623
+mv jsondb/idtrackdb jsondb/idtrackdb_tmp
+#1770925625
+mkdir jsondb/idtrackdb
+#1770925638
+nohup python3 make-idtrackdb.py -r 3.1.1 &
+#1770925645
+ls jsondb/idtrackdb_tmp/
+#1770925654
+rm -rf  jsondb/idtrackdb_tmp &
+#1770925657
+rm -rf  jsondb/idtrackdb_backup  &
+#1770925662
+ls jsondb/idtrackdb_tmp/
+#1770925665
+ls jsondb/idtrackdb_tmp/|wc
+#1770925679
+ls jsondb/idtrackdb/
+#1770925692
+cat jsondb/idtrackdb/BMKB000270-1.json 
+#1770925702
+cat jsondb/idtrackdb/BMKB000270-2.json 
+#1770925729
+ps
+#1770925737
+ps -aef | grep make-id
+#1770925742
+kill -9 618935
+#1770925746
+ls jsondb/idtrackdb/
+#1770925750
+rm jsondb/idtrackdb/*
+#1770925752
+rm jsondb/idtrackdb/* &
+#1770925755
+vi make-idtrackdb.py 
+#1770925793
+ python3 make-idtrackdb.py -r 3.1.1 
+#1770925818
+vi make-idtrackdb.py 
+#1770925839
+ python3 make-idtrackdb.py -r 3.1.1 
+#1770925853
+vi make-idtrackdb.py 
+#1770925866
+nohup python3 make-idtrackdb.py -r 3.1.1 & 
+#1770925869
+ls jsondb/idtrackdb/
+#1770925913
+cp id-comparison.1.py dump-id-track.py
+#1770925914
+vi dump-id-track.py 
+#1770926003
+cat make-idtrackdb.py 
+#1770926013
+vi dump-id-track.py 
+#1770926051
+python3 dump-id-track.py 
+#1770926061
+python3 dump-id-track.py -c BMKB000096
+#1770926191
+ps
+#1770926196
+ls jsondb/biomarkerdb/
+#1770926201
+ls jsondb/interm/listdb/
+#1770926202
+ls jsondb/interm/listdb/ |wc
+#1770926232
+ps
+#1770926235
+ls jsondb/idtrackdb/
+#1770926237
+ls jsondb/idtrackdb/ |wc
+#1770926339
+ls jsondb/interm/listdb/ |wc
+#1770926392
+ls jsondb/idtrackdb/|wc
+#1770926454
+ps -aef | grep ryka
+#1770926488
+ls jsondb/interm/listdb/ |wc
+#1770926502
+cat JUNK 
+#1770926510
+cat JUNK  | grep -v ^111
+#1770926511
+cat JUNK  | grep -v ^111 |wc
+#1770926527
+ 
+#1770926549
+cat JUNK  | grep -v ^111 |wc
+#1770926553
+ls jsondb/interm/listdb/ |wc
+#1770926569
+ls jsondb/idtrackdb/|wc
+#1770926588
+vi make-idtrackdb.py 
+#1770926659
+ls jsondb/idtrackdb/|wc
+#1770926805
+vi make-idtrackdb.py 
+#1770927249
+ls jsondb/idtrackdb/|wc
+#1770927260
+ls jsondb/interm/listdb/|wc
+#1770927360
+ls jsondb/idtrackdb/|wc
+#1770927379
+cp make-idtrackdb.py j.py
+#1770927381
+vi j.py 
+#1770927405
+python3 j.py 
+#1770927409
+python3 j.py -r 3.1.1
+#1770927424
+vi j.py 
+#1770927460
+python3 j.py -r 3.1.1
+#1770927475
+vi j.py 
+#1770927552
+python3 j.py -r 3.1.1
+#1770927566
+vi j.py 
+#1770927949
+more j.py 
+#1770927971
+ vi csvutil.py 
+#1770928024
+vi j.py 
+#1770928129
+ vi csvutil.py 
+#1770928138
+vi j.py 
+#1770928172
+python3 j.py -r 3.1.1
+#1770928185
+ vi csvutil.py 
+#1770928196
+python3 j.py -r 3.1.1
+#1770928212
+vi j.py 
+#1770928311
+python3 j.py -r 3.1.1
+#1770928324
+vi j.py 
+#1770928359
+vi csvutil.py 
+#1770928408
+vi j.py 
+#1770928447
+python3 j.py -r 3.1.1
+#1770928467
+vi j.py 
+#1770928507
+python3 j.py -r 3.1.1
+#1770928523
+ps
+#1770928527
+ls -ltr jsondb/idtrackdb/
+#1770928535
+ls -ltr jsondb/idtrackdb/ |wc
+#1770928541
+ls  jsondb/idtrackdb/ |wc
+#1770928560
+ls jsondb/interm/listdb/|wc
+#1770928568
+mv jsondb/idtrackdb jsondb/idtrackdb_tmp
+#1770928595
+cp wrap-make-listdb.py wrap-make-idtrackdb.py
+#1770928604
+ls  jsondb/idtrackdb/ |wc
+#1770928608
+ps
+#1770928614
+mkdir jsondb/idtrackdb
+#1770928617
+cat j.py 
+#1770928639
+ vi wrap-make-idtrackdb.py 
+#1770928680
+mv make-idtrackdb.py archive/
+#1770928692
+mv j.py make-idtrackdb.py
+#1770928694
+more make-listdb.py 
+#1770928711
+vi make-idtrackdb.py 
+#1770928773
+vi wrap-make-idtrackdb.py 
+#1770928805
+vi make-idtrackdb.py 
+#1770928850
+python3 make-idtrackdb.py 
+#1770928860
+python3 make-idtrackdb.py -r 3.1.1 -s 1 -e 10 &
+#1770928862
+ls jsondb/idtrackdb
+#1770928868
+ls jsondb/idtrackdb/
+#1770928889
+python3 dump-id-track.py -c BMKB000001
+#1770928914
+vi make-idtrackdb.py 
+#1770928957
+rm jsondb/idtrackdb/*
+#1770928963
+python3 wrap-make-idtrackdb.py 
+#1770928969
+more wrap-make-listdb.py 
+#1770928979
+ more make-idtrackdb.py 
+#1770928988
+vi wrap-make-idtrackdb.py 
+#1770928995
+python3 wrap-make-idtrackdb.py 
+#1770929000
+python3 wrap-make-idtrackdb.py -r 3.1.1
+#1770929013
+ps
+#1770929016
+ls -ltr jsondb/idtrackdb
+#1770929017
+ls -ltr jsondb/idtrackdb/
+#1770929022
+ls  jsondb/idtrackdb/
+#1770929028
+ls  jsondb/idtrackdb/ |wc
+#1770929057
+python3 id-comparison.1.py 
+#1770929066
+python3 id-comparison.1.py  > JUNK &
+#1770929071
+ps
+#1770929079
+ps -aef | grep ryka
+#1770929087
+kill -9 619583
+#1770929091
+vi id-comparison.1.py 
+#1770929113
+mv jsondb/listdb jsondb/listdb_tmp
+#1770929117
+mkdir jsondb/listdb
+#1770929123
+python3 id-comparison.1.py  > JUNK &
+#1770929137
+ls  jsondb/idtrackdb/ |wc
+#1770929144
+cat JUNK 
+#1770929213
+ps
+#1770929215
+cat JUNK 
+#1770929233
+cat JUNK  | grep -v ^111
+#1770929235
+cat JUNK  | grep -v ^111 |wc
+#1770929246
+cat JUNK  | grep -v ^111 |grep -v ^110
+#1770929280
+cat JUNK  | grep -v ^111 |grep  ^110
+#1770929282
+cat JUNK  | grep -v ^111 |grep  ^110 |wc
+#1770929337
+cat JUNK  | grep -v ^111 |grep -v ^110
+#1770929363
+ls  jsondb/idtrackdb/ |wc

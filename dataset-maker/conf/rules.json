@@ -1,0 +1,150 @@
+{
+        "increased|level|not_specified":[
+				["increased", "level", "of", "*", "*", "*"],
+            ["increased", "levels", "of", "*"],
+            ["increased","*", "level"],
+            ["increased","*"],
+            ["increased", "*", "levels"],    
+        	   ["increaesd", "*", "level"],
+            ["increase", "*", "levels"],
+            ["increased", "*", "mrna", "level"],
+            ["increased", "of", "*", "level"],
+            ["increase", "*", "levels"],
+            ["elevated", "*", "level"],
+            ["elevated", "*", "levels"],
+            ["increased", "*", "meth-ctdna level"],
+            ["increased", "lncrna", "*", "level"],
+		  		["increased", "*", "*", "count"],
+				["increased","*", "count"],
+            ["increased", "*", "*", "cell" ,"count"],
+		  		["increased", "copy", "number", "of", "*"],
+				["increased","2-methyl-3-hydroxybutyric","acid"],
+            ["increased","2-methylcitric","acid"],
+            ["increased","3-hydroxy-3-methylglutaric","acid"],
+            ["increased","3-hydroxyglutaric","acid"],
+            ["increased","3-hydroxy-isovaleric","acid"],
+            ["increased","3-hydroxyisovaleric","acid"],
+            ["increased","3-methylglutaconic","acid"],
+            ["increased","3-methylglutaric","acid"],
+            ["increased","3-oh","propionic","acid"],
+            ["increased","argininosuccinic","acid"],
+            ["increased","branched","chain","amino","acids"],
+            ["increased","c3/c2","acylcarnitine","ratio"],
+            ["increased","c5-oh","acylcarnitine"],
+            ["increased","c6dc","acylcarnitine"],
+            ["increased","hydroxyacylcarnitine","*"],
+            ["increased","hydroxypalmitoylcarnitine","*"],
+            ["increased","phenylacetic","acid"],
+            ["increased","plat","aggregation"],
+            ["increased","procathepsin","b","level"],
+            ["increased","propionylcarnitine","(c3)"],
+            ["increased","sweat","chloride"],
+            ["increased","thyroid","stimulating","harmone"],
+            ["increased","very","long","chain","fatty","acids"],
+            ["increased","glutaric","acid"],
+            ["increased","guanidinoacetic","acid"],
+            ["increased","methylmalonic","acid"],
+            ["increased", "cd10", "lowcd101-cxcr4+/-", "levels"],
+            ["increased", "concentration", "of", "*"],
+            ["oncreased", "levels", "of", "*"],
+		  		["*", "amplification"],
+            ["*", "gene", "amplification"]
+		  ],
+        "decreased|level|not_specified":[
+            ["decreased","*", "level"],
+            ["decreased", "levels", "of", "*"],
+            ["decreased","*"],
+            ["decreased", "*", "*", "level"],
+            ["decreased","*", "count"],
+            ["decreased", "*", "*", "count"],
+        		["decreased", "concentration", "of", "*"]
+		  ],
+     	  "presence of|level|not_specified":[
+            ["presence", "of", "l-homoarginine"]
+        ], 
+		  "differential|level|not_specified":[
+        		["change", "in", "concentration", "level", "of", "*", "*", "*", "*"],
+            ["plasma", "concentration", "changes", "in", "*"]
+  		  ],
+		  "increased|expression|not_specified":[
+            ["signifcant", "increased", "expression", "*"],
+            ["increased", "expression", "of", "*"],
+            ["increased", "expression", "of", "biomarkers", "*"],
+            ["increased", "expression", "of", "biomarker", "panel", "*"],
+            ["increased", "expression", "biomarker", "panel", "*"],
+            ["increased", "expression", "*"],
+            ["increased", "expression", "against", "*", "*"],
+            ["increased", "expression", "due", "to", "*", "*", "*"],
+            ["increased", "expression", "levels", "of", "*"],
+            ["*", "overexpression"],
+            ["*", "exon", "18", "overexpression"],
+            ["overexpression", "of", "*"]
+        ],
+		  "decreased|expression|not_specified":[
+            ["*", "underexpression"],
+            ["decreased", "expression", "against", "meningioma", "*"],
+            ["decreased", "expression", "of", "*"],
+            ["*", "decreased", "peri-therapeutic", "expression"],
+            ["underexpression", "of", "*"]
+        ],
+        "presence of|expression|not_specified":[
+            ["*", "expression"],
+            ["*", "*", "expression"],
+            ["diagnostic", "marker", "expression", "*"],
+            ["cancer", "stem", "cell", "biomarker", "expression", "for", "*"],
+            ["cancer", "stem", "cell", "expression", "panel", "*"],
+            ["immune", "profile", "expression", "biomarker", "*"],
+            ["mutations", "and", "expression", "of", "*"],
+            ["*", "urine", "test", "expression", "levels", "of", "*"],
+            ["associated", "panel", "expression", "with", "covid", "*"],
+            ["*", "cytoplasmic", "expression"],
+            ["*", "nuclear", "expression"]
+        ],
+		  "not_specified|expression|not_specified":[
+		  ],
+        "differential|expression|not_specified":[
+            ["differentially", "expressed", "*", "*", "*"],
+            ["2-fold", "higher", "level", "expression", "of", "*"],
+            ["differential", "expression", "of", "*"],
+            ["differentially", "measured", "*", "level"],
+            ["differentially", "measured", "*"],
+				["expression", "changes", "in", "serum", "and", "urine", "biomarkers", "*"],
+            ["expression", "changes", "in", "stem", "cell", "biomarker", "*"],
+            ["change", "in", "expression", "level", "of", "*"],
+            ["changes", "in", "elevated", "expression", "levels", "of", "*"]
+			],
+        "presence of|not_specified|sequence variation":[
+            ["presence","of", "*", "mutation", "in", "*"],
+            ["*", "mutation"],
+            ["*", "*", "mutation"],
+            ["presence", "of", "*", "mutaion", "in", "*"],
+            ["presence", "of", "polymorphism", "in","*"],
+            ["*", "*", "sequence", "variation"],
+				["*", "inframe", "deletions"]
+        ],
+        "decreased|activity|not_specified":[
+            ["decreased", "iduronate-2-sulfatase", "activity"],
+            ["decreased", "alpha-l-iduronidase", "activity"]
+        ],
+        "presence of|activity|not_specified":[
+            ["biotinidase","activity"]
+        ],
+        "increased|not_specified|methylation":[
+            ["increased", "methylation", "in", "*"],
+        		["increased", "*", "promoter", "hypermethylation"],
+				["hypermethylated", "*", "gene"],
+            ["hypermethylation", "of", "*"],
+            ["*", "hypermethylation"],
+            ["promoter", "hypermethylation", "of", "tumor", "suppressor", "genes", "*"]
+		  ],
+        "presence of|not_specified|methylation":[
+            ["presence", "of", "methylation", "in", "*"],
+            ["presence", "of", "promoter", "methylation", "*"],
+            ["presence", "of", "promoter", "methylation", "in", "*"],
+            ["presence", "of", "promoter", "methylationkif1a"],
+        		["methylation", "in", "*"]
+			],
+        "not_specified|not_specified|methylation":[
+        ]
+}
+

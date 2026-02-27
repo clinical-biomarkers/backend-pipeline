@@ -1,0 +1,22 @@
+{
+	"biomarkers":{
+		"biomarkers_cgi":["cgi.tsv"]
+		,"biomarkers_civic":["civic.tsv", "civic_metakb.tsv"]
+		,"biomarkers_clinvar":["clinvar.tsv"]
+		,"biomarkers_edrn":["edrn.tsv"]
+		,"biomarkers_gwas":["gwas.tsv"]
+		,"biomarkers_markerdb":["markerdb.tsv"]
+		,"biomarkers_mw":["mw.tsv", "mw_loinc_biomarkers.tsv"]
+		,"biomarkers_oncomx":["oncomx.tsv"]
+		,"biomarkers_opentargets":["opentargets.tsv"]	
+		,"biomarkers_PMC_biomarker_sets":["PMC_biomarker_sets.tsv"]
+		,"biomarkers_upkb_reviewed_v2":["upkb_reviewed_v2.tsv"]
+	},
+	"entity_normalranges":{
+		"entity_normalranges_oracle_health":["oracle_health.tsv"]
+	}
+}
+
+
+
+
