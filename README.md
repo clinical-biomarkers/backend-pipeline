@@ -41,12 +41,16 @@ nohup python3 run-pipeline.py -r 3.1.1 -p 2.4.1 &
 ```
 The above command will output logfile /data/shared/biomarkerdb/logs/run-pipeline.log
 
-```
 $ cat /data/shared/biomarkerdb/logs/run-pipeline.log
-
+```
 Started logging ...
 created 203476 biomarker records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/biomarkerdb/*
 created 203530 idtrack records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/idtrackdb/*
+created 203476 list records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/listdb/*
+created 203476 index records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/indexdb/*
+created 144 sort records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/sortdb/*
+created 4 searchinit records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/searchinitdb/*
+created 1 stat records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/statdb/*
 ```
 
 
