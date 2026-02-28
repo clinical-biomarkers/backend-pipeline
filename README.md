@@ -33,6 +33,23 @@ python3 qc-datasets.py -r 3.1.1 -p $PREV_REL
 The output for this step will be created under /../../biomarkerdb/releases/data/v-3.1.1/logs/qc-datasets.csv
 
 
+#### Step-4: creating MongoDB objects
+Run the following commands to create various JSON objects that will be loaded to MongoDB. The location of the objects creates in this record is /../../biomarkerdb/releases/data/v-3.1.1/jsondb/*db/
+
+```
+nohup python3 run-pipeline.py -r 3.1.1 -p 2.4.1 &
+```
+The above command will output logfile /data/shared/biomarkerdb/logs/run-pipeline.log
+
+```
+$ cat /data/shared/biomarkerdb/logs/run-pipeline.log
+
+Started logging ...
+created 203476 biomarker records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/biomarkerdb/*
+created 203530 idtrack records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/idtrackdb/*
+```
+
+
 
 
 
