@@ -51,7 +51,7 @@ created 203476 index records under /data/shared/biomarkerdb/releases/data/v-3.1.
 created 144 sort records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/sortdb/*
 created 4 searchinit records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/searchinitdb/*
 created 1 stat records under /data/shared/biomarkerdb/releases/data/v-3.1.1/jsondb/statdb/*
-updated 18 dataset files
+updated 18 dataset files under /data/shared/biomarkerdb/releases/data/v-3.1.1/reviewed/*
 ```
 
 
