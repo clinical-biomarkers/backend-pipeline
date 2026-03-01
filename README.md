@@ -64,9 +64,9 @@ Run the following commands to load objectst to MongoDB.
 $ cd /../shared/repos/backend-pipeline/api/
 $ nohup python3 populate_collection.py -s $SERVER -v 3.1.1  &
 ```
-where $SERVER can be dev or prd. You can monitor the progress of the above command by looking into the logfiles /data/shared/biomarkerdb/logs/*_loading_progress_dev/prd.txt
+where $SERVER can be dev or prd. You can monitor the progress of the above command by looking into the logfiles /data/shared/biomarkerdb/logs/*_loading_progress_dev|prd.txt
 
-$ ls /../shared/biomarkerdb/logs/c_.log
+$ ls /../shared/biomarkerdb/logs/*_loading_progress_dev.txt
 ```
 $ ls  -ltr /data/shared/biomarkerdb/logs/*_loading_progress_dev.txt
 -rw-rw-r--. 1 rykahsay biomarkerkb   466 Mar  1 14:46 /../shared/biomarkerdb/logs/c_init_loading_progress_dev.txt
