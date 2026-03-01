@@ -7,6 +7,7 @@ dfafdasfadsfads
 Run the following commands to create required subdirectories for your release ( release 3.1.1 is used as an example here).
 
 ```
+$ cd /../../repos/backend-pipeline/dataset-maker/
 $ mkdir -p /../../biomarkerdb/releases/data/v-3.1.1/unreviewed
 $ mkdir -p /../../biomarkerdb/releases/data/v-3.1.1/reviewed
 $ mkdir -p /../../biomarkerdb/releases/data/v-3.1.1/logs
@@ -21,14 +22,16 @@ $ cp -r /../../biomarkerdb/releases/data/v-$PREV_REL/compiled /../../biomarkerdb
 #### Step-2: creating dataset files
 Run the following commands to create all datasets. This step depends on the file /../../biomarkerdb/releases/data/v-3.1.1/misc/datasets.json.
 ```
-python3 wrap-make-datasets.py -r 3.1.1
+$ cd /../../repos/backend-pipeline/dataset-maker/
+$ python3 wrap-make-datasets.py -r 3.1.1
 ```
 The output datasets will be created under /../../biomarkerdb/releases/data/v-3.1.1/unreviewed/
 
 #### Step-3: qualtity control of dataset files
 Compare dataset files created above to older version files from $PREV_REL
 ```
-python3 qc-datasets.py -r 3.1.1 -p $PREV_REL
+$ cd /../../repos/backend-pipeline/dataset-maker/
+$ python3 qc-datasets.py -r 3.1.1 -p $PREV_REL
 ```
 The output for this step will be created under /../../biomarkerdb/releases/data/v-3.1.1/logs/qc-datasets.csv
 
@@ -37,7 +40,8 @@ The output for this step will be created under /../../biomarkerdb/releases/data/
 Run the following commands to create various JSON objects that will be loaded to MongoDB. The location of the objects creates in this record is /../../biomarkerdb/releases/data/v-3.1.1/jsondb/*db/
 
 ```
-nohup python3 run-pipeline.py -r 3.1.1 -p 2.4.1 &
+$ cd /../../repos/backend-pipeline/object-maker/
+$ nohup python3 run-pipeline.py -r 3.1.1 -p 2.4.1 &
 ```
 The above command will output logfile /data/shared/biomarkerdb/logs/run-pipeline.log
 
@@ -54,6 +58,22 @@ created 1 stat records under /data/shared/biomarkerdb/releases/data/v-3.1.1/json
 updated 18 dataset files under /data/shared/biomarkerdb/releases/data/v-3.1.1/reviewed/*
 ```
 
+#### Step-5: loading MongoDB objects
+Run the following commands to load objectst to MongoDB.
+```
+$ cd /data/shared/repos/backend-pipeline/api/
+$ nohup python3 populate_collection.py -s $SERVER -v 3.1.1  &
+```
+where $SERVER can be dev or prd. You can monitor the progress of the above command by looking into the logfiles /data/shared/biomarkerdb/logs/*_loading_progress_$SERVER.txt
+
+$ ls /../shared/biomarkerdb/logs/c_.log
+```
+$ ls  -ltr /data/shared/biomarkerdb/logs/*_loading_progress_dev.txt
+-rw-rw-r--. 1 rykahsay biomarkerkb   466 Mar  1 14:46 /../shared/biomarkerdb/logs/c_init_loading_progress_dev.txt
+-rw-rw-r--. 1 rykahsay biomarkerkb 17799 Mar  1 14:49 /../shared/biomarkerdb/logs/c_biomarker_loading_progress_dev.txt
+-rw-rw-r--. 1 rykahsay biomarkerkb 15573 Mar  1 14:50 /../shared/biomarkerdb/logs/c_list_loading_progress_dev.txt
+-rw-rw-r--. 1 rykahsay biomarkerkb   429 Mar  1 14:51 /../shared/biomarkerdb/logs/c_index_loading_progress_dev.txt
+```
 
 
 
