@@ -1,11 +1,9 @@
 ### Downloads
-dfafdasfadsfads
+The is coming soon ...
 
 
-### Dataset Maker
-#### Step-1: creating directory structure for a release 
+### Step-1: creating directory structure for a release 
 Run the following commands to create required subdirectories for your release ( release 3.1.1 is used as an example here).
-
 ```
 $ cd /../shared/repos/backend-pipeline/dataset-maker/
 $ mkdir -p /../shared/biomarkerdb/releases/data/v-3.1.1/unreviewed
@@ -19,7 +17,7 @@ $ cp -r /../shared/biomarkerdb/releases/data/v-$PREV_REL/misc /../shared/biomark
 $ cp -r /../shared/biomarkerdb/releases/data/v-$PREV_REL/compiled /../shared/biomarkerdb/releases/data/v-3.1.1/
 ```
 
-#### Step-2: creating dataset files
+### Step-2: creating dataset files
 Run the following commands to create all datasets. This step depends on the file /../shared/biomarkerdb/releases/data/v-3.1.1/misc/datasets.json.
 ```
 $ cd /../shared/repos/backend-pipeline/dataset-maker/
@@ -27,7 +25,7 @@ $ python3 wrap-make-datasets.py -r 3.1.1
 ```
 The output datasets will be created under /../shared/biomarkerdb/releases/data/v-3.1.1/unreviewed/
 
-#### Step-3: qualtity control of dataset files
+### Step-3: qualtity control of dataset files
 Compare dataset files created above to older version files from $PREV_REL
 ```
 $ cd /../shared/repos/backend-pipeline/dataset-maker/
@@ -36,7 +34,7 @@ $ python3 qc-datasets.py -r 3.1.1 -p $PREV_REL
 The output for this step will be created under /../shared/biomarkerdb/releases/data/v-3.1.1/logs/qc-datasets.csv
 
 
-#### Step-4: creating MongoDB objects
+### Step-4: creating MongoDB objects
 Run the following commands to create various JSON objects that will be loaded to MongoDB. The location of the objects creates in this record is /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/*db/
 
 ```
@@ -58,7 +56,7 @@ created 1 stat records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb
 updated 18 dataset files under /../shared/biomarkerdb/releases/data/v-3.1.1/reviewed/*
 ```
 
-#### Step-5: loading MongoDB objects
+### Step-5: loading MongoDB objects
 Run the following commands to load objectst to MongoDB.
 ```
 $ cd /../shared/repos/backend-pipeline/api/
