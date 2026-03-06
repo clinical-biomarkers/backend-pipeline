@@ -73,8 +73,23 @@ $ ls  -ltr /data/shared/biomarkerdb/logs/*_loading_progress_dev.txt
 -rw-rw-r--. 1 rykahsay biomarkerkb   429 Mar  1 14:51 /../shared/biomarkerdb/logs/c_index_loading_progress_dev.txt
 ```
 
-### Step-7: updating version labels for data 
-Run the following commands to update data 
+
+### Step-7: updating init caches
+Run the following commands to update init caches -- they are used when users perform empty query searches that result in large number of results
+```
+$ cd /../shared/repos/backend-pipeline/api/
+$ nohup python3 wrap-update-initcache.py -s $SERVER &
+```
+After the above command finishes, you will see file /../shared/biomarkerdb/logs/c_initcache.biomarker_all.$SERVER.log containing 1 line. Next, you do the following:
+```
+$ cd /../shared/repos/backend-pipeline/api/
+$ nohup python3 wrap-update-initlistcache.py -s $SERVER &
+```
+Check the logfile  /../shared/biomarkerdb/logs/c_initlistcache.biomarker_all.$SERVER.log and you should see 9 lines in it.
+
+
+### Step-8: updating version label for data 
+Run the following commands to update version label data 
 ```
 $ cd /../shared/repos/backend-pipeline/api/
 $ python3 update_version.py -s $SERVER -v 3.1.1 -c data
