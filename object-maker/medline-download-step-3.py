@@ -19,9 +19,9 @@ def main():
     updatefiles_start = doc[category]["start"]
    
 
-    xml_folder = "downloads/ncbi/medline_xml/"
-    out_folder = "downloads/ncbi/medline_list/"
-    tmp_list = glob.glob("downloads/ncbi/medline_xml/*.gz")    
+    xml_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_xml/"
+    out_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_list/"
+    tmp_list = glob.glob("/data/shared/biomarkerdb/downloads/ncbi/medline_xml/*.gz")    
     gz_xml_file_list = []
     for in_file in tmp_list:
         idx = in_file.split("pubmed25n")[-1].replace(".xml.gz", "")
@@ -32,7 +32,7 @@ def main():
     #print (len(gz_xml_file_list))
     #exit()
  
-    with open("logs/medline_xml_file_list.json", "w") as FW:
+    with open("/data/shared/biomarkerdb/logs/medline_xml_file_list.json", "w") as FW:
         FW.write("%s\n" % (json.dumps(gz_xml_file_list)))
 
  

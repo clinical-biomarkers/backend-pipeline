@@ -209,22 +209,24 @@ def main():
     
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog " )
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
     parser.add_option("-s","--start",action="store",dest="start",help="")
     parser.add_option("-e","--end",action="store",dest="end",help="")
-
     (options,args) = parser.parse_args()
-    for file in ([options.start, options.end]):
+    for file in ([options.rel, options.start, options.end]):
         if not (file):
             parser.print_help()
             sys.exit(0)
 
+    rel = options.rel
     start = int(options.start)
     end = int(options.end)
 
+    global release_dir
     global MAX_WORD_COUNT
     MAX_WORD_COUNT = 6
-
-
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+    
     DEBUG = False
     #DEBUG = True
     pattern_dict = {"biomarker":["*"]}
@@ -236,7 +238,7 @@ def main():
     for record_type in sorted(list(pattern_dict.keys())):
         file_list = []
         for ptrn in pattern_dict[record_type]:
-            glob_str = "jsondb/%sdb/%s.json" % (record_type, ptrn)
+            glob_str = release_dir + "jsondb/%sdb/%s.json" % (record_type, ptrn)
             file_list += glob.glob(glob_str)
         file_list = sorted(list(set(file_list)))
         for json_file in file_list:
@@ -244,7 +246,7 @@ def main():
 
 
     end = end if end < len(file_obj_list) else len(file_obj_list)
-    log_file = "logs/make-indexdb.%s-%s.log" % (start, end)
+    log_file = "/data/shared/biomarkerdb/logs/make-indexdb.%s-%s.log" % (start, end)
    
     
     msg = "make-indexdb: started logging"
@@ -263,7 +265,7 @@ def main():
             #print (json.dumps(record_obj, indent=4))
             if record_obj != []:
                 record_obj_list.append(record_obj)
-        out_file = "jsondb/indexdb/%s" % (file_name)
+        out_file = release_dir + "jsondb/indexdb/%s" % (file_name)
         with open(out_file, "w") as FW:
             FW.write("%s\n" % (json.dumps(record_obj_list, indent=4)))
         record_count += 1

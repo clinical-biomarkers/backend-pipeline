@@ -112,25 +112,28 @@ def main():
 
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
     parser.add_option("-s","--start",action="store",dest="start",help="")
     parser.add_option("-e","--end",action="store",dest="end",help="")
     (options,args) = parser.parse_args()
-    for key in ([ options.start, options.end]):
+    for key in ([options.rel, options.start, options.end]):
         if not (key):
             parser.print_help()
             sys.exit(0)
 
+    rel = options.rel
     s = int(options.start)
     e = int(options.end)
 
-
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
 
 
     #ver = "2025_12_22"
     ver = "current"
     #db_dir_one = "/data/shared/biomarkerdb/generated/datamodel/merged/%s/merged_json/" %(ver)
     db_dir_one = "/data/shared/biomarkerdb/generated/datamodel/merged/%s/merged_json_updated/" %(ver)
-    db_dir_two = "jsondb/biomarkerdb/"
+    db_dir_two = release_dir + "jsondb/biomarkerdb/"
 
     sec_list = [ 
         "biomarker_id", "biomarker_component", "condition", "evidence_source", "best_biomarker_role", 
@@ -139,10 +142,10 @@ def main():
     sec_list.remove("source_list")
 
 
-    file_list = glob.glob("jsondb/biomarkerdb/*.json")
+    file_list = glob.glob(release_dir + "jsondb/biomarkerdb/*.json")
     e = len(file_list) if e > len(file_list) else e
 
-    out_file = "logs/val_comparison.%s-%s.txt" % (s, e)
+    out_file = "/data/shared/biomarkerdb/logs/val_comparison.%s-%s.txt" % (s, e)
     with open(out_file, "w") as FW:
         FW.write("")
                 

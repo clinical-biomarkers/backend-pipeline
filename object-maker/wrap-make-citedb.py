@@ -11,7 +11,7 @@ import csvutil
 def main():
 
 
-    file_list = glob.glob("downloads/ncbi/medline_json/pmid.*.json")
+    file_list = glob.glob("/data/shared/biomarkerdb/downloads/ncbi/medline_json/pmid.*.json")
     n = len(file_list)
     batch_size = int(n/5) if n > 5 else n
     range_list = [] 

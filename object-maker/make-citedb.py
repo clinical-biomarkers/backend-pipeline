@@ -14,6 +14,7 @@ def main():
 
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
     parser.add_option("-s","--start",action="store",dest="start",help="")
     parser.add_option("-e","--end",action="store",dest="end",help="")
     (options,args) = parser.parse_args()
@@ -24,14 +25,18 @@ def main():
 
     start = int(options.start)
     end = int(options.end)
+    rel = options.rel
+
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
 
 
 
-    file_list = glob.glob("downloads/ncbi/medline_json/pmid.*.json")
+    file_list = glob.glob("/data/shared/biomarkerdb/downloads/ncbi/medline_json/pmid.*.json")
     file_list = sorted(file_list)
     end = len(file_list) if end > len(file_list) else end
 
-    log_file = "logs/make-citedb.%s-%s.txt" % (start, end)
+    log_file = "/data/shared/biomarkerdb/logs/make-citedb.%s-%s.txt" % (start, end)
     with open(log_file, "w") as FL:
         FL.write("")
                 
@@ -81,7 +86,7 @@ def main():
         record_obj_list.append(doc)
         if len(record_obj_list) == 100:
             batch_idx += 1
-            out_file = "jsondb/citedb/batch.%s-%s.%s.json" % (start, end, batch_idx)
+            out_file = release_dir + "jsondb/citedb/batch.%s-%s.%s.json" % (start, end, batch_idx)
             with open(out_file, "wb") as FW:
                 FW.write(orjson.dumps(record_obj_list))
             record_obj_list = []
@@ -89,7 +94,7 @@ def main():
 
     if len(record_obj_list) > 0:
         batch_idx += 1
-        out_file = "jsondb/citedb/batch.%s-%s.%s.json" % (start, end, batch_idx)
+        out_file = release_dir + "jsondb/citedb/batch.%s-%s.%s.json" % (start, end, batch_idx)
         with open(out_file, "wb") as FW:
             FW.write(orjson.dumps(record_obj_list))
 

@@ -92,11 +92,29 @@ def get_list_obj(doc):
 ###############################
 def main():
 
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+    (options,args) = parser.parse_args()
+    for key in ([ options.rel]):
+        if not (key):
+            parser.print_help()
+            sys.exit(0)
 
-    file_list = glob.glob("jsondb/biomarkerdb/*.json")
+    rel = options.rel
+
+
+    global release_dir
+
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+
+
+
+    file_list = glob.glob(release_dir + "jsondb/biomarkerdb/*.json")
     file_list = sorted(file_list)
 
-    log_file = "logs/make-listdb.txt"
+    log_file = "/data/shared/biomarkerdb/logs/make-listdb.txt"
     with open(log_file, "w") as FL:
         FL.write("")
         
@@ -114,7 +132,7 @@ def main():
             record_obj_list.append(list_obj)
         
         file_name = in_file.split("/")[-1]
-        out_file = "jsondb/interm/listdb/%s" % (file_name)
+        out_file = release_dir + "jsondb/interm/listdb/%s" % (file_name)
         with open(out_file, "wb") as FW:
             FW.write(orjson.dumps(record_obj_list))
 

@@ -38,15 +38,28 @@ def get_biomarker_filter_code(obj):
 
 def main():
 
+    
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+    (options,args) = parser.parse_args()
+    for key in ([ options.rel]):
+        if not (key):
+            parser.print_help()
+            sys.exit(0)
+
+    rel = options.rel
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
 
 
     record_type = "biomarker"
     file_obj_list = []
-    glob_str = "jsondb/interm/listdb/*.json"
+    glob_str = release_dir + "jsondb/interm/listdb/*.json"
     file_list = glob.glob(glob_str)
     load_size = len(file_list)
 
-    log_file = "logs/update-listdb.log"
+    log_file = "/data/shared/biomarkerdb/logs/update-listdb.log"
     msg = "update-listdb: started logging"
     csvutil.write_log_msg(log_file, msg, "w")
 
@@ -55,7 +68,7 @@ def main():
     for in_list_file in file_list:
         local_idx += 1
         file_name = in_list_file.split("/")[-1]
-        out_list_file = "jsondb/listdb/%s" % (file_name)
+        out_list_file = release_dir + "jsondb/listdb/%s" % (file_name)
         doc_list = json.loads(open(in_list_file,"r").read())
         if local_idx%10 == 0:
             msg = "update-listdb: created %s/%s %s listdb records" % (local_idx,load_size, record_type)

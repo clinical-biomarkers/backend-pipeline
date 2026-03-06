@@ -24,9 +24,9 @@ def load_pmid_dict(in_file):
 ###############################
 def main():
 
-    xml_folder = "downloads/ncbi/medline_xml/"
-    list_folder = "downloads/ncbi/medline_list/"
-    list_file = "logs/medline-download-list.txt"
+    xml_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_xml/"
+    list_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_list/"
+    list_file = "/data/shared/biomarkerdb/logs/medline-download-list.txt"
     pmid_dict = load_pmid_dict(list_file)
 
     file_list = sorted(glob.glob(list_folder + "pubmed*.txt"))
@@ -46,7 +46,7 @@ def main():
                     seen[pmid] = True
                     n += 1
 
-    out_file = "logs/xml_file_list.json"
+    out_file = "/data/shared/biomarkerdb/logs/xml_file_list.json"
     xml_file_list = sorted(list(xmlfile2pmid.keys()))
     with open(out_file, "w") as FW:
         FW.write("%s\n" % (json.dumps(xml_file_list, indent=4)))

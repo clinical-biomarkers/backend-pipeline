@@ -91,7 +91,7 @@ def main():
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
 
 
-
+    log_dir = "/data/shared/biomarkerdb/logs/"
     jsondb_dir = config_obj["data_path"] + "/releases/data/v-%s/jsondb/" % (ver)
     dump_dir = config_obj["data_path"] + "/mongodump/"
     tmpdb_user = config_obj["dbinfo"]["tmpdb"]["user"]
@@ -104,6 +104,7 @@ def main():
     text_indexed_colls = []
     index_dict = json.load(open("conf/indexes.json"))
 
+    
 
     archived_colls = ["c_video", "c_outreach", "c_event"]
 
@@ -129,7 +130,7 @@ def main():
 
         for coll in coll_list:
 
-            log_file = "logs/%s_loading_progress_%s.txt" % (coll, server)
+            log_file = log_dir + "%s_loading_progress_%s.txt" % (coll, server)
             msg = "\n ... started loading %s.%s version %s" % (db_name, coll, ver)
             write_progress_msg(msg, "w")
 

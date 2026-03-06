@@ -40,17 +40,17 @@ def main():
     start = int(options.start)
     end = int(options.end)
 
-    json_folder = "downloads/ncbi/medline_json/"
-    list_file = "logs/medline-download-list.txt"
+    json_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_json/"
+    list_file = "/data/shared/biomarkerdb/logs/medline-download-list.txt"
     pmid_dict = load_pmid_dict(list_file)
 
 
     count = 0
-    logfile = "logs/xml2json.%s-%s.log" % (start, end)
+    logfile = "/data/shared/biomarkerdb/logs/xml2json.%s-%s.log" % (start, end)
     with open(logfile, "w") as FL:
         FL.write("Started processing\n")
 
-    xml_file_list = json.loads(open("logs/xml_file_list.json", "r").read())
+    xml_file_list = json.loads(open("/data/shared/biomarkerdb/logs/xml_file_list.json", "r").read())
     xml_file_list = sorted(xml_file_list)
     for xml_file in xml_file_list[start-1:end]:
         dicts_out = pp.parse_medline_xml(xml_file,

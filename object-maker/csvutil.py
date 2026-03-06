@@ -130,10 +130,10 @@ def load_sheet(sheet_obj, in_file, field_list, separator):
 
     return
 
-def load_cite_dict():
+def load_cite_dict(release_dir):
 
     tmp_dict = {}
-    file_list = glob.glob("jsondb/citedb/*.json")
+    file_list = glob.glob(release_dir + "jsondb/citedb/*.json")
     idx = 0
     for in_file in file_list:
         idx += 1
@@ -148,7 +148,7 @@ def load_cite_dict():
 
 
 def get_cite_obj(pmid):
-    in_file_two = "downloads/ncbi/medline_json/pmid.%s.json" % (pmid)
+    in_file_two = "/data/shared/biomarkerdb/downloads/ncbi/medline_json/pmid.%s.json" % (pmid)
 
     url = "https://pubmed.ncbi.nlm.nih.gov/" + pmid
     ref_obj = {"id": pmid, "type": "PubMed", "url":url}
@@ -193,10 +193,10 @@ def get_cite_obj(pmid):
 
 
 
-def load_cmblist2src():
+def load_cmblist2src(release_dir):
     
     cmb_dict = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     
     for in_file in file_list:
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
@@ -235,9 +235,9 @@ def load_cmblist2src():
 def load_entity_names():
 
     name_dict = {"gene_names":{}, "protein_names":{}}
-    file_list = glob.glob("downloads/glygen/current/*_protein_*names.csv")
-    file_list += glob.glob("downloads/glygen/current/*_protein_*names_refseq.csv")
-    file_list += glob.glob("downloads/glygen/current/*_protein_*names_uniprotkb.csv")
+    file_list = glob.glob("/data/shared/biomarkerdb/downloads/glygen/current/*_protein_*names.csv")
+    file_list += glob.glob("/data/shared/biomarkerdb/downloads/glygen/current/*_protein_*names_refseq.csv")
+    file_list += glob.glob("/data/shared/biomarkerdb/downloads/glygen/current/*_protein_*names_uniprotkb.csv")
     sheet_info = json.load(open("conf/sheet_info.json"))
     for in_file in file_list:
         sheet_name = "protein_" + in_file.split("_protein_")[1].replace(".csv", "")
@@ -303,7 +303,7 @@ def load_entity_names():
 
 
 
-def load_vocab_dict():
+def load_vocab_dict(release_dir):
 
     tmp_list = [
         "increased tnni3 level",
@@ -311,7 +311,7 @@ def load_vocab_dict():
         "increased pct level"
     ]
     vocab_dict = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir +  "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         with open(in_file, "r") as FR:
             f_list, lcount = [], 0
@@ -336,17 +336,17 @@ def load_vocab_dict():
 
 
 
-def load_cmb2biomarkerid():
+def load_cmb2biomarkerid(release_dir):
 
     file_list = []
-    ds_dict = json.load(open("misc/datasets.json"))
+    ds_dict = json.load(open(release_dir + "misc/datasets.json"))
     for ds in ds_dict["biomarkers"]:
         for file_name in ds_dict["biomarkers"][ds]:
-            in_file = "downloads/%s/current/%s" % (ds.replace("biomarkers_",""), file_name)
+            in_file = "/data/shared/biomarkerdb/downloads/%s/current/%s" % (ds.replace("biomarkers_",""), file_name)
             file_list.append(in_file)
 
 
-    vocab_dict = load_vocab_dict()
+    vocab_dict = load_vocab_dict(release_dir)
     tmp_dict = {}
     for in_file in file_list:
         with open(in_file, "r") as FR:
@@ -399,13 +399,13 @@ def load_cmb2biomarkerid():
 
 
 
-def load_src_dict():
+def load_src_dict(release_dir):
 
     file_list = []
-    ds_dict = json.load(open("misc/datasets.json"))
+    ds_dict = json.load(open(release_dir + "misc/datasets.json"))
     for ds in ds_dict["biomarkers"]:
         for file_name in ds_dict["biomarkers"][ds]:
-            in_file = "downloads/%s/current/%s" % (ds.replace("biomarkers_",""), file_name)
+            in_file = "/data/shared/biomarkerdb/downloads/%s/current/%s" % (ds.replace("biomarkers_",""), file_name)
             file_list.append(in_file)
 
     tmp_dict = {}
@@ -434,11 +434,11 @@ def generate_new_id(id_counter):
     return biomarker_id
 
 
-def load_canon2disease_dict(grp2cmblist):
+def load_canon2disease_dict(grp2cmblist, release_dir):
 
     canon2disease_dict = {}
     seen_grp = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
         with open(in_file, "r") as FR:

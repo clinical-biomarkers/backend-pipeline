@@ -57,7 +57,11 @@
 				"biomarkerdb",
 				"listdb",
 				"indexdb",
-				"idtrackdb"
+				"sortdb",
+				"idtrackdb",
+				"statdb",
+				"searchinitdb",
+				"ontologydb"
 			]
     }
 }

@@ -43,17 +43,32 @@ def sort_objects(list_objects, return_fields, field_name, order_type):
 
 def main():
 
-    ts_format = "%Y-%m-%d %H:%M:%S %Z%z"
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+    (options,args) = parser.parse_args()
+    for key in ([ options.rel]):
+        if not (key):
+            parser.print_help()
+            sys.exit(0)
 
-    
+    rel = options.rel
+
+
+    global release_dir
+
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+
+    ts_format = "%Y-%m-%d %H:%M:%S %Z%z"
     START_TS = datetime.datetime.now(pytz.timezone('US/Eastern'))
 
-    log_file = "logs/make-sortdb.log"
+    log_file = "/data/shared/biomarkerdb/logs/make-sortdb.log"
     msg = "make-sortdb: startd ..."
     csvutil.write_log_msg(log_file, msg, "w")
    
     record_count = 0 
-    list_init_file = "/data/shared/repos/bmkb-api/bmkb/conf/list_init.json"
+    list_init_file = "/data/shared/repos/backend-pipeline/api/bmkb/conf/list_init.json"
     list_init_doc = json.load(open(list_init_file))
     
     record_type = "biomarker"
@@ -61,7 +76,7 @@ def main():
     for obj in list_init_doc[record_type]["columns"]:
         field_list.append(obj["id"])
     list_objects = []
-    file_list = glob.glob("jsondb/listdb/*.json")
+    file_list = glob.glob(release_dir + "jsondb/listdb/*.json")
     ts_flag = "0-"+datetime.datetime.now(pytz.timezone('US/Eastern')).strftime(ts_format)
     #print (ts_flag, len(file_list))
     idx = 0
@@ -111,7 +126,7 @@ def main():
             out_doc = {"offset":offset, "sort_field":sort_field, "record_type":record_type, 
                 "record_list":tmp_record_list}
             grp += 1
-            out_file = "jsondb/sortdb/%s.%s.%s.json" % (record_type, sort_field, grp)
+            out_file = release_dir + "jsondb/sortdb/%s.%s.%s.json" % (record_type, sort_field, grp)
             with open(out_file, "w") as FW:
                 FW.write("%s\n" % (json.dumps(out_doc, indent=4)))
             record_count += 1

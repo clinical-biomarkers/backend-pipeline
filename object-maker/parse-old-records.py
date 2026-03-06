@@ -72,7 +72,7 @@ def main():
 
 
      
-    out_file = "logs/parse.%s-%s.txt" % (s, e)
+    out_file = "/data/shared/biomarkerdb/logs/parse.%s-%s.txt" % (s, e)
     with open(out_file, "w") as FW:
         for d_name in d_name_dict:
             flag = "1" if "0.0" in d_name_dict[d_name] else "0"

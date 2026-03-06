@@ -25,9 +25,13 @@ def main():
     rel = options.rel
     prev_rel = options.prev
 
-    cmb2biomarkerid = csvutil.load_cmb2biomarkerid()
-    cmblist2src, grp2cmblist = csvutil.load_cmblist2src()
-    canon2disease_dict = csvutil.load_canon2disease_dict(grp2cmblist)
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+
+    cmb2biomarkerid = csvutil.load_cmb2biomarkerid(release_dir)
+    cmblist2src, grp2cmblist = csvutil.load_cmblist2src(release_dir)
+    canon2disease_dict = csvutil.load_canon2disease_dict(grp2cmblist, release_dir)
     canon_id_md5_list = sorted(list(canon2disease_dict.keys()))
     canon_id_dict = csvutil.load_canon_id_dict(rel,canon_id_md5_list)
   
@@ -45,7 +49,7 @@ def main():
     replacement_dict = {}
     track_status = {}
     record_obj_list = []
-    out_dir = "jsondb/idtrackdb/"
+    out_dir = release_dir + "jsondb/idtrackdb/"
     bmkb_idx = 0
     batch_idx = 0
     for canon_id_md5 in canon_id_md5_list:

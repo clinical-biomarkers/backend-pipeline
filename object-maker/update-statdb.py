@@ -13,8 +13,26 @@ __status__ = "Dev"
 
 
 def main():
+
     
-    file_list = glob.glob("jsondb/interm/statdb/*.csv")
+    
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+    (options,args) = parser.parse_args()
+    for key in ([ options.rel]):
+        if not (key):
+            parser.print_help()
+            sys.exit(0)
+
+    rel = options.rel
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+
+
+    
+    file_list = glob.glob(release_dir +  "jsondb/interm/statdb/*.csv")
     ent_type_stat = {}
     seen = {"condition":{}, "biomarker":{}, "biomarker_single":{}, "biomarker_multi":{}}
     for in_file in file_list:
@@ -48,7 +66,7 @@ def main():
         obj_two[ent_type] = ent_type_stat[ent_type]
 
     doc = { "stat":[obj_one, obj_two]}
-    out_file = "jsondb/statdb/stat.json"
+    out_file = release_dir + "jsondb/statdb/stat.json"
     with open(out_file, "w") as FW:
         FW.write("%s\n" % (json.dumps(doc, indent=4)))
 

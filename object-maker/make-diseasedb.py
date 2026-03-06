@@ -9,12 +9,25 @@ import subprocess
 
 def main():
 
-
-    url_dict = csvutil.load_url_dict("misc/xref_info.csv")
     
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+    (options,args) = parser.parse_args()
+    for key in ([options.rel]):
+        if not (key):
+            parser.print_help()
+            sys.exit(0)
+
+    rel = options.rel
+
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+    url_dict = csvutil.load_url_dict(release_dir + "misc/xref_info.csv")
 
     seen_disease_id = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
         with open(in_file, "r") as FR:
@@ -31,7 +44,7 @@ def main():
 
 
     #"xref_id","xref_key","name_type","name","description"
-    in_file = "downloads/glygen/current/protein_disease_names.csv"
+    in_file = "/data/shared/biomarkerdb/downloads/glygen/current/protein_disease_names.csv"
     recname_dict = {}
     syn_dict = {}
     with open(in_file, "r") as FR:
@@ -63,7 +76,7 @@ def main():
         if disease_id not in disease_id_list:
             recname_dict[disease_id] = {"name":"", "description":""}
             d = disease_id.replace(":","_")
-            cmd = "grep %s downloads/do/current/doid.nt" % (d)
+            cmd = "grep %s /data/shared/biomarkerdb/downloads/do/current/doid.nt" % (d)
             line_list = subprocess.getoutput(cmd).split("\n")
             for line in line_list:
                 prd = line.split(" ")[1]
@@ -107,7 +120,7 @@ def main():
         doc_list.append(record_obj)
         if len(doc_list) == 100:
             batch_idx += 1
-            out_file = "jsondb/diseasedb/batch.%s.json" % (batch_idx)
+            out_file = release_dir + "jsondb/diseasedb/batch.%s.json" % (batch_idx)
             with open(out_file, "w") as FW:
                 FW.write("%s\n" % (json.dumps(doc_list, indent=4))) 
             doc_list = []
@@ -115,7 +128,7 @@ def main():
 
     if len(doc_list) > 0:
         batch_idx += 1
-        out_file = "jsondb/diseasedb/batch.%s.json" % (batch_idx)
+        out_file = release_dir + "jsondb/diseasedb/batch.%s.json" % (batch_idx)
         with open(out_file, "w") as FW:
             FW.write("%s\n" % (json.dumps(doc_list, indent=4)))          
 

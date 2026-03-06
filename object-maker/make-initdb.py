@@ -60,10 +60,14 @@ def main():
 
 
     global jsondb_dir
+    global release_dir
+
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
 
     START_TS = datetime.datetime.now(pytz.timezone('US/Eastern'))
 
-    jsondb_dir = "jsondb/"
+    jsondb_dir = release_dir + "jsondb/"
     in_file = "conf/init.json"
     out_json = json.loads(open(in_file, "r").read())
     out_json["dataversion"] = rel

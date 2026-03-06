@@ -14,7 +14,7 @@ def main():
     # Make sure to update "conf/medline.json"
     doc = json.loads(open("conf/medline.json", "r").read())
 
-    xml_folder = "downloads/ncbi/medline_xml/"
+    xml_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_xml/"
     zeros = "0000000"
     cat_list = ["baseline", "updatefiles"]
     for category in cat_list:

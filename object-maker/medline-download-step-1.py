@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 from Bio import SeqIO
 import time
 import requests
+from optparse import OptionParser
 
 
 
@@ -17,15 +18,33 @@ import requests
 
 def main():
 
+    
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+    (options,args) = parser.parse_args()
+    for key in ([options.rel]):
+        if not (key):
+            parser.print_help()
+            sys.exit(0)
 
-    file_list = glob.glob("downloads/ncbi/medline_json/pmid.*.json")
+    rel = options.rel
+
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+
+
+
+
+    file_list = glob.glob("/data/shared/biomarkerdb/downloads/ncbi/medline_json/pmid.*.json")
     is_downloaded = {}
     for in_file in file_list:
         pmid = in_file.split(".")[-2]
         is_downloaded[pmid] = True
 
     seen = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         file_name = in_file.split("/")[-1]
         with open(in_file, "r") as FR:
@@ -49,7 +68,7 @@ def main():
                         seen[xref_id] = {}
                     seen[xref_id][file_name] = True
    
-    FW = open("logs/medline-download-list.txt", "w") 
+    FW = open("/data/shared/biomarkerdb/logs/medline-download-list.txt", "w") 
     for xref_id in seen:
         file_list = list(seen[xref_id].keys())
         FW.write("%s %s\n" % (xref_id, ";".join(file_list)))

@@ -2,7 +2,7 @@ import os,sys
 import json
 import glob
 import datetime
-
+from optparse import OptionParser
 import csvutil
 
 
@@ -10,8 +10,24 @@ import csvutil
 
 def main():
 
-    config_obj = json.load(open("conf/config.json"))
     
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+    (options,args) = parser.parse_args()
+    for key in ([options.rel]):
+        if not (key):
+            parser.print_help()
+            sys.exit(0)
+
+    rel = options.rel
+
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+
+
+    config_obj = json.load(open("conf/config.json"))
 
     field_info = {
         "age_group":{"type":"str"},
@@ -34,7 +50,7 @@ def main():
 
     entid2name = {}
     out_dict = {}
-    file_list = glob.glob("unreviewed/entity_normalranges_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/entity_normalranges_*.tsv")
     for in_file in file_list:
         src = in_file.split("/")[-1].split(".")[0].replace("entity_normalranges_","")
         if src in config_obj["sourceinfo"]:
@@ -90,7 +106,7 @@ def main():
                 doc["source"].append(obj)
         if doc["source"] == []:
             continue 
-        out_file = "jsondb/normalrangesdb/%s.json" % (entity_id.replace(":", "."))
+        out_file = release_dir + "jsondb/normalrangesdb/%s.json" % (entity_id.replace(":", "."))
         with open(out_file, "w") as FW:
             FW.write("%s\n" % (json.dumps(doc, indent=4)))
 

@@ -116,6 +116,9 @@ def main():
 
 
 
+    log_dir = "/data/shared/biomarkerdb/logs/"
+    
+
     db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
 
     config_obj = json.loads(open("./conf/config.json", "r").read())
@@ -146,7 +149,7 @@ def main():
         delete_cache(dbh, list_id, "c_initcache")
     res_obj = update_c_initcache(dbh, cache_name, list_id, record_type, qry_obj)
     if "flag" not in res_obj:
-        log_file = "logs/c_initcache.%s.%s.log" % (cache_name, server)
+        log_file = log_dir + "c_initcache.%s.%s.log" % (cache_name, server)
         with open(log_file, "w") as FL:
             FL.write("%s,%s,%s\n" % (list_id, res_obj["recordcount"],cache_name))
 

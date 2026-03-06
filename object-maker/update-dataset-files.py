@@ -6,11 +6,13 @@ import csvutil
 import subprocess
 import psutil
 import orjson
+from optparse import OptionParser
+
 
 def get_cmb_list_str_list():
 
     seen_cmb_list_str = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
         with open(in_file, "r") as FR:
@@ -36,12 +38,27 @@ def get_cmb_list_str_list():
 
 def main():
 
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog " )
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+
+    (options,args) = parser.parse_args()
+    for file in ([options.rel]):
+        if not (file):
+            parser.print_help()
+            sys.exit(0)
+
+    rel = options.rel
+
     global cmb2biomarkerid
     global cmblist2src
     global grp2cmblist
+    global release_dir
 
-    cmb2biomarkerid = csvutil.load_cmb2biomarkerid()
-    cmblist2src, grp2cmblist = csvutil.load_cmblist2src()
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+    cmb2biomarkerid = csvutil.load_cmb2biomarkerid(release_dir)
+    cmblist2src, grp2cmblist = csvutil.load_cmblist2src(release_dir)
     
     cmb_list_str_list = get_cmb_list_str_list()
 
@@ -60,14 +77,14 @@ def main():
 
 
     #first copy all files to reviewed
-    cmd = "cp unreviewed/* reviewed/"
+    cmd = "cp %s/unreviewed/* %s/reviewed/" % (release_dir, release_dir)
     x = subprocess.getoutput(cmd)
 
 
-    FW1 = open("reviewed/masterlist.tsv", "w")
+    FW1 = open(release_dir + "reviewed/masterlist.tsv", "w")
        
     #update biomarkers_*.tsv to insert biomarker_id
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     file_idx = 0
     for in_file in file_list:
         file_idx += 1

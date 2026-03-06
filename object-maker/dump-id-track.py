@@ -22,9 +22,11 @@ def main():
             parser.print_help()
             sys.exit(0)
 
+    rel = "3.1.1"
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
 
     canon_id = options.canon
-    file_list = glob.glob("jsondb/idtrackdb/*.json")
+    file_list = glob.glob(release_dir + "jsondb/idtrackdb/*.json")
     for in_file in file_list:
         doc_list = json.load(open(in_file))
         for doc in doc_list:

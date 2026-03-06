@@ -87,6 +87,8 @@ def main():
 
     global seen_child
 
+    log_dir = "/data/shared/biomarkerdb/logs/"
+
 
      
     db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
@@ -114,7 +116,7 @@ def main():
 
     qry_dict = query_doc[record_type]
     api_name = "%s_list" % (record_type)
-    log_file = "logs/c_initlistcache.%s.%s.log" % (api_name, server)
+    log_file = log_dir + "c_initlistcache.%s.%s.log" % (api_name, server)
     cache_coll = "c_initcache"
     qry_dict = query_doc[record_type]
     cache_id_dict = get_cache_id_dict(dbh, cache_name)
@@ -124,7 +126,7 @@ def main():
 
     
 
-    log_file = "logs/c_initlistcache.%s.%s.log" % (cache_name, server)
+    log_file = log_dir + "c_initlistcache.%s.%s.log" % (cache_name, server)
     with open(log_file, "w") as FL:
         FL.write("")
  

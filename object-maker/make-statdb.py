@@ -18,24 +18,27 @@ def main():
     
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
     parser.add_option("-s","--start",action="store",dest="start",help="")
     parser.add_option("-e","--end",action="store",dest="end",help="")
     (options,args) = parser.parse_args()
-    for key in ([ options.start, options.end]):
+    for key in ([options.rel, options.start, options.end]):
         if not (key):
             parser.print_help()
             sys.exit(0)
 
+    rel = options.rel
     s = int(options.start)
     e = int(options.end)
 
-     
-    file_list = sorted(glob.glob("jsondb/biomarkerdb/*.json"))
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+ 
+    file_list = sorted(glob.glob(release_dir + "jsondb/biomarkerdb/*.json"))
     e = len(file_list) if e > len(file_list) else e
     
-    out_file = "jsondb/interm/statdb/output.%s-%s.csv" % (s, e)
+    out_file = release_dir + "jsondb/interm/statdb/output.%s-%s.csv" % (s, e)
      
-    log_file = "logs/make-statdb.%s-%s.log" % (s, e)
+    log_file = "/data/shared/biomarkerdb/logs/make-statdb.%s-%s.log" % (s, e)
     msg = ""
     csvutil.write_log_msg(log_file, msg, "w")
 

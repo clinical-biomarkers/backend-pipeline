@@ -19,7 +19,7 @@ import hashlib
 
 def load_crossref_dict():
 
-    in_file = "unreviewed/xrefs.tsv"
+    in_file = release_dir + "unreviewed/xrefs.tsv"
     tmp_dict = {}
     with open(in_file, "r") as FR:
         f_list, lcount = [], 0
@@ -47,27 +47,42 @@ def load_crossref_dict():
 
 def main():
 
+    
+    usage = "\n%prog  [options]"
+    parser = OptionParser(usage,version="%prog " )
+    parser.add_option("-r","--rel",action="store",dest="rel",help="")
+
+    (options,args) = parser.parse_args()
+    for file in ([options.rel]):
+        if not (file):
+            parser.print_help()
+            sys.exit(0)
+
+    rel = options.rel
+    global release_dir
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+
 
     crossref_dict = load_crossref_dict()
-
     # this means, jsondb/idtrackdb/ objects need to be created
     # before jsondb/biomarkerdb objects
     biomarker_id_dict = {}
-    file_list = glob.glob("jsondb/idtrackdb/biomarker.*.json")
+    file_list = glob.glob(release_dir + "jsondb/idtrackdb/biomarker.*.json")
     for in_file in file_list:
         doc = json.load(open(in_file))
         biomarker_id_dict[doc["biomarker_id_md5"]] = doc["biomarker_id_new"]
         
 
     prt_name_dict, gene_name_dict = csvutil.load_entity_names()
-    url_dict = csvutil.load_url_dict("misc/xref_info.csv")
-    cite_dict = csvutil.load_cite_dict()
-    cmb2biomarkerid = csvutil.load_cmb2biomarkerid()
-    cmblist2src, grp2cmblist = csvutil.load_cmblist2src()
+    url_dict = csvutil.load_url_dict(release_dir + "misc/xref_info.csv")
+    cite_dict = csvutil.load_cite_dict(release_dir)
+    cmb2biomarkerid = csvutil.load_cmb2biomarkerid(release_dir)
+    cmblist2src, grp2cmblist = csvutil.load_cmblist2src(release_dir)
 
      
     norma_ranges_dict = {}
-    file_list = glob.glob("jsondb/normalrangesdb/*.json")
+    file_list = glob.glob(release_dir + "jsondb/normalrangesdb/*.json")
     for in_file in file_list:
         doc = json.load(open(in_file))
         ent_id = doc["entity_id"]
@@ -75,7 +90,7 @@ def main():
 
 
     disease_dict = {}
-    file_list = glob.glob("jsondb/diseasedb/*.json")
+    file_list = glob.glob(release_dir + "jsondb/diseasedb/*.json")
     for in_file in file_list:
         doc_list = json.load(open(in_file))
         for doc in doc_list:
@@ -87,7 +102,7 @@ def main():
     id_counter = 0
     row_dict = {}
     grp_dict = {}
-    file_list = glob.glob("unreviewed/biomarkers_*.tsv")
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
         #grp_dict = {}
@@ -125,7 +140,7 @@ def main():
     cmb_list_str_list = list(row_dict.keys())
     cmb_list_str_list = sorted(cmb_list_str_list)
 
-    log_file = "logs/make-biomarker.json"
+    log_file = "/data/shared/biomarkerdb/logs/make-biomarker.json"
     with open(log_file, "w") as FL:
         FL.write("") 
 
@@ -142,7 +157,7 @@ def main():
     #    #exit()
 
 
-    out_dir = "jsondb/biomarkerdb/"
+    out_dir = release_dir + "jsondb/biomarkerdb/"
 
     final_id_list = [] 
     total_created = 0
@@ -191,8 +206,12 @@ def main():
                     xref_key, xref_id = specimen_ns.lower(), specimen_id.split(":")[1]
                     xref_url = url_dict[xref_key]["url"] % (xref_id) if xref_key in url_dict else ""
                     specimen_obj = { "id":specimen_id, "name":specimen, "loinc_code":loinc_code, 
-                        "name_space":specimen_ns, "url":xref_url
+                        "name_space":specimen_ns, 
+                        "url":xref_url,
+                        "loince_code_url":""
                     }
+                    if loinc_code != "" and "loinc" in url_dict:
+                        specimen_obj["loince_code_url"] = url_dict["loinc"]["url"] % (loinc_code)
                 if entity_id not in comp_dict:
                     rec_name, syn_obj_list = entity, []
                     if entity_type == "protein" and entity_id in prt_name_dict:
@@ -202,11 +221,18 @@ def main():
 
                     comp_dict[entity_id] = {
                         "assessed_biomarker_entity_id":entity_id,
+                        "assessed_biomarker_entity_url":"",
                         "assessed_biomarker_entity":{ "recommended_name":rec_name, "synonyms": syn_obj_list},
                         "assessed_entity_type":entity_type,
                         "biomarker_orig":biomarker_orig,
                         "biomarker":biomarker
+                        
                     }
+                    entity_ns = entity_id.split(":")[0].lower()
+                    if entity_ns in url_dict:
+                        entity_url =  url_dict[entity_ns]["url"] % (entity_id.split(":")[1])
+                        comp_dict[entity_id]["assessed_biomarker_entity_url"] = entity_url
+
                 if evdn_id != "":
                     if "evidence_dict" not in comp_dict[entity_id]:
                         comp_dict[entity_id]["evidence_dict"] = {}
@@ -386,7 +412,7 @@ def main():
             FL.write("%s created %s/%s records (%s missed)\n" % (ts, total_created, total, missed)) 
 
     if final_id_list != []:
-        out_file = "logs/make-biomarker.idlist.json"
+        out_file = "/data/shared/biomarkerdb/logs/make-biomarker.idlist.json"
         with open(out_file, "w") as FW:
             FW.write("%s\n" % (json.dumps(final_id_list, indent=4)))
 
