@@ -73,7 +73,12 @@ $ ls  -ltr /data/shared/biomarkerdb/logs/*_loading_progress_dev.txt
 -rw-rw-r--. 1 rykahsay biomarkerkb   429 Mar  1 14:51 /../shared/biomarkerdb/logs/c_index_loading_progress_dev.txt
 ```
 
-
+### Step-7: updating version labels for data 
+Run the following commands to update data 
+```
+$ cd /../shared/repos/backend-pipeline/api/
+$ python3 update_version.py -s $SERVER -v 3.1.1 -c data
+```
 
 
 
