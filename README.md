@@ -3,7 +3,7 @@ The is coming soon ...
 
 
 ### Step-2: creating directory structure for a release 
-Run the following commands to create required subdirectories for your release ( release 3.1.1 is used as an example here).
+Run the following commands to create required subdirectories for your release (release 3.1.1 is used as an example here).
 ```
 $ cd /../shared/repos/backend-pipeline/dataset-maker/
 $ mkdir -p /../shared/biomarkerdb/releases/data/v-3.1.1/unreviewed
@@ -39,7 +39,7 @@ Run the following commands to create various JSON objects that will be loaded to
 
 ```
 $ cd /../shared/repos/backend-pipeline/object-maker/
-$ nohup python3 run-pipeline.py -r 3.1.1 -p 2.4.1 &
+$ nohup python3 run-pipeline.py -r 3.1.1 -p $PREV_REL &
 ```
 The above command will output logfile /data/shared/biomarkerdb/logs/run-pipeline.log
 
