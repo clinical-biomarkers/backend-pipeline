@@ -35,7 +35,7 @@ The output for this step will be created under /../shared/biomarkerdb/releases/d
 
 
 ### Step-5: creating MongoDB objects
-Run the following commands to create various JSON objects that will be loaded to MongoDB. The location of the objects creates in this record is /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/*db/
+Run the following commands to create various JSON objects that will be loaded to MongoDB. The location of the objects created in this record is /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/*db/
 
 ```
 $ cd /../shared/repos/backend-pipeline/object-maker/
