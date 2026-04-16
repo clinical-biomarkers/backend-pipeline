@@ -1,6 +1,7 @@
 ### Step-1: downloading raw input files
 The is coming soon ...
 
+Make sure the input files have the column `component_group` after `assessed_biomarker_entity_id`.
 
 ### Step-2: creating directory structure for a release 
 Run the following commands to create required subdirectories for your release (release 3.1.1 is used as an example here).
