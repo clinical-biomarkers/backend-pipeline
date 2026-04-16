@@ -1,7 +1,13 @@
 ### Step-1: downloading raw input files
 The is coming soon ...
 
-Make sure the input files have the column `component_group` after `assessed_biomarker_entity_id`.
+Make sure the input files have the column `component_group` after `assessed_biomarker_entity_id`. This field is important -- it tells the pipeline how the `assessed_biomarker_entity_id` should be grouped to create a biomarker record. Example:
+```
+$ head microplastics.tsv
+biomarker_id    biomarker       assessed_biomarker_entity       assessed_biomarker_entity_id    component_group assessed_entity_type    condition       condition_id    exposure_agent  exposure_agent_id       best_biomarker_role      specimen        specimen_id     loinc_code      evidence_source evidence        tag     biomarker_controlled_vocab
+        Presence of Polystyrene microplastics   Polystyrene     CHEBI:53276     1       metabolite                      Polystyrene     CHEBI:53276     monitoring      placenta        UBERON:000198           PubMed:38366932  "Py-GC-MS revealed that microplastics were present in all participants’ placentae, with concentrations ranging widely from 6.5 to 685mg NMPs per gram of placental tissue, averaging 126.8±147.5mg/g (mean±SD)"  assessed_biomarker_entity;assessed_biomarker_entity_id;assessed_entity_type;best_biomarker_role;biomarker;exposure_agent;exposure_agent_id;specimen;specimen_id;evidence_source;evidence
+        Presence of Polystyrene microplastics   Polystyrene     CHEBI:53276     2       metabolite                      Polystyrene     CHEBI:53276     monitoring      kidney  UBERON:0002113          PubMed:33956507  "PS-MPs were evaluated in human kidney proximal tubular epithelial cells (HK-2 cells) and male C57BL/6 mice"    assessed_biomarker_entity;assessed_biomarker_entity_id;assessed_entity_type;best_biomarker_role;biomarker;exposure_agent;exposure_agent_id;specimen;specimen_id;evidence_source;evidence
+```
 
 ### Step-2: creating directory structure for a release 
 Run the following commands to create required subdirectories for your release (release 3.1.1 is used as an example here).
