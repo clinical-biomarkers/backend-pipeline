@@ -1,0 +1,350 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "biomarker_id": {
+            "type": "string"
+        },
+        "biomarker_canonical_id": {
+            "type": "string"
+        },
+        "biomarker_id_md5": {
+            "type": "string"
+        },
+        "biomarker_id_new": {
+            "type": "string"
+        },
+        "condition": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "recommended_name": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "resource": {
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "description",
+                        "id",
+                        "name",
+                        "resource",
+                        "url"
+                    ]
+                }
+            },
+            "required": [
+                "id",
+                "recommended_name"
+            ]
+        },
+        "best_biomarker_role": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "role": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "role"
+                ]
+            }
+        },
+        "biomarker_component": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "assessed_biomarker_entity_id": {
+                        "type": "string"
+                    },
+                    "assessed_biomarker_entity_url": {
+                        "type": "string"
+                    },
+                    "assessed_biomarker_entity": {
+                        "type": "object",
+                        "properties": {
+                            "recommended_name": {
+                                "type": "string"
+                            },
+                            "synonyms": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "synonym": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "synonym"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "recommended_name",
+                            "synonyms"
+                        ]
+                    },
+                    "assessed_entity_type": {
+                        "type": "string"
+                    },
+                    "biomarker_orig": {
+                        "type": "string"
+                    },
+                    "biomarker": {
+                        "type": "string"
+                    },
+                    "annotations": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "annotation_category": {
+                                    "type": "string"
+                                },
+                                "annotation_term": {
+                                    "type": "string"
+                                },
+                                "evidence": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "database": {
+                                                "type": "string"
+                                            },
+                                            "url": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "database",
+                                            "id",
+                                            "url"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "annotation_category",
+                                "annotation_term",
+                                "evidence"
+                            ]
+                        }
+                    },
+                    "evidence_source": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "database": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                },
+                                "evidence_list": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "evidence": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "evidence"
+                                        ]
+                                    }
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "tag": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "tag"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "database",
+                                "evidence_list",
+                                "id",
+                                "tags",
+                                "url"
+                            ]
+                        }
+                    },
+                    "specimen": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "loinc_code": {
+                                    "type": "string"
+                                },
+                                "name_space": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                },
+                                "loince_code_url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "loinc_code",
+                                "loince_code_url",
+                                "name",
+                                "name_space",
+                                "url"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "annotations",
+                    "assessed_biomarker_entity",
+                    "assessed_biomarker_entity_id",
+                    "assessed_biomarker_entity_url",
+                    "assessed_entity_type",
+                    "biomarker",
+                    "biomarker_orig",
+                    "evidence_source",
+                    "specimen"
+                ]
+            }
+        },
+        "evidence_source": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "database": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "evidence_list": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "evidence": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "evidence"
+                            ]
+                        }
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "tag": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "tag"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "database",
+                    "evidence_list",
+                    "id",
+                    "tags",
+                    "url"
+                ]
+            }
+        },
+        "crossref": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "database": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "database",
+                    "id",
+                    "url"
+                ]
+            }
+        },
+        "source_list": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "required": [
+        "best_biomarker_role",
+        "biomarker_canonical_id",
+        "biomarker_component",
+        "biomarker_id",
+        "biomarker_id_md5",
+        "biomarker_id_new",
+        "condition",
+        "crossref",
+        "evidence_source",
+        "source_list"
+    ]
+}
