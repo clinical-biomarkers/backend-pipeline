@@ -41,7 +41,78 @@ $ python3 qc-datasets.py -r 3.1.1 -p $PREV_REL
 The output for this step will be created under /../shared/biomarkerdb/releases/data/v-3.1.1/logs/qc-datasets.csv
 
 
-### Step-5: creating MongoDB objects
+### Step-5: updating local citations archive
+This step makes sure that all PMIDs mentioned in the dataset files have citation information in our local 
+citations archive ("/../shared/biomarkerdb/downloads/ncbi/medline_json/pmid.*.json"). Use the following steps
+to make sure all PMIDs mentioned in datasets have corresponding "/../shared/biomarkerdb/downloads/ncbi/medline_json/pmid.$PMID.json"
+file. 
+
+#### Step-5.1
+
+```
+$ cd /../shared/repos/backend-pipeline/object-maker/
+$ python3 medline-download-step-1.py -r 3.2.1 &
+```
+The above command creates output file "/../shared/biomarkerdb/logs/medline-download-list.txt" which contains list of PMIDs
+that do not have entry as "/../shared/biomarkerdb/downloads/ncbi/medline_json/pmid.$PMID.json".
+
+IMPORTANT: if this file is empty, skip Step-5
+
+
+#### Step-5.2
+If "/../shared/biomarkerdb/logs/medline-download-list.txt" is not empty, continue and perform the following. First, update 
+/../shared/repos/backend-pipeline/object-maker/conf/medline.json by visiting "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
+and https://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/" to get the "start" and "end" indexes and also the year. As of now, the file
+has the following content:
+```
+{
+   "baseline":{
+      "url":"https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/",
+      "start":1,
+      "end":1334,
+      "year":26
+   },
+   "updatefiles":{
+      "url":"https://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/",
+      "start":1335,
+      "end":1438,
+      "year":25
+   }
+}
+```
+Next, run the following command to download xml files and place them under /../shared/biomarkerdb/downloads/ncbi/medline_xml/.
+```
+nohup python3 medline-download-step-2.py &
+```
+Monitor the files being created under  /../shared/biomarkerdb/downloads/ncbi/medline_xml/ and make sure all are downloaded before you proceed
+to next step (based on the current conf/medline.json file, there should be 1438 pubmed26n*.xml.gz files under /../shared/biomarkerdb/downloads/ncbi/medline_xml/.
+
+
+#### Step-5.3
+After Step-5.2 finishes, run the following:
+```
+nohup python3 medline-download-step-3.py
+```
+Make sure this step creates files under /data/shared/biomarkerdb/downloads/ncbi/medline_list/
+
+#### Step-5.4
+After Step-5.3 finishes, run the following:
+```
+nohup python3 medline-download-step-4.py
+```
+Make sure this step creates /../shared/biomarkerdb/logs/medline_xml_file_list.4.json
+
+
+#### Step-5.5
+After Step-5.4 finishes, run the following:
+```
+nohup python3 medline-download-step-5.py
+```
+Make sure this step creates files under /data/shared/biomarkerdb/downloads/ncbi/medline_json/
+
+
+
+### Step-6: creating MongoDB objects
 Run the following commands to create various JSON objects that will be loaded to MongoDB. The location of the objects created in this record is /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/*db/
 
 ```
@@ -63,7 +134,7 @@ created 1 stat records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb
 updated 18 dataset files under /../shared/biomarkerdb/releases/data/v-3.1.1/reviewed/*
 ```
 
-### Step-6: loading MongoDB objects
+### Step-7: loading MongoDB objects
 Run the following commands to load objectst to MongoDB.
 ```
 $ cd /../shared/repos/backend-pipeline/api/
@@ -81,7 +152,7 @@ $ ls  -ltr /data/shared/biomarkerdb/logs/*_loading_progress_dev.txt
 ```
 
 
-### Step-7: updating init caches
+### Step-8: updating init caches
 Run the following commands to update init caches -- they are used when users perform empty query searches that result in large number of results
 ```
 $ cd /../shared/repos/backend-pipeline/api/
@@ -95,7 +166,7 @@ $ nohup python3 wrap-update-initlistcache.py -s $SERVER &
 Check the logfile  /../shared/biomarkerdb/logs/c_initlistcache.biomarker_all.$SERVER.log and you should see 9 lines in it.
 
 
-### Step-8: updating version label for data 
+### Step-9: updating version label for data 
 Run the following commands to update version label data 
 ```
 $ cd /../shared/repos/backend-pipeline/api/
