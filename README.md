@@ -124,6 +124,9 @@ The above command will output logfile /data/shared/biomarkerdb/logs/run-pipeline
 $ cat /../shared/biomarkerdb/logs/run-pipeline.log
 ```
 Started logging ...
+created xxxxxx citation records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/citedb/*
+created xxxxxx normalranges records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/normalrangesdb/*
+created xxxxxx disease records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/diseasedb/*
 created 203476 biomarker records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/biomarkerdb/*
 created 203530 idtrack records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/idtrackdb/*
 created 203476 list records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/listdb/*
