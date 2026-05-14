@@ -1,5 +1,5 @@
 ### Step-1: downloading raw input files
-The is coming soon ...
+This is coming soon ...
 
 Make sure the input files have the column `component_group` after `assessed_biomarker_entity_id`. This field is important -- it tells the pipeline how the `assessed_biomarker_entity_id` should be grouped to create a biomarker record. Example:
 ```
@@ -22,6 +22,17 @@ For the "misc" and "compiled", use the following command to inherit it from the 
 ```
 $ cp -r /../shared/biomarkerdb/releases/data/v-$PREV_REL/misc /../shared/biomarkerdb/releases/data/v-3.1.1/
 $ cp -r /../shared/biomarkerdb/releases/data/v-$PREV_REL/compiled /../shared/biomarkerdb/releases/data/v-3.1.1/
+```
+Make sure to update `misc/xref_info.csv` if there were new namespaces added to the `evidence_source` column in the downloaded TSVs. You would need to provide the URL. Example of an `xref_info` entry:
+```
+xref_key,xref_lbl,xref_url,xref_id_examples
+edrn,EDRN,https://edrn.nci.nih.gov/@@dataDispatch?subjectURI=http://edrn.jpl.nasa.gov/bmdb/biomarkers/view/%s,27
+```
+This entry corresponds to the `EDRN:<id>` namespace as seen here:
+```
+$ head /../shared/biomarkerdb/downloads/edrn/current/edrn.tsv
+biomarker_id  biomarker                        ...  evidence_source  ...
+BB1528-1      increased levels of Osteopontin  ...  EDRN:27          ...
 ```
 
 ### Step-3: creating dataset files
