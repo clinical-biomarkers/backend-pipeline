@@ -1,7 +1,7 @@
 ### Step-1: downloading raw input files
 This is coming soon ...
 
-Make sure the input files have the column `component_group` after `assessed_biomarker_entity_id`. This field is important -- it tells the pipeline how the `assessed_biomarker_entity_id` should be grouped to create a biomarker record. Example:
+Make sure any new input files have the column `component_group` after `assessed_biomarker_entity_id`. This field is important -- it tells the pipeline how the `assessed_biomarker_entity_id` should be grouped to create a biomarker record. Example:
 ```
 $ head microplastics.tsv
 biomarker_id    biomarker       assessed_biomarker_entity       assessed_biomarker_entity_id    component_group assessed_entity_type    condition       condition_id    exposure_agent  exposure_agent_id       best_biomarker_role      specimen        specimen_id     loinc_code      evidence_source evidence        tag     biomarker_controlled_vocab
