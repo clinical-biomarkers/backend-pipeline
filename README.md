@@ -1,3 +1,4 @@
+## Data release pipeline
 ### Step-1: downloading raw input files
 This is coming soon ...
 
@@ -186,6 +187,42 @@ Run the following commands to update version label data
 $ cd /../shared/repos/backend-pipeline/api/
 $ python3 update_version.py -s $SERVER -v 3.1.1 -c data
 ```
+
+## Ontology update - as needed
+1. Make a new directory (name format yyyy_mm_dd) under `/../shared/repos/extraction/downloads/obci/` and `/../shared/biomarkerdb/downloads/ontology/`. Point the `current` symlinks to the new directories.
+   ```bash
+   cd /../shared/repos/extraction/downloads/obci
+   mkdir <yyyy_mm_dd>
+   ln -sfn <new_dir> current
+   cd /../shared/biomarkerdb/downloads/ontology
+   mkdir <yyyy_mm_dd>
+   ln -sfn <new_dir> current
+2. Place the new OWL file under `current/`
+3. Activate the virtual environment
+   ```bash
+   cd /../shared/repos/biomarker-backend-api
+   source env/bin/activate
+   ```
+4. Run the ontology OWL to JSON converter
+   ```bash
+   cd misc_scripts
+   python ontology_preprocessing.py /../shared/repos/extraction/downloads/obci/current/<obci_filename>.owl
+   ```
+   This creates `obci.json` under `/../shared/repos/biomarker-backend-api/misc_scripts/`
+5. Extract OBCI terms from `obci.json`
+   ```bash
+   mv obci.json /../shared/repos/extraction/downloads/obci/current/
+   cd /../shared/repos/extraction
+   source env/bin/activate
+   cd scripts/obci/
+   python transform_ontology.py ../../downloads/obci/current/obci.json /../shared/biomarkerdb/downloads/ontology/current/ontology.json
+   ```
+   This creates `ontology.json` under `/../shared/biomarkerdb/downloads/ontology/current/`
+6. Place the new `ontology.json` under `/../shared/biomarkerdb/releases/data/v-<new_version>/jsondb/ontologydb/` (in this example v-3.2.1 was used)
+7. Load the new ontology into the `c_ontology` MongoDB collection
+   ```
+   cd /../shared/repos/backend-pipeline/api
+   python3 populate_collection.py -s <server> -v 3.2.1 -c c_ontology
 
 
 
