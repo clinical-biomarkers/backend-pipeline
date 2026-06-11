@@ -216,16 +216,11 @@ $ python3 update_version.py -s $SERVER -v 3.1.1 -c data
    cd /../shared/repos/extraction
    source env/bin/activate
    cd scripts/obci/
-   python transform_ontology.py ../../downloads/obci/current/obci.json /../shared/biomarkerdb/downloads/ontology/current/ontology.json
+   python convert.py ../../downloads/obci/current/obci.json /../shared/biomarkerdb/downloads/ontology/current/ontology.json
    ```
    This creates `ontology.json` under `/../shared/biomarkerdb/downloads/ontology/current/`
-6. Replace "_" with ":" in the OBCI IDs
-   ```bash
-   cd /../shared/repos/extraction/downloads/obci/current
-   jq 'walk(if type == "object" and has("id") then .id |= gsub("_"; ":") else . end)' ontology.json > tmp && mv tmp ontology.json
-   ```
-8. Place the new `ontology.json` under `/../shared/biomarkerdb/releases/data/v-<new_version>/jsondb/ontologydb/` (in this example v-3.2.1 was used)
-9. Load the new ontology into the `c_ontology` MongoDB collection
+7. Place the new `ontology.json` under `/../shared/biomarkerdb/releases/data/v-<new_version>/jsondb/ontologydb/` (in this example v-3.2.1 was used)
+8. Load the new ontology into the `c_ontology` MongoDB collection
    ```bash
    cd /../shared/repos/backend-pipeline/api
    python3 populate_collection.py -s <server> -v 3.2.1 -c c_ontology
