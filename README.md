@@ -197,7 +197,7 @@ $ python3 update_version.py -s $SERVER -v 3.1.1 -c data
    cd /../shared/biomarkerdb/downloads/ontology
    mkdir <yyyy_mm_dd>
    ln -sfn <new_dir> current
-2. Place the new OWL file under `current/`
+2. Place the new OWL file under `/../shared/repos/extraction/downloads/obci/current/`
 3. Activate the virtual environment
    ```bash
    cd /../shared/repos/biomarker-backend-api
