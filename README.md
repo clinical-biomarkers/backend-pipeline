@@ -223,7 +223,7 @@ $ python3 update_version.py -s $SERVER -v 3.1.1 -c data
    ```
    cd /../shared/repos/backend-pipeline/api
    python3 populate_collection.py -s <server> -v 3.2.1 -c c_ontology
-
+   ```
 
 
 
