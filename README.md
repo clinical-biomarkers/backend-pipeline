@@ -189,6 +189,7 @@ $ python3 update_version.py -s $SERVER -v 3.1.1 -c data
 ```
 
 ## Ontology update - as needed
+(TODO: wrap all these steps into a bash script)
 1. Make a new directory (name format yyyy_mm_dd) under `/../shared/repos/extraction/downloads/obci/` and `/../shared/biomarkerdb/downloads/ontology/`. Point the `current` symlinks to the new directories.
    ```bash
    cd /../shared/repos/extraction/downloads/obci
@@ -218,9 +219,14 @@ $ python3 update_version.py -s $SERVER -v 3.1.1 -c data
    python transform_ontology.py ../../downloads/obci/current/obci.json /../shared/biomarkerdb/downloads/ontology/current/ontology.json
    ```
    This creates `ontology.json` under `/../shared/biomarkerdb/downloads/ontology/current/`
-6. Place the new `ontology.json` under `/../shared/biomarkerdb/releases/data/v-<new_version>/jsondb/ontologydb/` (in this example v-3.2.1 was used)
-7. Load the new ontology into the `c_ontology` MongoDB collection
+6. Replace "_" with ":" in the OBCI IDs
+   ```bash
+   cd /../shared/repos/extraction/downloads/obci/current
+   jq 'walk(if type == "object" and has("id") then .id |= gsub("_"; ":") else . end)' ontology.json > tmp && mv tmp ontology.json
    ```
+8. Place the new `ontology.json` under `/../shared/biomarkerdb/releases/data/v-<new_version>/jsondb/ontologydb/` (in this example v-3.2.1 was used)
+9. Load the new ontology into the `c_ontology` MongoDB collection
+   ```bash
    cd /../shared/repos/backend-pipeline/api
    python3 populate_collection.py -s <server> -v 3.2.1 -c c_ontology
    ```
