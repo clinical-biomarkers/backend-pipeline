@@ -31,14 +31,14 @@
         },
         "bridge_network":"bmkb_backend",
         "admin":{
-            "db":"admin",
-            "user":"superadmin",
-            "password":"superpass"
+            "db":"xx",
+            "user":"xxx",
+            "password":"xxx"
         },
         "bmkbdb":{
-            "db":"bmkbdb",
-            "user":"bmkbdbadmin",
-            "password":"bmkbdbpass"
+            "db":"xx",
+            "user":"xx",
+            "password":"xx"
         },
 		  "bmkbdb_beta":{
             "db":"bmkbdb_beta",
@@ -46,9 +46,9 @@
             "password":"bmkbdb_betapass"
         },
         "tmpdb":{
-            "db":"tmpdb",
-            "user":"bmkbdbadmin",
-            "password":"bmkbdbpass"
+            "db":"xxx",
+            "user":"xx",
+            "password":"xxx"
         }
     },
     "downloads":{
