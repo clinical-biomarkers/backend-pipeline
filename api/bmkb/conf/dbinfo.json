@@ -1,22 +1,22 @@
 {
     "dev":{
-        "mongodbname":"glydb"
-        ,"mongodbuser":"glydbadmin"
-        ,"mongodbpassword":"glydbpass"
+        "mongodbname":"xxx"
+        ,"mongodbuser":"xxx"
+        ,"mongodbpassword":"xxx"
     }
     ,"tst":{
-        "mongodbname":"glydb"
-        ,"mongodbuser":"glydbadmin"
-        ,"mongodbpassword":"glydbpass"
+        "mongodbname":"xxx"
+        ,"mongodbuser":"xxx"
+        ,"mongodbpassword":"xxx"
     }
     ,"beta":{
-        "mongodbname":"glydb_beta"
-        ,"mongodbuser":"glydb_betaadmin"
-        ,"mongodbpassword":"glydb_betapass"
+        "mongodbname":"xxxx"
+        ,"mongodbuser":"xxxx"
+        ,"mongodbpassword":"xxxx"
     }
     ,"prd":{
-        "mongodbname":"glydb"
-        ,"mongodbuser":"glydbadmin"
-        ,"mongodbpassword":"glydbpass"
+        "mongodbname":"xxxx"
+        ,"mongodbuser":"xxxx"
+        ,"mongodbpassword":"xxxx"
     }
 }
