@@ -28,7 +28,7 @@ def main():
     api_name = options.apiname
 
     config_obj = json.loads(open("conf/curl.json", "r").read())
-    auth_obj = json.loads(open("auth/auth.json", "r").read())
+    auth_obj = json.loads(open("/home/rykahsay/auth/auth.json", "r").read())
 
     cn_type = "Content-Type: application/json"
     api_url = "http://localhost:%s/auth/login/" % (config_obj["port"][server])
@@ -44,10 +44,11 @@ def main():
     query_obj = json.loads(open(query_file, "r").read())
     query_obj_str = json.dumps(query_obj)
 
+    
     cmd = "curl -H '%s' -H 'Authorization: Bearer %s' %s -d '%s' " % (cn_type, TOKEN, api_url, query_obj_str )
+    print (cmd)
     res = subprocess.getoutput(cmd)
     print (res)
-    print (cmd)
 
     return
 

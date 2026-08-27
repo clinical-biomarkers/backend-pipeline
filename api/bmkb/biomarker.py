@@ -11,7 +11,8 @@ import json
 import bcrypt
 
 from bmkb.indexlib import search_one
-from bmkb.biomarker_apilib import biomarker_detail, biomarker_search, biomarker_search_init, search_simple
+from bmkb.biomarker_apilib import biomarker_detail, biomarker_search, biomarker_search_init
+
 from bmkb.util import get_req_obj, make_list_objects_indirect, get_hash_id, cache_list_objects, retrieve_cached_list_objects, apply_pagination
 import traceback
 
@@ -37,6 +38,13 @@ search_simple_query_model = api.model("Biomarker Simple Search Query",
         "term": fields.String(required=True, default="AN6278-5")
     }
 )
+
+search_global_query_model = api.model("Biomarker Global Search Query",
+    {
+        "term": fields.String(required=True, default="AN6278-5")
+    }
+)
+
 
 ai_search_query_model = api.model("Biomarker AI Search Query",
     {
@@ -73,6 +81,31 @@ search_query_model = api.model("Biomarker Search Query",
 list_query_model = api.model("Biomarker List Query",{ "id": fields.String(required=True, default="")})
 
 
+
+
+@api.route('/search_global/')
+class Biomarker(Resource):
+    @api.doc('search_global')
+    @api.expect(search_global_query_model)
+    def post(self):
+        SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+        json_url = os.path.join(SITE_ROOT, "conf/config.json")
+        config_obj = json.load(open(json_url))
+        res_obj = {}
+        try:
+            req_obj = get_req_obj(request)
+            res_obj = log_request(req_obj, "/biomarker/search_global/", request)
+            if "error_list" not in res_obj:
+                cache_flag, exact_match_flag = True, True
+                res_obj = search_one("biomarker_search_global",req_obj,config_obj,cache_flag, exact_match_flag)
+        except Exception as e:
+            res_obj = log_error(traceback.format_exc())
+        http_code = 500 if "error_list" in res_obj else 200
+        return res_obj, http_code
+
+    @api.doc(False)
+    def get(self):
+        return self.post()
 
 
 @api.route('/search_simple/')

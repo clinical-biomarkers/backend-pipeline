@@ -30,7 +30,7 @@ def main():
 
     
     file_list = glob.glob(release_dir + "jsondb/interm/statdb/*.csv")
-    seen = {"entity_type":{}, "role":{}, "source":{}}
+    seen = {"entity_type":{}, "role":{}, "source":{}, "keywords":{}}
     for in_file in file_list:
         with open(in_file, "r") as FR:
             lcount = 0
@@ -38,7 +38,7 @@ def main():
                 lcount += 1
                 if lcount == 1:
                     continue
-                biomarker_id,condition_id,entity_type,role_list,source_list,flags = line.split("\",\"")
+                biomarker_id,condition_id,agent_id,entity_type,role_list,source_list,keywords,flags = line.split("\",\"")
                 seen["entity_type"][entity_type] = True
                 for role in role_list.split(";"):
                     if role != "":
@@ -46,6 +46,9 @@ def main():
                 for source in source_list.split(";"):
                     if source != "":
                         seen["source"][source] = True
+                for kw in keywords.split(";"):
+                    if kw != "":
+                        seen["keywords"][kw] = True
 
     doc = {
         "best_biomarker_role": list(seen["role"].keys()),
@@ -55,7 +58,8 @@ def main():
             {"id": "biomarker","display": "Biomarker"},
             {"id": "condition","display": "Condition"}
         ],
-        "data_source": list(seen["source"].keys())
+        "data_source": list(seen["source"].keys()),
+        "keywords": list(seen["keywords"].keys()),
     }
     out_file = release_dir + "jsondb/searchinitdb/searchinit.json"
     with open(out_file, "w") as FW:

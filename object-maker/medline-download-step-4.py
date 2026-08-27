@@ -46,7 +46,7 @@ def main():
                     seen[pmid] = True
                     n += 1
 
-    out_file = "/data/shared/biomarkerdb/logs/xml_file_list.json"
+    out_file = "/data/shared/biomarkerdb/logs/medline_xml_file_list.4.json"
     xml_file_list = sorted(list(xmlfile2pmid.keys()))
     with open(out_file, "w") as FW:
         FW.write("%s\n" % (json.dumps(xml_file_list, indent=4)))

@@ -18,7 +18,7 @@ def main():
     parser.add_option("-s","--start",action="store",dest="start",help="")
     parser.add_option("-e","--end",action="store",dest="end",help="")
     (options,args) = parser.parse_args()
-    for key in ([ options.start, options.end]):
+    for key in ([options.rel, options.start, options.end]):
         if not (key):
             parser.print_help()
             sys.exit(0)

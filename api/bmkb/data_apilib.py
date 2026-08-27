@@ -254,34 +254,14 @@ def section_download(query_obj, config_obj, sec_info, data_path):
         lbl_dict = {}
         for o in sec_info[record_type][sec]["fieldmap"]:
             lbl_dict[o["path"]] = o["label"]
-    
-        #record_obj = get_record_object(dbh, query_obj, config_obj)
-        cache_id, listcache_id = "", query_obj["id"]
-        api_name = "section_download"
-        in_dict = {"cache_id":cache_id,"listcache_id":listcache_id,"api_name":api_name}
-        res = retrieve_cached_list_objects(in_dict,query_obj,config_obj,"allrecords")        
-         
-        if res == None:
-            section_field = sec_info[record_type][sec]["sectionfield"]
-            res = get_results_from_record_id(dbh, query_obj, section_field)
-            if "error_list" in res:
-                return res
 
-        #return res
-        obj_list = res["results"]
-        #return obj_list
+        record_obj = get_record_object(dbh, query_obj, config_obj)
         
-        #record_obj = {} 
-        #if record_obj == None:
-        #    return {"error_list":{"error_code":"non-existent-record"}}
-        #sec_field = sec_info[record_type][sec]["sectionfield"]
-        #if sec_field not in record_obj:
-        #    return {"error_list":{"error_code":"missing-section-field"}}
-        #obj_list = record_obj[sec_field]
-        #if record_type == "biomarker" and query_obj["section"] == "component_glycan":
-        #    obj_list = record_obj[sec_field]["glycan"]
-        #elif record_type == "biomarker" and query_obj["section"] == "component_protein":
-        #    obj_list = record_obj[sec_field]["protein"] 
+        sec_field = sec_info[record_type][sec]["sectionfield"]
+        if sec_field not in record_obj:
+            return {"error_list":{"error_code":"missing-section-field"}}
+        obj_list = record_obj[sec_field]
+
 
         debug_list = []
         list_obj = {"results":[]}
@@ -313,39 +293,17 @@ def section_download(query_obj, config_obj, sec_info, data_path):
             debug_list.append(o)
             for path in lbl_dict:
                 val_obj = get_path_value(path, obj)
-                #p_list = path.split(".")
-                #val_obj = obj
-                #for p in p_list:
-                #    val_obj = val_obj[p] if p in val_obj else val_obj
-           
-                if sec.find("snv_") != -1 and path == "sequence":
-                    val_obj = "%s -> %s" % (obj["sequence_org"], obj["sequence_mut"])
-
                 if type(val_obj) is list:
                     tmp_list = []
-                    # get deeper into structure for "disease" obj list 
-                    if path == "disease":
-                        for oo in obj[path]:
-                            if "recommended_name" in oo:
-                                d = "%s (%s)" % (oo["recommended_name"]["name"], oo["recommended_name"]["id"])
-                                tmp_list.append(d)
-                    else:
-                        for val in val_obj:
-                            if type(val) in [str, int, float]:
-                                tmp_list.append(str(val))
-                            
+                    for val in val_obj:
+                        if type(val) in [str, int, float]:
+                            tmp_list.append(str(val))
                     val_obj = "; ".join(tmp_list)
-
-                #if type(val_obj) is list and path == "referenced_proteins":
-                #    tmp_list = []
-                #    for oo in obj[path]:
-                #        tmp_list.append(oo["protein_name"])
-                #    val_obj = "; ".join(tmp_list)
-                
                 if type(val_obj) in [str, int, float]:
                     lbl = lbl_dict[path] if path in lbl_dict else path
                     o[lbl] = str(val_obj)
-                
+            #return {"o":o, "obj":obj, "lbl_dict":lbl_dict}
+ 
             #debug_list.append(o)
             if "evidence" in obj:
                 if obj["evidence"] != []:
@@ -624,60 +582,17 @@ def get_list_object(query_obj, config_obj):
 def get_record_object(dbh, query_obj, config_obj):
 
     format_lc = query_obj["format"].lower()
-    collection = config_obj["downloadtypes"][query_obj["download_type"]]["cache"]
-    main_id = "uniprot_canonical_ac" 
-
-    if query_obj["download_type"] in ["glycan_detail", "glycan_image", "glycan_section"]:
-        main_id = "glytoucan_ac"
-        if query_obj["id"].find("GGM.") != -1:
-            main_id, collection = "motif_ac", "c_motif"
-    if query_obj["download_type"] in ["motif_detail", "motif_section"]:
-        main_id = "motif_ac"
-    if query_obj["download_type"] in ["site_detail", "site_section"]:
-        main_id = "id"
-    if query_obj["download_type"] in ["publication_detail", "publication_section"]:
-        main_id = "record_id"
+    collection = "c_biomarker"
+    main_id = ""
     if query_obj["download_type"] in ["biomarker_detail", "biomarker_section"]:
         main_id = "biomarker_id"   
-    if query_obj["download_type"] in ["disease_detail", "disease_section"]:
-        main_id = "disease_id"
  
     val = query_obj["id"]
     mongo_query = {main_id:{"$eq":val}}
-    if query_obj["download_type"] == "protein_detail":
-        mongo_query = {"$or":[{"uniprot_canonical_ac":{"$eq":val}}, {"uniprot_ac":{"$eq":val}}]}
-    if query_obj["download_type"] == "site_detail":
-        parts = val.split(".")
-        if parts[0].find("-") == -1 and len(parts) == 3:
-            tmp_list = []
-            for i in range(1, 5):
-                cmb = "%s-%s.%s.%s" % (parts[0], i, parts[1], parts[2])
-                tmp_list.append({"id":{"$eq":cmb}})
-            mongo_query = {"$or":tmp_list}
-
-
+    #return {"coll":collection, "mquery":mongo_query}
     record_obj = dbh[collection].find_one(mongo_query)
-    if record_obj == None:
-        return record_obj
-
-    if format_lc in ["json"]:
+    if "_id" in record_obj:
         record_obj.pop("_id")
-        if query_obj["download_type"] == "protein_detail":
-            url = config_obj["urltemplate"]["uniprot"] % (record_obj["uniprot_canonical_ac"])
-            record_obj["uniprot"] = { "uniprot_canonical_ac":record_obj["uniprot_canonical_ac"],
-                "uniprot_id":record_obj["uniprot_id"],"url":url}
-            record_obj.pop("uniprot_canonical_ac")
-            record_obj.pop("uniprot_id")
-        elif query_obj["download_type"] in ["glycan_detail", "motif_detail"]:
-            url = config_obj["urltemplate"]["glytoucan"] % (record_obj["glytoucan_ac"])
-            record_obj["glytoucan"] = {
-                "glytoucan_ac":record_obj["glytoucan_ac"], 
-                "glytoucan_url":url
-            }
-            m_query = {"motifs.id": {'$eq': record_obj["glytoucan_ac"]}}
-            doc_list = dbh["c_glycan"].find(m_query)
-            record_obj["results"] = get_parent_glycans(record_obj["glytoucan_ac"], doc_list, record_obj)
-            record_obj.pop("glytoucan_ac")
 
     return record_obj
 

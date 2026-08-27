@@ -34,7 +34,7 @@ def main():
     
     file_list = glob.glob(release_dir +  "jsondb/interm/statdb/*.csv")
     ent_type_stat = {}
-    seen = {"condition":{}, "biomarker":{}, "biomarker_single":{}, "biomarker_multi":{}}
+    seen = {"condition":{}, "exposure_agent":{},"biomarker":{}, "biomarker_single":{}, "biomarker_multi":{}}
     for in_file in file_list:
         with open(in_file, "r") as FR:
             lcount = 0
@@ -43,9 +43,13 @@ def main():
                 if lcount == 1:
                     continue
                 row = line.strip().split("\",\"")
-                biomarker_id,condition_id,ent_type, role,src, flags = row
-                seen["condition"][condition_id] = True
-                seen["biomarker"][biomarker_id] = True
+                biomarker_id,condition_id,agent_id,ent_type, role,src, keywords,flags = row
+                if condition_id != "":
+                    seen["condition"][condition_id] = True
+                if agent_id != "":
+                    seen["exposure_agent"][agent_id] = True
+                if biomarker_id != "":
+                    seen["biomarker"][biomarker_id] = True
                 if flags.find("biomarker_single") != -1:
                     seen["biomarker_single"][biomarker_id] = True
                 if flags.find("biomarker_multi") != -1:
@@ -57,6 +61,7 @@ def main():
     obj_one = {
         "title": "Database Statistics",
         "Unique Condition": len(seen["condition"].keys()),
+        "Unique Exposure Agent": len(seen["exposure_agent"].keys()),
         "Unique Biomarker": len(seen["biomarker"].keys()),
         "Single Biomarker": len(seen["biomarker_single"].keys()),
         "Multicomponent Biomarker": len(seen["biomarker_multi"].keys())

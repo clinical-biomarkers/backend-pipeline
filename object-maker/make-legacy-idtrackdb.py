@@ -4,7 +4,7 @@ import orjson
 
 rel = "2.4.1"
 rel_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
-out_dir = rel_dir +  "jsondb/idtrackdb/"
+out_dir = rel_dir +  "jsondb/idgendb/"
 file_list = glob.glob(rel_dir + "datamodeldb/*.json")
 
 record_obj_list = []

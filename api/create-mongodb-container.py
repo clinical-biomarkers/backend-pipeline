@@ -40,7 +40,6 @@ def main():
     e_params = "-e MONGO_INITDB_ROOT_USERNAME=%s -e MONGO_INITDB_ROOT_PASSWORD=%s" % (u, p)
 
 
-
     cmd_list = []
     for c in [mongo_container, api_container]:
         cmd = "docker ps --all |grep %s" % (c)

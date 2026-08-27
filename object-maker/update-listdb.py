@@ -16,9 +16,12 @@ def get_biomarker_filter_code(obj):
     code_list = []
 
     #grp_idx=0 by_assessed_entity_type
+    doc = json.load(open(list_filter_file))
+    tmp_dict = doc["biomarker"]["by_assessed_entity_type"]["order_dict"]
+    s_tmp_dict = dict(sorted(tmp_dict.items(), key=lambda item: item[1]))
+    f_list = list(s_tmp_dict.keys())
     c_list = []
-    f_list = ["glycan", "protein"]
-    type_list = obj["assessed_entity_type"].replace(" ", "").split(";")
+    type_list = obj["assessed_entity_type"].lower().replace(" ", "").split(";")
     for f in f_list:
         c_list.append("1" if f.lower() in type_list else "0")
     code_list.append("".join(c_list))
@@ -50,7 +53,11 @@ def main():
 
     rel = options.rel
     global release_dir
+    global list_filter_file
+
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+    list_filter_file = "/data/shared/repos/backend-pipeline/api/bmkb/conf/list_filters.json"
 
 
     record_type = "biomarker"

@@ -54,8 +54,12 @@ def main():
         client.server_info()
         dbh = client[db_name]
         coll = "c_version"
+        
+        doc = dbh[coll].find_one({"component":cmp})
+        old_version_list = doc["version_list"] if "version_list" in doc else []
+        
         ts = datetime.datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S %Z%z')
-        ver_obj = { "component":cmp, "version":ver, "release_date":ts}
+        ver_obj = { "component":cmp, "version":ver, "release_date":ts, "version_list":[ver] + old_version_list}
         res = dbh[coll].update_one({"component":cmp}, {'$set': ver_obj}, upsert=True)
         doc = dbh[coll].find_one({"component":cmp})
         c, v, d = doc["component"], doc["version"], doc["release_date"]

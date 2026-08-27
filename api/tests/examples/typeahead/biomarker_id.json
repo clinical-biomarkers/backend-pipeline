@@ -1,5 +1,5 @@
 {
-            "field": "biomarker_id",
-            "limit": 10,
-            "value": "AA4686"
-        }
+	"field": "biomarker_id",
+	"limit": 10,
+	"value": "AN"        
+}

@@ -35,12 +35,14 @@ def main():
     index_name = options.indexname
 
     config_obj = json.loads(open("./conf/config.json", "r").read())
-    mongo_port = "27017"
+    mongo_port = config_obj["dbinfo"]["port"][server]
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
 
-    db_name = "glydb_beta" if server == "beta" else "glydb"
+
+        
+    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
     db_obj = config_obj["dbinfo"][db_name]
-    glydb_name, db_user, db_pass =  db_obj["db"], db_obj["user"], db_obj["password"]
+    db_name, db_user, db_pass =  db_obj["db"], db_obj["user"], db_obj["password"]
 
 
     index_dict = json.load(open("conf/indexes.json")) 

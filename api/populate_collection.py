@@ -130,7 +130,7 @@ def main():
 
         for coll in coll_list:
 
-            log_file = log_dir + "%s_loading_progress_%s.txt" % (coll, server)
+            log_file = log_dir + "%s_loading_progress_%s_%s.txt" % (coll, ver.replace(".","_"), server)
             msg = "\n ... started loading %s.%s version %s" % (db_name, coll, ver)
             write_progress_msg(msg, "w")
 

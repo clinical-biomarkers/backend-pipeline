@@ -32,7 +32,7 @@ def main():
 
 
 
-    xml_file_list = json.loads(open("/data/shared/biomarkerdb/logs/xml_file_list.json", "r").read())
+    xml_file_list = json.loads(open("/data/shared/biomarkerdb/logs/medline_xml_file_list.4.json", "r").read())
     xml_file_list = sorted(xml_file_list)
     
     n = len(xml_file_list)

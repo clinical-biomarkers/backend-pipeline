@@ -27,11 +27,10 @@ def main():
 
 
     config_obj = json.loads(open("./conf/config.json", "r").read())
-    api_image = "glygen_api_%s" % (server)
+    api_image = "bmkb_api_%s" % (server)
     api_container = "running_" + api_image
-    substructure_container = "running_substructure"
 
-    mongo_container = "running_glygen_mongo_%s" % (server)
+    mongo_container = "running_bmkb_mongo_%s" % (server)
     mongo_port = config_obj["dbinfo"]["port"][server] 
 
     mongo_network = config_obj["dbinfo"]["bridge_network"]
@@ -42,8 +41,8 @@ def main():
     e_params = "-e MONGO_INITDB_ROOT_USERNAME=%s -e MONGO_INITDB_ROOT_PASSWORD=%s" % (u, p)
 
     cmd_list = []
-    cmd_list.append("sudo systemctl stop docker-glygen-mongo-%s.service" % (server))
-    for c in [mongo_container, api_container, substructure_container]:
+    cmd_list.append("sudo systemctl stop docker-bmkb-mongo-%s.service" % (server))
+    for c in [mongo_container, api_container]:
         cmd = "docker ps --all |grep %s" % (c)
         container_id = subprocess.getoutput(cmd).split(" ")[0].strip()
         if container_id.strip() != "":
@@ -58,7 +57,7 @@ def main():
     
     cmd_list.append("docker network create -d bridge %s" % (mongo_network))
     cmd = "docker create --name %s --network %s -p 127.0.0.1:%s:27017" % (mongo_container, mongo_network,mongo_port)
-    cmd += " -v /data/shared/glygen/mongodump/%s:/data/shared/glygen/mongodump -v /data/shared/glygen/db/%s:/data/shared/glygen/db %s mongo" % (server, server, e_params)
+    cmd += " -v /data/shared/biomarkerdb/mongodump/%s:/data/shared/biomarkerdb/mongodump -v /data/shared/biomarkerdb/db/%s:/data/shared/biomarkerdb/db %s mongo" % (server, server, e_params)
     cmd_list.append(cmd)
 
     for cmd in cmd_list:

@@ -5,14 +5,16 @@ http POST :4040/log/logging/ < tests/examples/log/log_logging.json
 
 http POST :4040/biomarker/detail/AN6278-5
 http POST :4040/biomarker/search_init/
+http POST :4040/biomarker/search_global/ < tests/examples/biomarker/search_global.json
 http POST :4040/biomarker/search_simple/ < tests/examples/biomarker/search_simple.json
 http POST :4040/biomarker/search < tests/examples/biomarker/search.1.json
 http POST :4040/biomarker/ai_search < tests/examples/biomarker/ai_search.json
 http POST :4040/biomarker/list < tests/examples/biomarker/list.json
 
+
 http POST :4040/data/list_download < tests/examples/data/list_download.1.json
 
-http POST :4040/auth/login/ < tests/examples/auth/auth_login.json
+http POST :4040/auth/login/ < ~/auth/auth.json
 http POST :4040/auth/userdelete/ < tests/examples/auth/auth_userdelete.json
 http POST :4040/auth/userinfo/ < tests/examples/auth/auth_userinfo.json
 http POST :4040/auth/userid/ < tests/examples/auth/auth_userid.json
@@ -22,5 +24,8 @@ http POST :4040/event/list/ < tests/examples/event/event_list.json
 http POST :4040/event/detail/ < tests/examples/event/event_detail.json
 http POST :4040/event/update/ < tests/examples/event/event_update.json
 http POST :4040/event/delete/ < tests/examples/event/event_delete.json
+
+
+http POST :4040/typeahead/typeahead/ < tests/examples/typeahead/biomarker_id.json
 
 

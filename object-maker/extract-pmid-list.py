@@ -28,7 +28,7 @@ def main():
 
     xml_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_xml/"
     out_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_list/"
-    gz_xml_file_list = json.load(open("/data/shared/biomarkerdb/logs/medline_xml_file_list.json"))
+    gz_xml_file_list = json.load(open("/data/shared/biomarkerdb/logs/medline_xml_file_list.3.json"))
     gz_xml_file_list = sorted(gz_xml_file_list)
 
     for gz_xml_file in gz_xml_file_list[start-1:end]:

@@ -29,6 +29,7 @@ def event_addnew(logged_user, query_obj, config_obj):
     if error_list != []:
         return {"error_list":error_list}
 
+
     error_list = []
     for k in ["start_date", "end_date"]:
         date_parts = query_obj[k].strip().split(" ")[0].strip().split("/")
@@ -71,6 +72,7 @@ def event_addnew(logged_user, query_obj, config_obj):
 
     if error_list != []:
         return {"error_list":error_list}
+
 
 
     #check write-access

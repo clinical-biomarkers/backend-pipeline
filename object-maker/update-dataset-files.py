@@ -24,8 +24,9 @@ def get_cmb_list_str_list():
                     f_list = row
                 else:
                     condition_id = row[f_list.index("condition_id")]
+                    agent_id = row[f_list.index("exposure_agent_id")]
                     grp_idx = row[f_list.index("component_group")]
-                    if condition_id == "":
+                    if condition_id == "" and agent_id == "":
                         continue
                     grp = "%s|%s" % (source, grp_idx)
                     cmb_list = grp2cmblist[grp]
@@ -50,16 +51,16 @@ def main():
 
     rel = options.rel
 
-    global cmb2biomarkerid
+    global new_biomarkerid_dict
     global cmblist2src
     global grp2cmblist
     global release_dir
 
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+    new_biomarkerid_dict = csvutil.load_new_biomarkerid_dict(release_dir)
 
-    cmb2biomarkerid = csvutil.load_cmb2biomarkerid(release_dir)
+ 
     cmblist2src, grp2cmblist = csvutil.load_cmblist2src(release_dir)
-    
     cmb_list_str_list = get_cmb_list_str_list()
 
     id_dict = {}
@@ -67,14 +68,14 @@ def main():
         cmb_list = json.loads(cmb_list_str)
         cmb_list_new = []
         for cmb in cmb_list:
-            ent_id, d_id, vocab = cmb.split("|")
-            cmb_list_new.append("%s|%s|%s" % (ent_id, d_id, vocab.lower()))
+            ent_id, d_id, agent_id, vocab = cmb.split("|")
+            cmb_list_new.append("%s|%s|%s|%s" % (ent_id, d_id, agent_id, vocab.lower()))
         cmb_list_str_new = json.dumps(cmb_list_new)
         biomarker_id_list = []
-        if cmb_list_str_new in cmb2biomarkerid:
-            biomarker_id_list = sorted(list(cmb2biomarkerid[cmb_list_str_new].keys()))
+        if cmb_list_str_new in new_biomarkerid_dict:
+            biomarker_id_list = sorted(list(new_biomarkerid_dict[cmb_list_str_new].keys()))
         id_dict[cmb_list_str] = biomarker_id_list[0]
-
+    
 
     #first copy all files to reviewed
     cmd = "cp %s/unreviewed/* %s/reviewed/" % (release_dir, release_dir)
@@ -85,8 +86,10 @@ def main():
        
     #update biomarkers_*.tsv to insert biomarker_id
     file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
+    #file_list = glob.glob(release_dir + "unreviewed/biomarkers_micro*.tsv")
     file_idx = 0
     for in_file in file_list:
+        file_name = in_file.split("/")[-1]
         file_idx += 1
         out_file = in_file.replace("unreviewed", "reviewed")
         FW2 = open(out_file, "w")
@@ -101,18 +104,21 @@ def main():
                     newrow = ["biomarker_id"] + row
                     FW2.write("%s\n" % ("\t".join(newrow)))
                     if file_idx == 1:
-                        FW1.write("%s\n" % ("\t".join(newrow)))
+                        FW1.write("%s\n" % ("\t".join(newrow + ["data_source"])))
                 else:
                     condition_id = row[f_list.index("condition_id")]
+                    agent_id = row[f_list.index("exposure_agent_id")]
                     grp_idx = row[f_list.index("component_group")]
-                    if condition_id == "":
+                    if condition_id == "" and agent_id == "":
                         continue
                     grp = "%s|%s" % (source, grp_idx)
                     cmb_list = grp2cmblist[grp]
                     cmb_list_str = json.dumps(cmb_list)
                     biomarker_id = id_dict[cmb_list_str] if cmb_list_str in id_dict else "NO_BIOMARKER_ID"
                     newrow = [biomarker_id] + row
-                    FW1.write("%s\n" % ("\t".join(newrow)))
+                    if biomarker_id == "NO_BIOMARKER_ID":
+                        print (cmb_list)
+                    FW1.write("%s\n" % ("\t".join(newrow + [source])))
                     FW2.write("%s\n" % ("\t".join(newrow)))
         FW2.close()
     FW1.close()

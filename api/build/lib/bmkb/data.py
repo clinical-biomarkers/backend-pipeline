@@ -21,7 +21,7 @@ list_download_query_model = api.model(
     "List Download Query", 
     { 
         "id": fields.String(required=True, default=""),
-        "download_type": fields.String(required=True, default="glycan_list"),
+        "download_type": fields.String(required=True, default="biomarker_list"),
         "format": fields.String(required=True, default="csv"),
         "compressed": fields.Boolean(required=True, default=False)
     }
@@ -30,8 +30,8 @@ list_download_query_model = api.model(
 detail_download_query_model = api.model(
     "Detail Download Query",
     {
-        "id": fields.String(required=True, default="G17689DH"),
-        "download_type": fields.String(required=True, default="glycan_detail"),
+        "id": fields.String(required=True, default="AN6278-5"),
+        "download_type": fields.String(required=True, default="biomarker_detail"),
         "format": fields.String(required=True, default="json"),
         "compressed": fields.Boolean(required=True, default=False)
     }
@@ -40,9 +40,9 @@ detail_download_query_model = api.model(
 section_download_query_model = api.model(
     "Section Download Query",
     {
-        "id": fields.String(required=True, default="G17689DH"),
-        "download_type": fields.String(required=True, default="glycan_section"),
-        "section": fields.String(required=True, default="glycoprotein"),
+        "id": fields.String(required=True, default="AN6278-5"),
+        "download_type": fields.String(required=True, default="biomarker_section"),
+        "section": fields.String(required=True, default="biomarker_component"),
         "format": fields.String(required=True, default="csv"),
         "compressed": fields.Boolean(required=True, default=False)
     }

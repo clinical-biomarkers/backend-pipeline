@@ -50,7 +50,7 @@ def main():
     with open(logfile, "w") as FL:
         FL.write("Started processing\n")
 
-    xml_file_list = json.loads(open("/data/shared/biomarkerdb/logs/xml_file_list.json", "r").read())
+    xml_file_list = json.loads(open("/data/shared/biomarkerdb/logs/medline_xml_file_list.4.json", "r").read())
     xml_file_list = sorted(xml_file_list)
     for xml_file in xml_file_list[start-1:end]:
         dicts_out = pp.parse_medline_xml(xml_file,

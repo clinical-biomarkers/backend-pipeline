@@ -63,110 +63,6 @@ def load_geneinfo(in_file):
 
 
 
-def has_mutation_word(orig):
-
-
-    typo_dict = {
-        "abl1:e255k":"abl1 e255k",
-        "abl1:f359v":"abl1 f359v",
-        "abl1:t315a":"abl1 t315a",
-        "abl1:v299l":"abl1 v299l",
-        "abl1:i242t":"abl1 i242t",
-        "abl1:t315i":"abl1 t315i",
-        "akt1:e17k":"akt1 e17k",
-        "erbb2:g776l":"erbb2 g776l",
-        "flt3-itd":"flt3 itd",
-        "flt3 (d835)":"flt3 d835",
-        "nras (q61)":"nras q61",
-        "ros1:g2032r":"ros1 g2032r",
-        "stk11:d194e":"stk11 d194e",
-        "tp53:r248q":"tp53 r248q"
-    }
-
-    for w_lc in typo_dict:
-        if orig.lower().find(w_lc) != -1:
-            orig = orig.lower().replace(w_lc, typo_dict[w_lc])
-
-    #w_list = orig.lower().split(" ")
-    w_list = orig.split(" ")
-    ret_flag = False
-    mut_w_list = []
-    for w in w_list:
-        if w == "":
-            continue
-        w_lc = w.lower()
-        flag_list = []
-        flag_list.append(w_lc[0].isdigit() or w_lc[0] in ["(",")"])
-        flag_list.append(w_lc[1:-1].isdigit())
-        flag_list.append(w_lc[-1].isdigit() or w_lc[-1] in ["(",")"])           
-        if flag_list == [False, True, False]:
-            ret_flag = True
-            if w not in mut_w_list:
-                mut_w_list.append(w)
-                #print ("flag-1a", mut_w_list)
-        flag_list = []
-        flag_list.append(w_lc.find("(") != -1 and w_lc.find(")") != -1 and w_lc.find(">") != -1)
-        flag_list.append(w_lc.find("(c.") != -1 and w_lc.find(")") != -1 and w_lc.find("del") != -1)
-        flag_list.append(w_lc.find("(c.") != -1 and w_lc.find(")") != -1 and w_lc.find("ins") != -1)
-        flag_list.append(w_lc.find("(c.") != -1 and w_lc.find(")") != -1 and w_lc.find("dup") != -1) 
-        if len(w_lc) > 2:
-            flag_list.append(w_lc[0:2] == "rs" and w_lc[2:].isdigit())
-        if True in flag_list:
-            ret_flag = True
-            if w not in mut_w_list:
-                mut_w_list.append(w)
-                #print ("flag-1b", mut_w_list)
-        if w.find(":") != -1:
-            ptrn = w.split(":")[-1]
-            flag_list = []
-            flag_list.append(ptrn[0].isdigit())
-            flag_list.append(ptrn[1:-1].isdigit())
-            flag_list.append(ptrn[-1].isdigit())
-            if flag_list == [False, True, False]:
-                ret_flag = True
-                if ptrn not in mut_w_list:
-                    mut_w_list.append(ptrn)
-                    #print ("flag-1c", mut_w_list) 
-    
-
-    for w in w_list:
-        if w == "":
-            continue
-        flag_list = []
-        flag_list.append(w[0].isdigit())
-        flag_list.append(w[1:].isdigit())
-        if flag_list == [False, True] and "mutation" in w_list:
-            ret_flag = True
-            if w not in mut_w_list:
-                mut_w_list.append(w) 
-                #print ("flag-2a", mut_w_list)
-
-        if w.find("(") != -1 and w.find(")") != -1 and w.find(">") != -1:
-            ret_flag = True
-            if w not in mut_w_list:
-                mut_w_list.append(w)
-                #print ("flag-2b", mut_w_list)
-
-    if orig.find("::") != -1 or orig.find(":") != -1:
-        if orig.lower().find("mutation") != -1:
-            ret_flag = True
-            for w in w_list:        
-                if w.find("::") != -1 or w.find(":") != -1:  
-                    if w not in mut_w_list:
-                        mut_w_list.append(w) 
-                        #print ("flag-3a", mut_w_list)
-                if w.find("(") != -1 and w.find(")") != -1 and w.find(">") != -1:
-                    if w not in mut_w_list:
-                        mut_w_list.append(w)
-                        #print ("flag-3b", mut_w_list)           
-
-    #print ("0000", w_list, mut_w_list)
- 
-    mut_w = " ".join(mut_w_list) 
-    #print ("YYY|%s|%s|%s" % (orig, mut_w_list,mut_w))
-
- 
-    return ret_flag, mut_w
 
 
 
@@ -246,7 +142,7 @@ def make_masterlist_ds(dataset):
             newrow += [best_biomarker_role,specimen,specimen_id,loinc_code,evidence_source,evidence,tag]
             newrow += [data_source,flag]
             row_list.append(newrow)
-    
+   
     file_format = "tsv"
     out_file = release_dir + "unreviewed/%s.%s" % (dataset, file_format)
     write_output(row_list, out_file, file_format)
@@ -344,7 +240,6 @@ def get_gene_name(entity_id, entity_type, entity, ac2genename, genename2geneid):
 
 
 def get_entity_type_list():
-
     tmp_list = []
     in_file = generated_dir + "misc/biomarker_controlled_vocabulary/current/biomarker_entity_type.txt"
     with open(in_file, "r") as FR:
@@ -353,11 +248,6 @@ def get_entity_type_list():
                 tmp_list.append(line[3:].strip())
     return tmp_list
 
-def get_mutation_term_list():
-    term_list = ["mutation","deletion","fusion","insertion","rearrangement"]
-    #term_list = []
-
-    return term_list
 
 
 def get_vocab_term(biomarker_orig, vocab_ptrn, entity, entity_id, entity_type, ac2genename, genename2geneid): 
@@ -373,7 +263,7 @@ def get_vocab_term(biomarker_orig, vocab_ptrn, entity, entity_id, entity_type, a
     gene_name, gene_id = get_gene_name(entity_id, entity_type, entity, ac2genename,genename2geneid)
 
               
-    mutation_term_list = get_mutation_term_list()
+    mutation_term_list = csvutil.get_mutation_term_list()
 
     #print ("1111-0|%s|%s|%s|%s" % (biomarker_orig, change_type,aspect_type,mod_type))
     if gene_name != "" and change_type != "not_specified" and aspect_type != "not_specified":
@@ -387,7 +277,7 @@ def get_vocab_term(biomarker_orig, vocab_ptrn, entity, entity_id, entity_type, a
     elif gene_name != "" and change_type != "not_specified" and mod_type != "not_specified":
         #print ("1111-3|%s|%s|%s" % (biomarker_orig, change_type, mod_type))
         if mod_type in conn_dict:
-            mut_w_flag, mut_w = has_mutation_word(biomarker_orig)
+            mut_w_flag, mut_w = csvutil.has_mutation_word(biomarker_orig)
             #print ("1111-4|%s|%s|%s" % (biomarker_orig, mut_w, mut_w_flag))
             if entity_id.find("dbSNP") != -1:
                 c_vocab = "Presence of %s sequence variation in %s %s/NCBI:%s" 
@@ -447,42 +337,58 @@ def get_vocab_term(biomarker_orig, vocab_ptrn, entity, entity_id, entity_type, a
 
 def make_biomarker_ds(dataset):
 
-    cmb2grpid = csvutil.load_cmb2grpid(release_dir)
+    #cmb2grpid = csvutil.load_cmb2grpid(release_dir)
     ptrn_dict = json.load(open("conf/rules.json"))
     resource = dataset.replace("biomarkers_", "")
-
     entity_type_list = get_entity_type_list()
     entity_type_map = json.load(open(release_dir + "misc/entity_type_map.json"))
         
-    mutation_term_list = get_mutation_term_list()
 
-    out_rows = []
+    ignore_field_list = ["pmid", "idx"]
+
+    out_rows, fl_rows = [], []
     for in_file_name in ds_dict["biomarkers"][dataset]:
         in_file = downloads_dir  + "%s/current/%s" % (resource, in_file_name)
         if os.path.isfile(in_file) == False:
             print ("input file %s does not exist" % (in_file))
             exit()
+        remove_index = -1
         with open(in_file, "r") as FR:
             file_name = in_file.split("/")[-1]
             lcount = 0
             f_list = []
             for line in FR:
                 lcount += 1
-                row = line.replace("\n", "").replace("\"", "\'").split("\t")
                 if lcount == 1:
+                    line = line.replace("assesed_biomarker_entity", "assessed_biomarker_entity")
+                    row = line.replace("\n", "").replace("\"", "\'").split("\t")
+                    fl_rows.append(row + ["failure_flags"])
                     f_list = row
                     if out_rows == []:
-                        newrow = row[1:] + ["vocab_pattern","biomarker_controlled_vocab","component_group","flags"]
-                        out_rows.append(newrow)
+                        newrow = []
+                        for f in f_list:
+                            if f not in ignore_field_list:
+                                newrow.append(f)
+                        out_rows.append(newrow + ["biomarker_controlled_vocab"])
                 else:
+                    tmp_row = line.replace("\n", "").replace("\"", "\'").split("\t")
+                    row = tmp_row
                     entity_id = row[f_list.index("assessed_biomarker_entity_id")]
                     entity_type = row[f_list.index("assessed_entity_type")]
                     condition_id = row[f_list.index("condition_id")]
-                    agent_id = row[f_list.index("exposure_agent_id")]
-                    biomarker = row[f_list.index("biomarker")]
-                    biomarker_id = row[f_list.index("biomarker_id")]
+                    agent_id = row[f_list.index("exposure_agent_id")] if "exposure_agent_id" in f_list else ""
+                    evidence_source = row[f_list.index("evidence_source")]    
+                    biomarker = row[f_list.index("biomarker")] if "biomarker" in f_list else ""
+                    biomarker_controlled_vocab = ""
+                    if "biomarker_controlled_vocab" in f_list:
+                        biomarker_controlled_vocab = row[f_list.index("biomarker_controlled_vocab")]
+                    biomarker_id = row[f_list.index("biomarker_id")] if "biomarker_id" in f_list else ""
+                    ff = evidence_source in ["", ":"]
+                    raw_flag_list = []
+                    if ff:
+                        raw_flag_list.append("empty_evidence_source")
                     if entity_id == "":
-                        continue
+                        raw_flag_list.append("empty_entity_id")
                     e_type_list = []
                     if entity_type in entity_type_list:
                         e_type_list = [entity_type]
@@ -490,62 +396,18 @@ def make_biomarker_ds(dataset):
                         e_type_list = entity_type_map[entity_type]
                     if agent_id.find("<utils.data_types.json_types") != -1:
                         agent_id = ""
-                    #cmb = "{%s|%s}{%s}{%s}" % (entity_type, entity_id, biomarker, condition_id)
-                    cmb = "%s|%s|%s" % (entity_id, condition_id, biomarker)
-                    component_group = "0"
-                    if cmb in cmb2grpid:
-                        if biomarker_id in cmb2grpid[cmb]:
-                            component_group = cmb2grpid[cmb][biomarker_id]
-                    w_list = []
-                    for w in biomarker.lower().split(" "):
-                        if w.strip() != "":
-                            w_list.append(w)
-                    n = len(w_list)
-                    flag, orig, vocab_ptrn = csvutil.match_pattern(w_list, ptrn_dict)
-                    check_entity_flag = False
-                    if vocab_ptrn == "":
-                        if orig.find("presence of rs") != -1:
-                            flag, vocab_ptrn = "modified", "presence of|not_specified|sequence variation"
-                        else:
-                            tmp_flag = False
-                            for kw in mutation_term_list:
-                                if biomarker.lower().find(kw) != -1:
-                                    tmp_flag = True
-                            if tmp_flag:
-                                flag, vocab_ptrn = "modified", "presence of|not_specified|sequence variation"
-        
-                    mut_w_flag, mut_w = has_mutation_word(orig)
-                    if mut_w_flag:
-                        check_entity_flag = True
-                        vocab_ptrn = "presence of|not_specified|sequence variation"
-                        
-                    if vocab_ptrn.find("|sequence variation") != -1 and entity_id.find("NCBI:") != -1:
-                        check_entity_flag = True
-
                     
-                    flag_list = ["not_mapped"] if vocab_ptrn == "" else []
-                    flag_list += ["check_entity"] if check_entity_flag else []
-                    flag_list += ["check_entity_type"] if e_type_list == [] else []
-                    newrow = row[1:] + [vocab_ptrn, "",component_group,";".join(flag_list)]
-                    out_rows.append(newrow)
-
-
-    
-    #adjust component_group values
-    #val_list = []
-    #for row in out_rows[1:]:
-    #    component_group = row[-2]
-    #    if int(component_group) > 0:
-    #        val_list.append(int(component_group))
-    #grp_idx = 0
-    #prev_val = -1
-    #grp_map = {}
-    #for val in sorted(list(set(val_list))):
-    #    if val != prev_val:
-    #        grp_idx += 1
-    #    grp_map[val] = grp_idx
-    #    prev_val = val
-
+                    vocab_ptrn, flag_list = "", ["already_mapped"]
+                    if biomarker_controlled_vocab == "":
+                        vocab_ptrn, flag_list = csvutil.get_vocab_pattern(entity_id,biomarker, ptrn_dict,e_type_list)
+                    newrow = []
+                    for f in f_list:
+                        if f not in ignore_field_list: 
+                            newrow.append(row[f_list.index(f)])
+                    if raw_flag_list == []:
+                        out_rows.append(newrow + ["not_mapped"])
+                    else:
+                        fl_rows.append(row + [";".join(raw_flag_list)])
 
     typo_dict = {
         "NRAS (Q61)":"NRAS Q61",
@@ -557,39 +419,38 @@ def make_biomarker_ds(dataset):
 
     f_list = out_rows[0]
     for i in range(1, len(out_rows)):
-        biomarker_orig = out_rows[i][f_list.index("biomarker")]
+        biomarker_orig = out_rows[i][f_list.index("biomarker")] if "biomarker" in f_list else ""
         for w in typo_dict:
             biomarker_orig = biomarker_orig.replace(w, typo_dict[w])
         #print (biomarker_orig)
-        vocab_ptrn = out_rows[i][f_list.index("vocab_pattern")]
+        #vocab_ptrn = out_rows[i][f_list.index("vocab_pattern")]
         entity = out_rows[i][f_list.index("assessed_biomarker_entity")]
         entity_id = out_rows[i][f_list.index("assessed_biomarker_entity_id")]
         entity_type = out_rows[i][f_list.index("assessed_entity_type")]
-        component_group = int(out_rows[i][f_list.index("component_group")])
-        #print ("AAA-0", biomarker_orig, vocab_ptrn)
-        if vocab_ptrn != "":
-            c_vocab = get_vocab_term(biomarker_orig, vocab_ptrn, entity, entity_id, entity_type, ac2genename,genename2geneid)
-            if biomarker_orig in compiled_rules:
-                c_vocab = compiled_rules[biomarker_orig]
-            #print ("AAA-1", entity_id,biomarker_orig, "--->", c_vocab)
-            out_rows[i][f_list.index("biomarker_controlled_vocab")] = c_vocab
-            change_type, aspect_type, mod_type = vocab_ptrn.split("|")
-            tmp_dict = {"change_type":change_type,"aspect_type":aspect_type, "mod_type":mod_type}
-            tmp_list = []
-            for k in tmp_dict:
-                if tmp_dict[k] != "not_specified":
-                    tmp_list.append("%s:%s" % (k, tmp_dict[k]))
-            out_rows[i][f_list.index("vocab_pattern")] = ";".join(tmp_list)
-        else:
-            #print (biomarker_orig)
-            out_rows[i][f_list.index("biomarker_controlled_vocab")] = "%s [biomarker_term_in_review]" % (biomarker_orig)
-        #if component_group > 0:
-        #    out_rows[i][f_list.index("component_group")] = str(grp_map[component_group])
+        change_type = out_rows[i][f_list.index("change_type_vocab")]
+        aspect_type = out_rows[i][f_list.index("aspect_type_vocab")]
+        mod_type = out_rows[i][f_list.index("mod_type_vocab")]
+        
+        vocab_ptrn = "%s|%s|%s" % (change_type, aspect_type, mod_type)
+        c_vocab = get_vocab_term(biomarker_orig, vocab_ptrn, entity, entity_id, entity_type, ac2genename,genename2geneid)
+        if biomarker_orig in compiled_rules:
+            c_vocab = compiled_rules[biomarker_orig]
+        c_vocab = c_vocab.replace("Presense of","Presence of")
+        out_rows[i][f_list.index("biomarker_controlled_vocab")] = c_vocab
+        #out_rows[i][f_list.index("biomarker_controlled_vocab")] = "%s [biomarker_term_in_review]" % (biomarker_orig)
 
+
+    for i in range(0, len(out_rows)):
+        if len(out_rows[i]) != len(out_rows[0]):
+            print ("output file has QC problem")
+            exit()
 
     file_format = "tsv"
     out_file = release_dir + "unreviewed/%s.%s" % (dataset, file_format)
     write_output(out_rows, out_file, file_format)
+
+    log_file = release_dir + "logs/%s.csv" % (dataset)
+    write_output(fl_rows,log_file, file_format)
  
 
     return
@@ -804,7 +665,7 @@ def make_entity_normalranges_ds(dataset):
                     newrow += [age_group,sex,mn,mx,mean,median,sd,q1,q3,iqr,lower_whisker,upper_whisker]
                     newrow += [str(n),unit]
                     out_rows.append(newrow)
-    elif dataset == "entity_normalranges_oracle_health":
+    elif dataset == "entity_normalranges_oracle_health_rwd":
         #entname2id = load_entityname2id()
         entity_name_dict = json.load(open(release_dir + "misc/labterm2entityname_map.json"))
         in_file = downloads_dir +  "oracle_health/current/stratified_stats_report_ALL.tsv"
@@ -898,6 +759,67 @@ def reduce_xref_dict(xref_dict):
                                 xref_dict[src][ent_type]["assessed_biomarker_entity"].pop(xref_key)
     return
 
+
+def make_annotations_ds(dataset):
+
+    config_file = downloads_dir + "annotations/config.json"
+    config_obj = json.load(open(config_file))
+     
+    header_row = ["assessed_biomarker_entity_id","xref_key","xref_id","annotation_category","annotation_term"]
+
+    seen_row = {}
+    out_rows = [header_row]
+    annotation_category = "protein_function"
+    for file_name in config_obj:
+        for f in header_row:
+            if f not in config_obj[file_name]["field_map"]:
+                print ("field=%s is not mapped in %s" % (f, config_file))
+                exit()
+        
+        ent_id_prefix = config_obj[file_name]["ent_id_prefix"]
+        ent_id_t, ent_id_f = config_obj[file_name]["field_map"][header_row[0]].split("|")
+        xref_key_t, xref_key_f = config_obj[file_name]["field_map"][header_row[1]].split("|")
+        xref_id_t, xref_id_f = config_obj[file_name]["field_map"][header_row[2]].split("|")
+        cat_t, cat_f = config_obj[file_name]["field_map"][header_row[3]].split("|")
+        ann_t, ann_f = config_obj[file_name]["field_map"][header_row[4]].split("|")
+        
+        in_file = downloads_dir + "annotations/current/" + file_name
+        df = {}
+        csvutil.load_sheet(df, in_file, [], ",")
+        f_list = df["fields"]
+        for row in df["data"]:
+            ent_id_v, xref_key_v, xref_id_v, cat_v, ann_v = "", "", "", "", "" 
+            
+            ent_id_v = row[f_list.index(ent_id_f)] if ent_id_f in f_list else ent_id_v
+            ent_id_v = ent_id_f if ent_id_t == "constant" else ent_id_v
+            xref_key_v = row[f_list.index(xref_key_f)] if xref_key_f in f_list else xref_key_v
+            xref_key_v = xref_key_f if xref_key_t == "constant" else xref_key_v
+            xref_key_v = "" if xref_key_t == "empty" else xref_key_v            
+            xref_id_v = row[f_list.index(xref_id_f)] if xref_id_f in f_list else xref_id_v
+            xref_id_v = xref_id_f if xref_id_t == "constant" else xref_id_v
+            xref_id_v = "" if xref_id_t == "empty" else xref_id_v  
+            cat_v = row[f_list.index(cat_f)] if cat_f in f_list else cat_v
+            cat_v = cat_f if cat_t == "constant" else cat_v
+            cat_v = "" if cat_t == "empty" else cat_v  
+            ann_v = row[f_list.index(ann_f)] if ann_f in f_list else ann_v
+            ann_v = ann_f if ann_t == "constant" else ann_v
+            ann_v = "" if ann_t == "empty" else ann_v  
+             
+            ent_id_v = ent_id_prefix + ":" +  ent_id_v
+            newrow = [ent_id_v,xref_key_v,xref_id_v,cat_v, ann_v]
+            newrow_str = json.dumps(newrow)
+            if newrow_str not in seen_row:
+                out_rows.append(newrow)
+                seen_row[newrow_str] = True 
+
+    file_format = "tsv"
+    out_file = release_dir + "unreviewed/%s.%s" % (dataset, file_format)
+    write_output(out_rows, out_file, file_format)
+    
+    return
+
+
+
 def make_xrefs_ds(dataset):
 
     xref_dict = json.load(open(release_dir + "misc/crossrefs.json"))
@@ -916,7 +838,7 @@ def make_xrefs_ds(dataset):
             ent_id = row[f_list.index("assessed_biomarker_entity_id")]
             ent_prefix = ent_id.split(":")[0].lower()
             ent_type = row[f_list.index("assessed_entity_type")]
-            biomarker_idx = row[f_list.index("component_group")]
+            biomarker_idx = row[f_list.index("biomarker_index")]
             if source not in xref_dict:
                 continue
             for t in xref_dict[source]:
@@ -1001,7 +923,8 @@ def main():
         make_xrefmap_biomarkerkb2uniprotkb_ds(dataset)
     elif dataset == "xrefs":
         make_xrefs_ds(dataset)
-    
+    elif dataset == "annotations":
+        make_annotations_ds(dataset) 
      
 
     return 

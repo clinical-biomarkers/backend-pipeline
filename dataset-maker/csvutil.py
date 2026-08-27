@@ -6,8 +6,37 @@ import datetime
 import pytz
 
 
-def match_pattern(w_list, ptrn_dict):
+def get_mutation_term_list():
+    term_list = ["mutation","deletion","fusion","insertion","rearrangement"]
+    return term_list
 
+
+def get_vocab_pattern(entity_id, biomarker, ptrn_dict, e_type_list):
+
+    check_entity_flag = False
+    flag, orig, vocab_ptrn = match_pattern(biomarker, ptrn_dict)
+    mut_w_flag, mut_w = has_mutation_word(orig)
+    if mut_w_flag:
+        check_entity_flag = True
+        vocab_ptrn = "presence of|not_specified|sequence variation"
+    if vocab_ptrn.find("|sequence variation") != -1 and entity_id.find("NCBI:") != -1:
+        check_entity_flag = True
+    flag_list = ["not_mapped"] if vocab_ptrn == "" else []
+    flag_list += ["check_entity"] if check_entity_flag else []
+    flag_list += ["check_entity_type"] if e_type_list == [] else []
+
+    return vocab_ptrn, flag_list
+
+
+
+def match_pattern(biomarker, ptrn_dict):
+
+    mutation_term_list = get_mutation_term_list()
+    w_list = []
+    for w in biomarker.lower().split(" "):
+        if w.strip() != "":
+            w_list.append(w)
+                   
     vocab_ptrn = ""
     orig = " ".join(w_list)
     for label in ptrn_dict:
@@ -35,8 +64,21 @@ def match_pattern(w_list, ptrn_dict):
                     mut_flag = True
         if mut_flag:
             vocab_ptrn = "presence of|not_specified|sequence variation"
-
     flag = "original" if vocab_ptrn == "" else "modified"
+    
+
+    if vocab_ptrn == "":
+        if orig.find("presence of rs") != -1:
+            flag, vocab_ptrn = "modified", "presence of|not_specified|sequence variation"
+        else:
+            tmp_flag = False
+            for kw in mutation_term_list:
+                if biomarker.lower().find(kw) != -1:
+                    tmp_flag = True
+            if tmp_flag:
+                flag, vocab_ptrn = "modified", "presence of|not_specified|sequence variation"
+
+
     return flag, orig, vocab_ptrn
 
 
@@ -85,58 +127,110 @@ def load_sheet(sheet_obj, in_file, field_list, separator):
 
 
 
-def load_cmb2grpid(release_dir):
 
-    file_list = []
-    ds_dict = json.load(open(release_dir + "misc/datasets.json"))
-    for ds in ds_dict["biomarkers"]:
-        for file_name in ds_dict["biomarkers"][ds]:
-            in_file = "/data/shared/biomarkerdb/downloads/%s/current/%s" % (ds.replace("biomarkers_",""), file_name)
-            file_list.append(in_file)
+def has_mutation_word(orig):
+
+    typo_dict = {
+        "abl1:e255k":"abl1 e255k",
+        "abl1:f359v":"abl1 f359v",
+        "abl1:t315a":"abl1 t315a",
+        "abl1:v299l":"abl1 v299l",
+        "abl1:i242t":"abl1 i242t",
+        "abl1:t315i":"abl1 t315i",
+        "akt1:e17k":"akt1 e17k",
+        "erbb2:g776l":"erbb2 g776l",
+        "flt3-itd":"flt3 itd",
+        "flt3 (d835)":"flt3 d835",
+        "nras (q61)":"nras q61",
+        "ros1:g2032r":"ros1 g2032r",
+        "stk11:d194e":"stk11 d194e",
+        "tp53:r248q":"tp53 r248q"
+    }
+
+    for w_lc in typo_dict:
+        if orig.lower().find(w_lc) != -1:
+            orig = orig.lower().replace(w_lc, typo_dict[w_lc])
+
+    #w_list = orig.lower().split(" ")
+    w_list = orig.split(" ")
+    ret_flag = False
+    mut_w_list = []
+    for w in w_list:
+        if w == "":
+            continue
+        w_lc = w.lower()
+        flag_list = []
+        flag_list.append(w_lc[0].isdigit() or w_lc[0] in ["(",")"])
+        flag_list.append(w_lc[1:-1].isdigit())
+        flag_list.append(w_lc[-1].isdigit() or w_lc[-1] in ["(",")"])
+        if flag_list == [False, True, False]:
+            ret_flag = True
+            if w not in mut_w_list:
+                mut_w_list.append(w)
+                #print ("flag-1a", mut_w_list)
+        flag_list = []
+        flag_list.append(w_lc.find("(") != -1 and w_lc.find(")") != -1 and w_lc.find(">") != -1)
+        flag_list.append(w_lc.find("(c.") != -1 and w_lc.find(")") != -1 and w_lc.find("del") != -1)
+        flag_list.append(w_lc.find("(c.") != -1 and w_lc.find(")") != -1 and w_lc.find("ins") != -1)
+        flag_list.append(w_lc.find("(c.") != -1 and w_lc.find(")") != -1 and w_lc.find("dup") != -1)
+        if len(w_lc) > 2:
+            flag_list.append(w_lc[0:2] == "rs" and w_lc[2:].isdigit())
+        if True in flag_list:
+            ret_flag = True
+            if w not in mut_w_list:
+                mut_w_list.append(w)
+                #print ("flag-1b", mut_w_list)
+        if w.find(":") != -1:
+            ptrn = w.split(":")[-1]
+            flag_list = []
+            flag_list.append(ptrn[0].isdigit())
+            flag_list.append(ptrn[1:-1].isdigit())
+            flag_list.append(ptrn[-1].isdigit())
+            if flag_list == [False, True, False]:
+                ret_flag = True
+                if ptrn not in mut_w_list:
+                    mut_w_list.append(ptrn)
+                    #print ("flag-1c", mut_w_list) 
 
 
-    biomarkerid2index = {}
-    grp_idx = 1
-    tmp_dict = {}
-    for in_file in file_list:
-        with open(in_file, "r") as FR:
-            file_name = in_file.split("/")[-1]
-            lcount = 0
-            f_list = []
-            for line in FR:
-                lcount += 1
-                row = line.replace("\n", "").replace("\"", "\'").split("\t")
-                if lcount == 1:
-                    f_list = row
-                else:
-                    biomarker_id = row[f_list.index("biomarker_id")]
-                    entity_id = row[f_list.index("assessed_biomarker_entity_id")]
-                    condition_id = row[f_list.index("condition_id")]
-                    biomarker = row[f_list.index("biomarker")]
-                    biomarker_id = row[f_list.index("biomarker_id")]
-                    if entity_id == "":
-                        continue
-                    cmb = "%s|%s|%s" % (entity_id,condition_id,biomarker)
-                    if biomarker_id not in tmp_dict:
-                        tmp_dict[biomarker_id] = {}
-                    tmp_dict[biomarker_id][cmb] = True
-                    if biomarker_id not in biomarkerid2index:
-                        biomarkerid2index[biomarker_id] = grp_idx
-                        grp_idx += 1
 
-    cmb2grpid = {}
-    for biomarker_id in tmp_dict:
-        grp_idx = biomarkerid2index[biomarker_id]
-        for cmb in tmp_dict[biomarker_id]:
-            if cmb not in cmb2grpid:
-                cmb2grpid[cmb] = {}
-            cmb2grpid[cmb][biomarker_id] = str(grp_idx)
-            #print ("Robel", biomarker_id,cmb,grp_idx)
-            
+    for w in w_list:
+        if w == "":
+            continue
+        flag_list = []
+        flag_list.append(w[0].isdigit())
+        flag_list.append(w[1:].isdigit())
+        if flag_list == [False, True] and "mutation" in w_list:
+            ret_flag = True
+            if w not in mut_w_list:
+                mut_w_list.append(w)
+                #print ("flag-2a", mut_w_list)
 
-    return cmb2grpid
+        if w.find("(") != -1 and w.find(")") != -1 and w.find(">") != -1:
+            ret_flag = True
+            if w not in mut_w_list:
+                mut_w_list.append(w)
+                #print ("flag-2b", mut_w_list)
+
+    if orig.find("::") != -1 or orig.find(":") != -1:
+        if orig.lower().find("mutation") != -1:
+            ret_flag = True
+            for w in w_list:
+                if w.find("::") != -1 or w.find(":") != -1:
+                    if w not in mut_w_list:
+                        mut_w_list.append(w)
+                        #print ("flag-3a", mut_w_list)
+                if w.find("(") != -1 and w.find(")") != -1 and w.find(">") != -1:
+                    if w not in mut_w_list:
+                        mut_w_list.append(w)
+                        #print ("flag-3b", mut_w_list)           
+
+    #print ("0000", w_list, mut_w_list)
+
+    mut_w = " ".join(mut_w_list)
+    #print ("YYY|%s|%s|%s" % (orig, mut_w_list,mut_w))
 
 
-
+    return ret_flag, mut_w
 
 

@@ -89,7 +89,7 @@ def main():
                     val = val.replace(".\"@en .", "").replace("\"","")
                     recname_dict[disease_id]["description"] = val
 
-    disease_id_list = ["DOID:0051065"]
+    #disease_id_list = ["DOID:0051065"]
         
     doc_list = []
     batch_idx = 0

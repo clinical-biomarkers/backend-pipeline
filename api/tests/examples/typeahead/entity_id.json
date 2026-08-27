@@ -1,8 +1,5 @@
 {
-	"field":"biomarker_entity_id",
-	"limit":10,
-	"value":"P05231"
+	"field": "biomarker_entity_id",
+	"limit": 10,
+	"value": "P05"        
 }
-
-           
-

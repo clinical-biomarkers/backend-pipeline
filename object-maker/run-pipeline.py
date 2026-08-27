@@ -14,45 +14,56 @@ def main():
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
     parser.add_option("-r","--rel",action="store",dest="rel",help="")
-    parser.add_option("-p","--prevrel",action="store",dest="prevrel",help="")
-    
     (options,args) = parser.parse_args()
-    for key in ([ options.rel, options.prevrel]):
+    for key in ([ options.rel]):
         if not (key):
             parser.print_help()
             sys.exit(0)
 
     rel = options.rel
-    prev_rel = options.prevrel
 
     global release_dir
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s" % (rel)
 
     cmd_dict = {}
-    db_list = ["biomarkerdb","idtrackdb","listdb","indexdb","sortdb","searchinitdb","statdb"]
-    #db_list = ["statdb"]
+    db_list = ["citedb","normalrangesdb","diseasedb","idgendb","idtrackdb","biomarkerdb","listdb","indexdb","sortdb","searchinitdb","statdb"]
+    #db_list = ["biomarkerdb"]
     for idx in range(0, len(db_list)):
         db = db_list[idx]
         cmd_dict[idx] = {"db":db, "cmdlist":[]}
-        if db in ["idtrackdb"]:
+        if db in ["idgendb"]:
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
-            cmd_dict[idx]["cmdlist"].append("python3 make-%s.py -r %s -p %s" % (db,rel, prev_rel))
-        elif db in ["indexdb"]:
+            cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
+            cmd_dict[idx]["cmdlist"].append("python3 make-%s.py -r %s " % (db,rel))
+        elif db in ["indexdb", "citedb"]:
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
+            cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 wrap-make-%s.py -r %s" % (db,rel))
         elif db in ["statdb"]:
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/interm/%s/*" % (release_dir, db)) 
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
+            cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
+            cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/interm/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 wrap-make-%s.py -r %s" % (db,rel))
             cmd_dict[idx]["cmdlist"].append("python3 update-%s.py -r %s" % (db,rel))
         elif db in ["listdb"]:
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/interm/%s/*" % (release_dir, db)) 
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
+            cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
+            cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/interm/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 make-%s.py -r %s" % (db,rel))
             cmd_dict[idx]["cmdlist"].append("python3 update-%s.py -r %s" % (db,rel))
         else:
+            cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 make-%s.py -r %s" % (db,rel))
+
+    #for idx in sorted(cmd_dict):
+    #    db = cmd_dict[idx]["db"]
+    #    for cmd in cmd_dict[idx]["cmdlist"]:
+    #        print (cmd)
+    #exit()
+
 
     log_file = "/data/shared/biomarkerdb/logs/run-pipeline.log"
     with open(log_file, "w") as FL:

@@ -32,7 +32,7 @@ def main():
     #print (len(gz_xml_file_list))
     #exit()
  
-    with open("/data/shared/biomarkerdb/logs/medline_xml_file_list.json", "w") as FW:
+    with open("/data/shared/biomarkerdb/logs/medline_xml_file_list.3.json", "w") as FW:
         FW.write("%s\n" % (json.dumps(gz_xml_file_list)))
 
  

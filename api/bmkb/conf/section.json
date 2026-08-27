@@ -1537,19 +1537,19 @@
             },
             "fieldmap": [
                 {
-                    "path": "biomarker_component.assessed_biomarker_entity_id",
+                    "path": "assessed_biomarker_entity_id",
                     "label": "Biomarker Entity ID"
                 },
 		{
-                    "path": "biomarker_component.assessed_entity_type",
+                    "path": "assessed_entity_type",
                     "label": "Biomarker Entity Type"
                 },
 		{
-                    "path": "biomarker_component.biomarker",
+                    "path": "biomarker",
                     "label": "Biomarker"
                 },
 		{   
-                    "path": "biomarker_component.assessed_biomarker_entity.recommended_name",
+                    "path": "assessed_biomarker_entity.recommended_name",
                     "label": "Biomarker Entity"
                 }
             ],

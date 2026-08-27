@@ -909,6 +909,20 @@
             "c_usercache"
         ]
     },
+	 "biomarker_search_global": {
+        "field_info": {
+            "term": {
+                "type": "string"
+            }
+        },
+        "requiredfields": [
+            "term"
+        ],
+        "collectionlist": [
+            "c_biomarker",
+            "c_usercache"
+        ]
+    },
     "biomarker_search": {
         "field_info": {
             "operation":{
@@ -964,6 +978,10 @@
                 "maxlen": 200
             },
             "data_source": {
+                "type": "string",
+                "maxlen": 200
+            },
+			   "keywords": {
                 "type": "string",
                 "maxlen": 200
             },

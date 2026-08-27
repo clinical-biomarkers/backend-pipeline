@@ -17,7 +17,7 @@ from .pages import api as pages_api
 from .typeahead import api as typeahead_api
 from .log import api as log_api
 from .event import api as event_api
-#from .misc import api as misc_api
+from .misc import api as misc_api
 from .biomarker import api as biomarker_api
 from .pagination import api as pagination_api
 
@@ -41,13 +41,13 @@ def create_app():
     #api.add_namespace(globalsearch_api)
     api.add_namespace(data_api)
     api.add_namespace(pages_api)
-    #api.add_namespace(typeahead_api)
+    api.add_namespace(typeahead_api)
     api.add_namespace(auth_api)
     api.add_namespace(log_api)
     #api.add_namespace(video_api)
     api.add_namespace(event_api)
     #api.add_namespace(cart_api) 
-    #api.add_namespace(misc_api)
+    api.add_namespace(misc_api)
     #api.add_namespace(pagination_api)
 
     try:

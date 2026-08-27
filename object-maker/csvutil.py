@@ -6,8 +6,8 @@ import glob
 import datetime
 import pytz
 import hashlib
-
-
+import random
+import requests
 
 
 def parse_sent(s, phrase_dict,  min_word_count):
@@ -208,16 +208,44 @@ def load_cmblist2src(release_dir):
                 if lcount == 1:
                     f_list = row
                 else:
+                    biomarker = row[f_list.index("biomarker")]
                     biomarker_controlled_vocab = row[f_list.index("biomarker_controlled_vocab")]
                     entity_id = row[f_list.index("assessed_biomarker_entity_id")]
                     condition_id = row[f_list.index("condition_id")]
-                    grp_idx = row[f_list.index("component_group")]
+                    exposure_agent_id = row[f_list.index("exposure_agent_id")]
+                    change_type = row[f_list.index("change_type_vocab")]
+                    aspect_type = row[f_list.index("aspect_type_vocab")]
+                    mod_type = row[f_list.index("mod_type_vocab")]
+
+                    
+                    vocab_parts = biomarker + " [biomarker_term_in_review]"
+                    if change_type != "not_specified":
+                        vocab_parts = "change_type:%s" % (change_type)
+                    if aspect_type != "not_specified":
+                        vocab_parts += ",aspect_type:%s" % (aspect_type)
+                    if mod_type != "not_specified":
+                        vocab_parts += ",mod_type:%s" % (mod_type)
+
+                    grp_idx = ""
+                    for k in ["biomarker_index", "component_group"]:
+                        grp_idx = row[f_list.index(k)] if k in f_list else grp_idx
+                    
+                    #if source in ["exposure_agents", "cadsr"]:
+                    #    print (entity_id,exposure_agent_id, source, grp_idx)
+ 
+                    if grp_idx == "":
+                        continue 
                     grp = "%s|%s" % (source, grp_idx)
-                    #cmb = "%s|%s|%s" % (entity_id,condition_id,biomarker_controlled_vocab)
-                    cmb = "%s|%s|%s" % (entity_id,condition_id,biomarker_controlled_vocab.lower())
+                    condition_or_agent_id = condition_id
+                    ctype = "condition"
+                    if condition_id == "" and exposure_agent_id != "":
+                        condition_or_agent_id = exposure_agent_id
+                        ctype = "exposure_agent"
+                    cmb = "%s|%s|%s|%s" % (entity_id,condition_or_agent_id,ctype,vocab_parts.lower())
                     if grp not in cmb_dict:
                         cmb_dict[grp] = {}
                     cmb_dict[grp][cmb] = True
+                    #print (cmb, source)
 
     cmblist2src, grp2cmblist = {}, {}
     for grp in cmb_dict:
@@ -336,7 +364,35 @@ def load_vocab_dict(release_dir):
 
 
 
-def load_cmb2biomarkerid(release_dir):
+def load_new_biomarkerid_dict(release_dir):
+
+    tmp_dict = {}
+    d_list = glob.glob("/data/shared/biomarkerdb/releases/data/v-*/jsondb/idgendb")
+    for d in d_list:
+        r = d.split("/")[-3].replace("v-","").replace(".","")
+        if r.isdigit() == False:
+            continue
+        if int(r) < 311:
+            continue
+        file_list = glob.glob(d + "/*.json")
+        for in_file in file_list:
+            doc_list = json.load(open(in_file))
+            for doc in doc_list:
+                cmb_list = sorted(doc["cmb_list"])
+                cmb_list_str = json.dumps(cmb_list)
+                if cmb_list_str not in tmp_dict:
+                    tmp_dict[cmb_list_str] = {}
+                biomarker_id_list = doc["biomarker_id_list"]
+                for biomarker_id in biomarker_id_list:
+                    tmp_dict[cmb_list_str][biomarker_id] = True
+
+    return tmp_dict
+
+
+
+
+
+def load_legacy_biomarkerid_dict(release_dir):
 
     file_list = []
     ds_dict = json.load(open(release_dir + "misc/datasets.json"))
@@ -359,14 +415,13 @@ def load_cmb2biomarkerid(release_dir):
                 if lcount == 1:
                     f_list = row
                 else:
-                    biomarker_id = row[f_list.index("biomarker_id")]
+                    biomarker_id = row[f_list.index("legacy_biomarker_id")] if "legacy_biomarker_id" in f_list else ""
                     entity_id = row[f_list.index("assessed_biomarker_entity_id")]
                     entity_type = row[f_list.index("assessed_entity_type")]
                     condition_id = row[f_list.index("condition_id")]
                     agent_id = row[f_list.index("exposure_agent_id")]
                     biomarker = row[f_list.index("biomarker")]
-                    biomarker_id = row[f_list.index("biomarker_id")]
-                    if entity_id == "":
+                    if entity_id == "" or biomarker_id == "":
                         continue
                     vocab = "not-mapped"
                     if biomarker in vocab_dict:
@@ -376,26 +431,21 @@ def load_cmb2biomarkerid(release_dir):
                             vocab = vocab_dict[biomarker][ent_cmb]
 
                     vocab_lc = vocab.lower()
-                    cmb = "%s|%s|%s" % (entity_id,condition_id,vocab_lc)
+                    cmb = "%s|%s|%s|%s" % (entity_id,condition_id,agent_id,vocab_lc)
                     if biomarker_id not in tmp_dict:
                         tmp_dict[biomarker_id] = {}
                     tmp_dict[biomarker_id][cmb] = True
-                    #if entity_id == "NCBI:5290" and condition_id == "DOID:0060079":
-                    #    print (biomarker_id, vocab)
                 
 
 
-    cmb2biomarkerid = {}
+    final_dict = {}
     for biomarker_id in tmp_dict:
         cmb_list = sorted(list(tmp_dict[biomarker_id].keys()))
         cmb_list_str = json.dumps(cmb_list)
-        if cmb_list_str not in cmb2biomarkerid:
-            cmb2biomarkerid[cmb_list_str] = {}
-        cmb2biomarkerid[cmb_list_str][biomarker_id] = True
-        #if biomarker_id in ["BB1482-4", "BB1491-4"]:
-        #    print ("JJJ", biomarker_id, cmb_list)
-     
-    return cmb2biomarkerid
+        if cmb_list_str not in final_dict:
+            final_dict[cmb_list_str] = {}
+        final_dict[cmb_list_str][biomarker_id] = True
+    return final_dict
 
 
 
@@ -420,23 +470,19 @@ def load_src_dict(release_dir):
                 if lcount == 1:
                     f_list = row
                 else:
-                    biomarker_id = row[f_list.index("biomarker_id")]
-                    if biomarker_id not in tmp_dict:
-                        tmp_dict[biomarker_id] = {}
-                    tmp_dict[biomarker_id][file_name] = True
+                    biomarker_id = row[f_list.index("legacy_biomarker_id")] if "legacy_biomarker_id" in f_list else ""
+                    if biomarker_id != "":
+                        if biomarker_id not in tmp_dict:
+                            tmp_dict[biomarker_id] = {}
+                        tmp_dict[biomarker_id][file_name] = True
     return tmp_dict
 
 
-def generate_new_id(id_counter):
-    zeros = "000000"
-    padding = zeros[:6-len(str(id_counter))]
-    biomarker_id = "BMKB%s%s" % (padding, id_counter)
-    return biomarker_id
 
 
-def load_canon2disease_dict(grp2cmblist, release_dir):
+def load_canon2conagent_dict(grp2cmblist, release_dir):
 
-    canon2disease_dict = {}
+    canon2conagent_dict = {}
     seen_grp = {}
     file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
@@ -453,8 +499,13 @@ def load_canon2disease_dict(grp2cmblist, release_dir):
                     biomarker_controlled_vocab = row[f_list.index("biomarker_controlled_vocab")]
                     entity_id = row[f_list.index("assessed_biomarker_entity_id")]
                     condition_id = row[f_list.index("condition_id")]
-                    grp_idx = row[f_list.index("component_group")]
-                    if condition_id == "":
+                    agent_id = row[f_list.index("exposure_agent_id")]
+                    grp_idx = ""
+                    for k in ["biomarker_index", "component_group"]:
+                        grp_idx = row[f_list.index(k)] if k in f_list else grp_idx
+                    if grp_idx == "":
+                        continue
+                    if agent_id == "" and condition_id == "":
                         continue
                     grp = "%s|%s" % (source, grp_idx)
                     if grp not in seen_grp:
@@ -463,38 +514,102 @@ def load_canon2disease_dict(grp2cmblist, release_dir):
                         cmb_list_canon = []
                         seen_d_id = {}
                         for cmb in cmb_list:
-                            ent_id, d_id, vocab = cmb.split("|")
+                            ent_id, d_id, ctype, vocab = cmb.split("|")
                             seen_d_id[d_id] = True
                             cmb_list_canon.append("%s|%s" % (ent_id, vocab.lower()))
                         cmb_list_canon = sorted(set(cmb_list_canon))
                         cmb_list_str_canon = json.dumps(cmb_list_canon)
                         canon_id_md5 = hashlib.md5(cmb_list_str_canon.encode('utf-8')).hexdigest()
-                        if canon_id_md5 not in canon2disease_dict:
-                            canon2disease_dict[canon_id_md5] = {}
+                        if canon_id_md5 not in canon2conagent_dict:
+                            canon2conagent_dict[canon_id_md5] = {}
                         for d_id in seen_d_id:
-                            canon2disease_dict[canon_id_md5][d_id] = {"cmblist":cmb_list, "grp":grp}
+                            if d_id != "":
+                                canon2conagent_dict[canon_id_md5][d_id] = {"cmblist":cmb_list, "grp":grp}
+                        
+    return canon2conagent_dict
 
-    return canon2disease_dict
 
+def load_canon_id_dict(current_rel, canon_id_md5_list):
 
-def load_canon_id_dict(rel, canon_id_md5_list):
-
+    legacy_release_list = ["3.1.1","3.2.1","3.2.2","3.3.1","3.4.1","3.4.2"]
+    
+    url = "https://api.biomarkerkb.org//misc/verlist/"
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+    tmp_list = response.json()
+    release_list = legacy_release_list + sorted(tmp_list)
+         
+    is_bmkb = {}
+    seen_canon_id = {}
     canon_id_dict = {}
-    d_list = glob.glob("/data/shared/biomarkerdb/releases/data/v-*/jsondb/idtrackdb")
-    for d in d_list:
-        r = d.split("/")[-3].split("-")[1]
-        if r not in [rel, "y.y.y", "2.4.1"]:
-            file_list = glob.glob(d + "/*.json")
-            for in_file in file_list:
-                doc = json.load(open(in_file))
-                canon_id_dict[doc["canon_id_md5"]] = doc["canon_id_new"]
-    canon_id_counter = len(canon_id_dict.keys())
+
+    r = current_rel.replace(".","")
+    if r.isdigit() == False:
+        print ("bad current release value=%s" % current_rel)
+        exit()
+    current_rel_int = int(r)
+    
+    for rel in release_list:
+        r = rel.replace(".","")
+        if r.isdigit() == False:
+            continue
+        if int(r) < 311 and int(r) >= current_rel_int:
+            continue
+        d = "/data/shared/biomarkerdb/releases/data/v-%s/jsondb/idgendb" % (rel)
+ 
+        file_list = glob.glob(d + "/*.json")
+        for in_file in file_list:
+            doc_list = json.load(open(in_file))
+            for doc in doc_list:
+                biomarker_id = doc["record_id"] if "record_id" in doc else doc["biomarker_id"]
+                canon_id = biomarker_id.split("-")[0]
+                canon_id_md5 = doc["canon_id_md5"]
+                canon_id_dict[canon_id_md5] = canon_id
+                seen_canon_id[canon_id] = True
+                if biomarker_id[:4] == "BMKB":
+                    is_bmkb[canon_id_md5] = True
+ 
+    alphabet_list = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     for canon_id_md5 in canon_id_md5_list:
+        canon_id = ""
         if canon_id_md5 in canon_id_dict:
-            canon_id_new = canon_id_dict[canon_id_md5]
-        else:
-            canon_id_counter += 1
-            canon_id_dict[canon_id_md5] = generate_new_id(canon_id_counter)
+            canon_id = canon_id_dict[canon_id_md5]
+        if canon_id == "" or canon_id_md5 in is_bmkb:
+            tmp_id = ""
+            zeros = "0000"
+            while True:
+                c_one = random.choice(alphabet_list)
+                c_two = random.choice(alphabet_list)
+                rand_int = random.randint(1, 9999)
+                padding = zeros[:4-len(str(rand_int))]
+                tmp_id = "%s%s%s%s" % (c_one, c_two,padding, rand_int)
+                if tmp_id not in seen_canon_id:
+                    break
+            canon_id_dict[canon_id_md5] = tmp_id
+            #print ("A|%s|%s" % (canon_id_md5,canon_id))
+        #else:
+        #    print ("B|%s|%s" % (canon_id_md5,canon_id))
 
     return canon_id_dict
+
+
+def load_biomarker_orig(rel):
+
+    term_dict = {}
+    file_list = glob.glob("/data/shared/biomarkerdb/releases/data/v-%s/reviewed/biomarkers_*.tsv" % (rel))
+    for in_file in file_list:
+        with open(in_file, "r") as FR:
+            f_list, lcount = [], 0
+            for line in FR:
+                lcount += 1
+                row = line[0:-1].split("\t")
+                if lcount == 1:
+                    f_list = row
+                else:
+                    biomarker_id = row[f_list.index("biomarker_id")]
+                    biomarker = row[f_list.index("biomarker")]
+                    term_dict[biomarker_id] = biomarker
+
+    return term_dict
+
 

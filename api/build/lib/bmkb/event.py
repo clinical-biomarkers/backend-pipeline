@@ -82,6 +82,7 @@ class Event(Resource):
         res_obj = {}
         try:
             req_obj = get_req_obj(request)
+            #return req_obj
             #current_user, user_info = "rykahsay@gwu.edu", {}
             current_user = get_jwt_identity()
             res_obj = log_request(req_obj, "/event/addnew/", request)

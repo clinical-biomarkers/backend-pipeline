@@ -15,6 +15,8 @@ def main():
     doc = json.loads(open("conf/medline.json", "r").read())
 
     xml_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_xml/"
+    cmd = "rm -f %s/*" % (xml_folder)
+    x = subprocess.getoutput(cmd)
     zeros = "0000000"
     cat_list = ["baseline", "updatefiles"]
     for category in cat_list:
@@ -28,12 +30,10 @@ def main():
             idx = zeros[:padlen] + str(idx)
             file_name = "pubmed%sn%s.xml.gz" % (year, idx)
             out_file_one = xml_folder + file_name
-            #if os.path.isfile(out_file_one) == True:
-            #    continue
             cmd = "wget %s%s -O %s" % (ftp_url, file_name, out_file_one)
-            #x = subprocess.getoutput(cmd)
+            x = subprocess.getoutput(cmd)
             #print (cmd)
-            print (category, file_name)
+            #print (category, file_name)
 
 
 

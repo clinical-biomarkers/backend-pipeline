@@ -1,12 +1,30 @@
-python3 make-datasets.py -d biomarkers_top_50
-python3 make-datasets.py -d biomarkers_llm_glycan
-python3 make-datasets.py -d biomarkers_cgi
-python3 make-datasets.py -d biomarkers_civic
-python3 make-datasets.py -d biomarkers_edrn
-python3 make-datasets.py -d biomarkers_gwas
-python3 make-datasets.py -d biomarkers_markerdb
-python3 make-datasets.py -d biomarkers_mw
-python3 make-datasets.py -d biomarkers_oncomx
-python3 make-datasets.py -d biomarkers_opentargets
-python3 make-datasets.py -d biomarkers_PMC_biomarker_sets
-python3 make-datasets.py -d biomarkers_upkb_reviewed_v2
+python3 make-datasets.py -r 3.5.1 -d biomarkers_cadsr
+python3 make-datasets.py -r 3.5.1 -d biomarkers_cgi
+python3 make-datasets.py -r 3.5.1 -d biomarkers_civic
+python3 make-datasets.py -r 3.5.1 -d biomarkers_civic_metakb
+python3 make-datasets.py -r 3.5.1 -d biomarkers_edrn
+python3 make-datasets.py -r 3.5.1 -d biomarkers_exposure_agents
+python3 make-datasets.py -r 3.5.1 -d biomarkers_gwas
+python3 make-datasets.py -r 3.5.1 -d biomarkers_llm_glycan
+python3 make-datasets.py -r 3.5.1 -d biomarkers_microplastics
+python3 make-datasets.py -r 3.5.1 -d biomarkers_mw_newborn_screening
+python3 make-datasets.py -r 3.5.1 -d biomarkers_mw_loinc
+python3 make-datasets.py -r 3.5.1 -d biomarkers_oncomx
+python3 make-datasets.py -r 3.5.1 -d biomarkers_opentargets
+python3 make-datasets.py -r 3.5.1 -d biomarkers_PMC_biomarker_sets
+python3 make-datasets.py -r 3.5.1 -d biomarkers_sennet
+python3 make-datasets.py -r 3.5.1 -d biomarkers_user_submitted
+python3 make-datasets.py -r 3.5.1 -d biomarkers_upkb_reviewed_v2
+python3 make-datasets.py -r 3.5.1 -d biomarkers_top_50
+python3 make-datasets.py -r 3.5.1 -d biomarkers_clinvar
+
+
+#python3 make-datasets.py -r 3.5.1 -d entity_normalranges_oracle_health
+#python3 make-datasets.py -r 3.5.1 -d entity_normalranges_gwdc
+#python3 make-datasets.py -r 3.5.1 -d masterlist
+#python3 make-datasets.py -r 3.5.1 -d xrefmap_biomarkerkb2uniprotkb
+#python3 make-datasets.py -r 3.5.1 -d xrefs
+#python3 make-datasets.py -r 3.5.1 -d annotations
+#python3 make-datasets.py -r 3.5.1 -d llm_glycan
+#python3 make-datasets.py -r 3.5.1 -d edrn
+#python3 make-datasets.py -r 3.5.1 -d mw

@@ -232,7 +232,6 @@ def search_one(api_name, query_obj, config_obj, cache_flag, exact_match_flag):
 
     record_type = api_name.split("_")[0]
    
-
     list_id = get_hash_id(api_name, record_type, query_obj)
     
     #Get cached object
@@ -254,7 +253,7 @@ def search_one(api_name, query_obj, config_obj, cache_flag, exact_match_flag):
         if query_obj["term"][0] == c and query_obj["term"][-1] == c:
             quote_flag = True
 
-    term_category = query_obj["term_category"]
+    term_category = query_obj["term_category"] if "term_category" in query_obj else "any"
     selected_sections = []
     if term_category != "any":
         tmp_dict = get_termcat2sec_dict(record_type)
@@ -268,34 +267,102 @@ def search_one(api_name, query_obj, config_obj, cache_flag, exact_match_flag):
     #xxxx = get_result_dict_one(dbh,phrase_dict,selected_sections,quote_flag,record_type,max_p,True)
     #return xxxx
 
-
-    section_list = selected_sections if selected_sections != [] else ["all"]
     debug_list = []
     cache_collection = "c_usercache"
     ts = datetime.datetime.now(pytz.timezone("US/Eastern")).strftime("%Y-%m-%d %H:%M:%S %Z%z")
-    record_list = []
-    for sec in section_list:
-        tmp_dict = result_dict[sec] if sec in result_dict else {}
-        s_tmp_dict = sorted(tmp_dict.items(), key=lambda item: item[1], reverse=True)
-        record_list += [s[0] for s in s_tmp_dict]
-
-    record_list = sorted(set(record_list))
-    res = dbh[cache_collection].delete_many({"list_id":list_id})
-    result_count = len(record_list)
+   
     query_obj["term"] = query_obj["term"].replace("\\(", "(").replace("\\)",")")
     query_obj["term"] = query_obj["term"].replace("\\[", "[").replace("\\]","]")
-    cache_info = {
-        "query":query_obj,
-        "ts":ts,
-        "record_type":record_type,
-        "search_type":api_name,
-        "total":result_count
+
+
+    sec_map = {
+        "biomarker_id":"Biomarker ID"
+        ,"biomarker_canonical_id":"Biomarker ID"
+        ,"biomarker_vocab":"Biomarker Term"
+        ,"best_biomarker_role":"Biomarker Role"
+        ,"entity_id":"Biomarker Entity"
+        ,"entity_name":"Biomarker Entity"
+        ,"entity_type":"Biomarker Entity"
+        ,"condition_id":"Condition"
+        ,"condition_name":"Condition"
+        ,"specimen_id":"Specimen"
+        ,"specimen_name":"Specimen" 
+        ,"specimen_loinc_code":"Specimen"  
+        ,"publication":"Publication"
+        ,"keywords":"Keywords"
+        ,"source_list":"Data Source" 
+        ,"crossref":"Cross References"
     }
-    cache_hitlist(dbh,list_id,record_list,cache_info,cache_collection,config_obj)
-    debug_list.append("%s|%s" % (list_id,result_count))
-    res_obj["list_id"] = list_id if result_count > 0 else ""
-    res_obj["resultcount"] = result_count
-    #res_obj["debug"] = debug_list
+
+    sec_ordr_list = [
+        "Biomarker Entity","Biomarker ID","Biomarker Term","Keywords","Data Source",
+        "Condition","Specimen","Cross References", "Publication"
+    ]
+
+
+
+
+    if api_name == "biomarker_search_global":
+        tmp_dict = {}
+        for sec in result_dict:
+            if sec == "all":
+                continue
+            sec_cat = sec_map[sec] if sec in sec_map else sec
+            if sec_cat not in tmp_dict:
+                tmp_dict[sec_cat] = []
+            tmp_dict[sec_cat] += list(result_dict[sec].keys())
+        
+        res_obj["results"] = []
+        for sec_cat in tmp_dict:
+            record_list = list(set(tmp_dict[sec_cat]))
+            result_count = len(record_list)
+            
+            new_query_obj = {"term":query_obj["term"], "section":sec_cat}
+            new_list_id = get_hash_id(api_name, record_type, new_query_obj)
+            res = dbh[cache_collection].delete_many({"list_id":new_list_id})
+            cache_info = {"query":query_obj,"ts":ts,"record_type":record_type,
+                "search_type":api_name,"total":result_count
+            }
+            cache_hitlist(dbh,new_list_id,record_list,cache_info,cache_collection,config_obj)
+            new_list_id = new_list_id if result_count > 0 else ""
+            o = {"section":sec_cat, "list_id":new_list_id, "resultcount":result_count}
+            res_obj["results"].append(o)
+    else:
+        section_list = selected_sections if selected_sections != [] else ["all"]
+        record_list = []
+        for sec in section_list:
+            tmp_dict = result_dict[sec] if sec in result_dict else {}
+            s_tmp_dict = sorted(tmp_dict.items(), key=lambda item: item[1], reverse=True)
+            record_list += [s[0] for s in s_tmp_dict]
+        record_list = sorted(set(record_list))
+        res = dbh[cache_collection].delete_many({"list_id":list_id})
+        result_count = len(record_list)
+        cache_info = {"query":query_obj,"ts":ts,"record_type":record_type,
+            "search_type":api_name,"total":result_count
+        }
+        cache_hitlist(dbh,list_id,record_list,cache_info,cache_collection,config_obj)
+        debug_list.append("%s|%s" % (list_id,result_count))
+        res_obj["list_id"] = list_id if result_count > 0 else ""
+        res_obj["resultcount"] = result_count
+        #res_obj["debug"] = debug_list
+
+    if "results" in res_obj:
+        obj_dict, seen = {}, {}
+        for o in res_obj["results"]:
+            obj_dict[o["section"]] = o
+        obj_list_one = []
+        for sec in sec_ordr_list:
+            if sec in obj_dict:
+                obj_list_one.append(obj_dict[sec])
+                seen[sec] = True
+        obj_list_two = []
+        for o in res_obj["results"]:
+            if o["section"] not in seen:
+                obj_list_two.append(o) 
+        res_obj["results"] = obj_list_one + obj_list_two
+
+
+
 
     return res_obj
     

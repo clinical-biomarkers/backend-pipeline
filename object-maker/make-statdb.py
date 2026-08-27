@@ -43,7 +43,7 @@ def main():
     csvutil.write_log_msg(log_file, msg, "w")
 
 
-    newrow = ["biomarker_id","condition_id","entity_type", "role_list", "source_list","flag"]
+    newrow = ["biomarker_id","condition_id","agent_id","entity_type", "role_list", "source_list","keywords","flag"]
     with open(out_file, "w") as FW:
         FW.write("\"%s\"\n" % ("\",\"".join(newrow)))
 
@@ -53,13 +53,17 @@ def main():
     for in_file in file_list[s-1:e]:
         doc_list = orjson.loads(open(in_file, "rb").read())
         for doc in doc_list:
-            if "condition" not in doc:
-                continue
-            if doc["condition"] == {}:
-                continue
             biomarker_id = doc["biomarker_id"]
-            condition_id = doc["condition"]["id"]
+            condition_id, agent_id = "", ""
+            if "condition" in doc:
+                if doc["condition"] != {}:
+                    condition_id = doc["condition"]["id"]
+            if "exposure_agent" in doc:
+                if "id" in doc["exposure_agent"]:
+                    agent_id = doc["exposure_agent"]["id"]
+
             source_list = doc["source_list"]
+            kw_list = doc["keywords"]
             role_list = []
             for o in doc["best_biomarker_role"]:
                 role_list.append(o["role"])
@@ -71,7 +75,8 @@ def main():
             for obj in doc["biomarker_component"]:
                 ent_type = obj["assessed_entity_type"]
                 flags, sources, roles = ";".join(flag_list), ";".join(source_list), ";".join(role_list)
-                newrow = [biomarker_id,condition_id,ent_type, roles, sources, flags]
+                keywords = ";".join(kw_list)
+                newrow = [biomarker_id,condition_id,agent_id,ent_type, roles, sources, keywords,flags]
                 row_list.append(newrow)
         if len(row_list) == 1000:
             with open(out_file, "a") as FW:

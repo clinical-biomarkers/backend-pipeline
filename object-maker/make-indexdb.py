@@ -78,18 +78,39 @@ def get_biomarker_record(in_file, doc):
     #-- biomarker_id
     sec = "biomarker_id"
     phrase_dict = {}
-    for f in ["biomarker_id", "biomarker_canonical_id"]:
+    for f in ["biomarker_id"]:
         parse_sent(doc[f], phrase_dict, 1)
     if phrase_dict != {}:
         p_list = list(phrase_dict.keys())
         obj_list.append({"record_id":record_id, "record_type":record_type,
             "section":sec, "phraselist":p_list})
 
+    #-- biomarker_canonical_id
+    sec = "biomarker_canonical_id"
+    phrase_dict = {}
+    for f in ["biomarker_canonical_id"]:
+        parse_sent(doc[f], phrase_dict, 1)
+    if phrase_dict != {}:
+        p_list = list(phrase_dict.keys())
+        obj_list.append({"record_id":record_id, "record_type":record_type,
+            "section":sec, "phraselist":p_list})
+
+
     # -- source_list
     sec = "source_list"
     phrase_dict = {}
     for source in doc[sec]:
         parse_sent(source, phrase_dict, 1)
+    if phrase_dict != {}:
+        p_list = list(phrase_dict.keys())
+        obj_list.append({"record_id":record_id, "record_type":record_type,
+            "section":sec, "phraselist":p_list})
+
+    # -- keywords
+    sec = "keywords"
+    phrase_dict = {}
+    for kw in doc[sec]:
+        parse_sent(kw, phrase_dict, 1)
     if phrase_dict != {}:
         p_list = list(phrase_dict.keys())
         obj_list.append({"record_id":record_id, "record_type":record_type,
@@ -140,7 +161,10 @@ def get_biomarker_record(in_file, doc):
             for k in ["assessed_biomarker_entity_id"]:
                 if k not in obj:
                     continue
-                parse_sent(str(obj[k]), phrase_dict_entity_id, 1)
+                val = str(obj[k])
+                parse_sent(val, phrase_dict_entity_id, 1)
+                if val.find(":") != -1:
+                    parse_sent(val.split(":")[1], phrase_dict_entity_id, 1)
             for k in ["assessed_entity_type"]:
                 if k not in obj:
                     continue

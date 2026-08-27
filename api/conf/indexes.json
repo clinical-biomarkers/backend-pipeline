@@ -4,7 +4,8 @@
         },
         "c_biomarker":{
             "biomarker_id":"biomarker_id_index",
-      		"biomarker_component.assessed_entity_type":"entity_type_index",
+      		"biomarker_canonical_id":"biomarker_canonical_id_index",
+				"biomarker_component.assessed_entity_type":"entity_type_index",
          	"condition.recommended_name.id":"condition_id_index",
          	"condition.synonyms.id":"condition_synonym_id_index",
         		"citation.reference.id":"citation_id_index",

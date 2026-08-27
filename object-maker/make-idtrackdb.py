@@ -1,135 +1,136 @@
 import os,sys
 import json
 import glob
-import datetime
-import csvutil
-import subprocess
+import requests
 from optparse import OptionParser
-import psutil
 import orjson
-import hashlib
-
+import subprocess
 
 def main():
 
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
     parser.add_option("-r","--rel",action="store",dest="rel",help="")
-    parser.add_option("-p","--prev",action="store",dest="prev",help="")
     (options,args) = parser.parse_args()
-    for key in ([options.rel, options.prev]):
+    for key in ([options.rel]):
         if not (key):
             parser.print_help()
             sys.exit(0)
 
-    rel = options.rel
-    prev_rel = options.prev
+    current_rel = options.rel
+
 
     global release_dir
-    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+    release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (current_rel)
+    out_dir = release_dir + "jsondb/idtrackdb/"
 
-
-    cmb2biomarkerid = csvutil.load_cmb2biomarkerid(release_dir)
-    cmblist2src, grp2cmblist = csvutil.load_cmblist2src(release_dir)
-    canon2disease_dict = csvutil.load_canon2disease_dict(grp2cmblist, release_dir)
-    canon_id_md5_list = sorted(list(canon2disease_dict.keys()))
-    canon_id_dict = csvutil.load_canon_id_dict(rel,canon_id_md5_list)
-  
-    
-    prev_rel_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (prev_rel)
-    file_list = glob.glob(prev_rel_dir + "jsondb/idtrackdb/*.json")
-    hist_dict = {}
-    for in_file in file_list:
-        doc_list = json.load(open(in_file))
-        for doc in doc_list:
-            biomarker_id = doc["record_id"] 
-            hist_dict[biomarker_id] = doc
+    # clean out_dir
+    if os.path.isdir(out_dir):
+        cmd = "rm -rf %s/*" % (out_dir)
+        x = subprocess.getoutput(cmd)
  
 
-    replacement_dict = {}
-    track_status = {}
-    record_obj_list = []
-    out_dir = release_dir + "jsondb/idtrackdb/"
-    bmkb_idx = 0
-    batch_idx = 0
-    for canon_id_md5 in canon_id_md5_list:
-        canon_id_new = canon_id_dict[canon_id_md5]
-        idx = 0
-        for d_id in canon2disease_dict[canon_id_md5]:
-            idx += 1
-            bmkb_idx += 1
-            s = canon_id_md5 + d_id
-            biomarker_id_md5 = hashlib.md5(s.encode('utf-8')).hexdigest()         
-            biomarker_id_new = "%s-%s" % (canon_id_new, idx)
-            cmb_list = canon2disease_dict[canon_id_md5][d_id]["cmblist"]
-            grp = canon2disease_dict[canon_id_md5][d_id]["grp"]
-            cmb_list_new = []
-            for cmb in cmb_list:
-                ent_id, d_id, vocab = cmb.split("|")
-                cmb_list_new.append("%s|%s|%s" % (ent_id, d_id, vocab.lower()))
-            cmb_list_str = json.dumps(cmb_list)
-            cmb_list_str_new = json.dumps(cmb_list_new)       
-            
-            src_list = list(cmblist2src[cmb_list_str].keys())
-            biomarker_id_list = []
-            if cmb_list_str_new in cmb2biomarkerid:
-                biomarker_id_list = sorted(list(cmb2biomarkerid[cmb_list_str_new].keys()))
-            if biomarker_id_list == []:
-                continue
-            biomarker_id = biomarker_id_list[0]
-            record_obj = {
-                "record_id":biomarker_id,
-                "recordtype":"biomarker",
-                "grp":grp,
-                "cmb_list":cmb_list,
-                "canon_id_md5":canon_id_md5,
-                "biomarker_id_md5":biomarker_id_md5,
-                "canon_id_new":canon_id_new,
-                "biomarker_id_new":biomarker_id_new,
-                "biomarker_id_list":biomarker_id_list,
-                "source_list":src_list,
-                "history":[]
-            }
-            track_status[biomarker_id] = True
-            if biomarker_id in hist_dict:
-                record_obj["history"] = hist_dict[biomarker_id]["history"]
-            if len(biomarker_id_list) > 1:
-                id_list = biomarker_id_list[1:]
-                desc = "Inherits %s as of release %s" % (";".join(id_list), rel)
-                o = {"type":"inherits", "inherited_id_list":id_list, "description": desc}
-                record_obj["history"].append(o)
-                for tmp_id in id_list:
-                    if tmp_id not in replacement_dict:
-                        replacement_dict[tmp_id] = {}
-                    replacement_dict[tmp_id][biomarker_id] = True
-                     
-            record_obj_list.append(record_obj)
-            if len(record_obj_list) == 1000:
-                batch_idx += 1
-                out_file = out_dir + "batch.%s.json" % (batch_idx)
-                with open(out_file, "wb") as FW:
-                    FW.write(orjson.dumps(record_obj_list))
-                record_obj_list = []
 
-    if len(record_obj_list) > 0:
-        batch_idx += 1
-        out_file = out_dir + "batch.%s.json" % (batch_idx)
-        with open(out_file, "wb") as FW:
-            FW.write(orjson.dumps(record_obj_list))
+    legacy_release_list = ["3.1.1","3.2.1","3.2.2","3.3.1","3.4.1","3.4.2"]
 
-        
-    record_obj_list = []
-    for biomarker_id in hist_dict:
-        if biomarker_id not in track_status:
-            if biomarker_id in replacement_dict:
-                id_list = list(replacement_dict[biomarker_id].keys())
-                desc = "Replaced by %s as of release %s" % (";".join(id_list), rel)
-                o = {"type":"replaced", "replacement_id_list":id_list, "description": desc}
-                hist_dict[biomarker_id]["history"].append(o)
+    url = "https://api.biomarkerkb.org//misc/verlist/"
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+    tmp_list = response.json()
+    release_list = legacy_release_list + sorted(tmp_list) + [current_rel]
+    release_list = sorted(list(set(release_list)))
+
+    
+
+    src_dict = {}    
+    hist_dict = {}
+    for rel in release_list:
+        file_list = glob.glob("/data/shared/biomarkerdb/releases/data/v-%s/jsondb/idgendb/*.json" % (rel))
+        for in_file in file_list:
+            doc_list = json.load(open(in_file))
+            for doc in doc_list:
+                biomarker_id_md5 = doc["biomarker_id_md5"]
+                canon_id_md5 = doc["canon_id_md5"]
+                cmb_list = doc["cmb_list"]
+                if biomarker_id_md5 not in hist_dict:
+                    hist_dict[biomarker_id_md5] = {"rel":{}, "id_list":[], "cmb_list":doc["cmb_list"], "canon_id_md5":doc["canon_id_md5"]}
+                    src_dict[biomarker_id_md5] = []
+                hist_dict[biomarker_id_md5]["rel"][rel] = True
+                hist_dict[biomarker_id_md5]["id_list"] += doc["biomarker_id_list"]
+                src_dict[biomarker_id_md5] += doc["source_list"]
+
+    debug_list = []
+    record_dict = {}
+    grp_dict = {} 
+    for biomarker_id_md5 in hist_dict:
+        doc = hist_dict[biomarker_id_md5]
+        rel_list = sorted(list(doc["rel"].keys()))
+        id_list = list(set(doc["id_list"]))
+        src_list = sorted(list(set(src_dict[biomarker_id_md5])))
+        msg = "%s|%s|%s" % (len(rel_list), rel_list, src_list)
+        tmp_record_obj = {
+            "biomarker_id_md5":biomarker_id_md5,
+            "canon_id_md5":doc["canon_id_md5"],
+            "cmb_list":doc["cmb_list"],
+            "source_list":src_list, 
+            "biomarker_id_list":id_list
+        }
+        if current_rel in rel_list:
+            if len(rel_list) == len(release_list):
+                grp, text = "group_1", "Introduced in release %s" % (rel_list[0])
+                grp_dict[id_list[0]] = {"grp":grp, "text":text}
+                record_dict[id_list[0]] = tmp_record_obj.copy()
+                if len(id_list) > 1:
+                    for bmkb_id in id_list[1:]:
+                        grp, text = "group_2", "Introduced in release %s, replaced by %s" % (rel_list[0], id_list[0])
+                        grp_dict[bmkb_id] = {"grp":grp, "text":text}
+                        record_dict[bmkb_id] = tmp_record_obj.copy()
+                        record_dict[bmkb_id]["replacement_id"] = id_list[0]
+            elif len(rel_list) == 1:
+                grp, text = "group_3", "Introduced in release %s" % (rel_list[0])
+                grp_dict[id_list[0]] = {"grp":grp, "text":text} 
+                record_dict[id_list[0]] = tmp_record_obj.copy()
+                if len(id_list) > 1:
+                    for bmkb_id in id_list[1:]:
+                        grp, text = "group_4", "Introduced in release %s, replaced by %s" % (rel_list[0], id_list[0])
+                        grp_dict[bmkb_id] = {"grp":grp, "text":text}
+                        record_dict[bmkb_id] = tmp_record_obj.copy()
+                        record_dict[bmkb_id]["replacement_id"] = id_list[0]
             else:
-                o = {"type": "discontinued", "description": "Discontinued in release %s" % (rel)}
-                hist_dict[biomarker_id]["history"].append(o)
-            record_obj_list.append(hist_dict[biomarker_id])
+                grp, text = "group_5", "Introduced in release %s" % (rel_list[0])
+                grp_dict[id_list[0]] = {"grp":grp, "text":text}
+                record_dict[id_list[0]] = tmp_record_obj.copy()
+                if len(id_list) > 1:
+                    for bmkb_id in id_list[1:]:
+                        grp, text = "group_6", "Introduced in release %s, replaced by %s" % (rel_list[0], id_list[0])
+                        grp_dict[bmkb_id] = {"grp":grp, "text":text}
+                        record_dict[bmkb_id] = tmp_record_obj.copy()
+                        record_dict[bmkb_id]["replacement_id"] = id_list[0]
+        else:
+            last_rel = rel_list[-1]
+            xrel = release_list[release_list.index(last_rel) + 1]
+            for bmkb_id in id_list:
+                grp, text = "group_7", "Introduced in release %s, discontinued in release %s" % (rel_list[0], xrel)
+                grp_dict[bmkb_id] = {"grp":grp, "text":text}
+                record_dict[bmkb_id] = tmp_record_obj.copy()
+
+    record_obj_list = []    
+    batch_idx = 0 
+    for bmkb_id in grp_dict:
+        record_obj = record_dict[bmkb_id]
+        record_obj["biomarker_id"] = bmkb_id
+        record_obj["history"] = grp_dict[bmkb_id]
+        #if batch_idx == 132 and len(record_obj_list) in [415, 416]:
+        #    print (bmkb_id)
+        #    print (json.dumps(record_obj, indent=4))
+            
+        record_obj_list.append(record_obj)
+        if len(record_obj_list) == 1000:
+            batch_idx += 1
+            out_file = out_dir + "batch.%s.json" % (batch_idx)
+            with open(out_file, "wb") as FW:
+                FW.write(orjson.dumps(record_obj_list))
+            record_obj_list = []
 
     if len(record_obj_list) > 0:
         batch_idx += 1
@@ -137,14 +138,14 @@ def main():
         with open(out_file, "wb") as FW:
             FW.write(orjson.dumps(record_obj_list))
 
+   
 
-
-
-    return 
-
-
+ 
+    return
 
 
 if __name__ == '__main__':
     main()
- 
+
+
+

@@ -1,27 +1,18 @@
 {
     "dataversion": "",
-    "logo":"<img src='/imglib/logo-glygen.svg' style='width:200px;margin:0px 20px 0px 0px;'>",
-    "search_examples":"Example queries: GLY_000001, kinase, human_protein_masterlist",
+    "logo":"<img src='/imglib/logo-biomarkerkb.svg' style='width:200px;margin:0px 20px 0px 0px;'>",
+    "search_examples":"Example queries: BMK_000001, biomarkers_civic",
     "headerlinks": [
         {"id": "home","label": "Home","url": "/"},
         {"id": "faq","label": "FAQ","url": "/static/faq"},
         {"id": "history_list","label": "Release History","url": "/history_list"},
-        {"id": "uploads","label": "File Uploads","url": "/uploads"},
         {"id": "about","label": "About","url": "/static/about"},
         {"id": "portal","label": "PORTAL", "url": ""},
-        {"id": "api","label": "API", "url": ""},
-        {"id": "sparql","label": "SPARQL", "url": ""}
+        {"id": "api","label": "API", "url": ""}
     ],
     "fileuploadformats": [
-        {"id": "csv","label": "Comma Separated Values (CSV)","format": "csv"},
-        {"id": "tsv","label": "Tab Separated Values (TSV)","format": "tsv"},
-        {"id": "png","label": "Glycan PNG", "format": "png"},
-        {"id": "jpeg","label": "Glycan JPEG","format": "jpeg"}
     ],
     "fileuploadqc": [
-        {"id": "basic","label": "Basic File Sanity"},
-        {"id": "glyco_site","label": "Glycosylation Site"},
-        {"id": "glyco_site_unicarbkb","label": "Glycosylation Site UniCarbKB"}
     ],
     "affilations": [
         {"id": "unicarbkb","label": "UniCarbKB"},
@@ -30,37 +21,25 @@
     ],
     "module_urls":{
       "prd":{
-        "portal":"https://glygen.org",
-        "api":"https://api.glygen.org",
-        "sparql":"https://sparql.glygen.org"
-      },
-      "beta":{
-        "portal":"https://beta.glygen.org",
-        "api":"https://beta-api.glygen.org",
-        "sparql":"https://beta-sparql.glygen.org"
-      },
-      "tst":{
-        "portal":"https://tst.glygen.org",
-        "api":"https://api.tst.glygen.org",
-        "sparql":"https://sparql.tst.glygen.org"
+        "portal":"https://biomarkerkb.org",
+        "api":"https://api.biomarkerkb.org"
       },
       "dev":{
-        "portal":"https://dev.glygen.org",
-        "api":"https://api.dev.glygen.org",
-        "sparql":"https://sparql.dev.glygen.org"
+        "portal":"https://dev.biomarkerkb.org",
+        "api":"https://api.dev.biomarkerkb.org"
       }
     },
     "footer":{
         "links":[
-            {"label":"License", "url":"https://glygen.org/license/"},
-            {"label":"Privacy Policy", "url":"https://glygen.org/privacy-policy/"},
-            {"label":"Disclaimer", "url":"https://glygen.org/disclaimer/"},
-            {"label":"Contact Us", "url":"https://glygen.org/contact-us/"}
+            {"label":"License", "url":"https://biomarkerkb.org/license/"},
+            {"label":"Privacy Policy", "url":"https://biomarkerkb.org/privacy-policy/"},
+            {"label":"Disclaimer", "url":"https://biomarkerkb.org/disclaimer/"},
+            {"label":"Contact Us", "url":"https://biomarkerkb.org/contact-us/"}
         ],
         "license": "",
-		   "funding": "GlyGen is supported and funded by the National Institute of General Medical Sciences under the grant # 1R24GM146616 - 01 and the National Institutes of Health Office of Strategic Coordination - The Common Fund under the grant # 1OT2OD032092.",	
+		   "funding": "BiomarkerKB is a Common Fund Data Ecosystem (CFDE) sponsored project by the NIH Common Fund, Office of the Director, NIH, and administered by the National Institute of Dental and Craniofacial Research under the grant # U24OD038423 and National Science Foundation Parent Award 2535091 to develop a knowledgebase that will organize and integrate biomarker data from different public sources.",
         "logos":[
-            "/imglib/gw.png", "/imglib/uga.svg"
+            "/imglib/logo-biomarkerkb.svg"
         ]
     }
 }

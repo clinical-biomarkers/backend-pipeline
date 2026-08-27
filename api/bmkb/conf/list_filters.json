@@ -196,13 +196,41 @@
             "group_order":1,
             "group_label":"By Entity Type",
             "order_dict":{
-               "glycan":1,
-					"protein":2
-            },
+					"gene":1,
+					"metabolite":2,
+					"protein":3,	
+					"mRNA":4,
+					"cell":5,
+					"RNA":6,
+					"glycan":7,
+					"protein complex":8,
+					"DNA":9,
+            	"chemical element":10,
+					"amino acid":11,
+            	"peptide":12,
+					"lipoprotein":13,
+					"image": 14,
+            	"lipid": 15,
+            	"miRNA": 16
+				},
             "label_dict":{
-                "protein":"Protein",
-                "glycan":"Glycan"
-            }
+            	"gene":"Gene",
+               "metabolite":"Metabolite",
+               "protein":"Protein",   
+               "mRNA":"mRNA",
+               "cell":"Cell",
+               "RNA":"RNA",
+               "glycan":"Glycan",
+               "protein complex":"Protein Complex",
+               "DNA":"DNA",
+               "chemical element":"Chemical Element",
+               "amino acid":"Amino Acid",
+               "peptide":"Peptide",
+               "lipoprotein":"Lipoprotein",
+               "image": "Image",
+               "lipid": "Lipid",
+               "miRNA": "miRNA"
+				}
         	},
 		  	"by_biomarker_role":{
             "grp_idx": 1,

@@ -1675,12 +1675,9 @@ def retrieve_cached_list_objects(in_dict,req_obj,config_obj, page_flag):
     if first_doc == None and "filters" in req_obj:
         if req_obj["filters"] == []:
             return None
-            #return {"error_list":[{"error_code":"empty-filters"}]} 
         cache_doc = dbh["c_initcache"].find_one({"list_id":cache_id})
         if cache_doc == None:
             return None
-            #return {"error_list":[{"error_code":"cache-not-found"}]} 
-        #return cache_doc["cache_info"]
         record_type = cache_doc["cache_info"]["record_type"]
         res_obj, full_obj_list = get_combined_cached_result_list(dbh, record_type, req_obj)
         res_obj["results"] = full_obj_list
@@ -1691,11 +1688,9 @@ def retrieve_cached_list_objects(in_dict,req_obj,config_obj, page_flag):
         return res_obj
 
  
-    #first_doc.pop("_id")
-    #return first_doc
  
     if first_doc == None:
-        return {"error_list":[{"error_code":"first-doc-not-found-1"}]}
+        return None
     if "glbl" not in first_doc:
         return {"error_list":[{"error_code":"first-doc-not-found-2"}]}
     if "pagination" not in first_doc["glbl"]:
@@ -1801,7 +1796,9 @@ def retrieve_cached_list_objects(in_dict,req_obj,config_obj, page_flag):
         hit_info["contributions"] = []
         for cond_group in score_dict[record_type]:
             for cond in score_dict[record_type][cond_group]:
-                freq = hit_info["freqdict"][cond] if cond in hit_info["freqdict"] else 0
+                freq = 0
+                if "freqdict" in hit_info:
+                    freq = hit_info["freqdict"][cond] if cond in hit_info["freqdict"] else 0
                 weight = score_dict[record_type][cond_group][cond]["weight"]
                 o = {"c":cond, "w":weight, "f":float(freq)}
                 hit_info["contributions"].append(o)

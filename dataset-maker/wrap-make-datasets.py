@@ -30,8 +30,8 @@ def main():
     for grp in ds_dict:
         for ds in ds_dict[grp]:
             cmd = "python3 make-datasets.py -r %s -d %s" % (rel, ds)
-            #x = subprocess.getoutput(cmd)
-            print (cmd)
+            x = subprocess.getoutput(cmd)
+            #print (cmd)
         
 
     return 

@@ -35,65 +35,6 @@ def biomarker_search_init(config_obj):
 
 
 
-def search_simple(query_obj, config_obj):
-
-    dbh, error_obj = get_mongodb()
-    if error_obj != {}:
-        return error_obj
-
-
-    #Collect errors 
-    error_list = get_errors_in_query("biomarker_search_simple", query_obj,config_obj)
-    if error_list != []:
-        return {"error_list":error_list}
-
-
-    new_query_obj = json.loads(json.dumps(query_obj))
-    if new_query_obj["term_category"] == "any":
-        new_query_obj["term"] = transform_query_term(new_query_obj["term"])
-
-
-    record_type = "biomarker"
-    api_name = "biomarker_search_simple"
-    list_id = get_hash_id(api_name, record_type, query_obj)
-    cache_coll = "c_usercache"
-    #cached_obj = dbh[cache_coll].find_one({"list_id":list_id})
-    #if cached_obj != None:
-    #    if len(cached_obj["results"]) > 0:
-    #        return {"list_id":list_id}
-
-    mongo_query = get_simple_mongo_query(new_query_obj)
-    #return mongo_query
-
-    collection = "c_biomarker"
-    record_list = []
-    prj_obj = {"biomarker_id":1}
-    for obj in dbh[collection].find(mongo_query,prj_obj):
-        record_list.append(obj["biomarker_id"])
-    #return record_list
-
-    ts_format = "%Y-%m-%d %H:%M:%S %Z%z"
-    ts = datetime.datetime.now(pytz.timezone('US/Eastern')).strftime(ts_format)
-    cache_coll = "c_usercache"
-    list_id = "" if len(record_list) == 0 else list_id
-    if len(record_list) != 0:
-        cache_info = {
-            "query":query_obj,
-            "ts":ts,
-            "record_type":record_type,
-            "search_type":"biomarker_search_simple"
-        }
-        cache_hitlist(dbh,list_id,record_list,cache_info,cache_coll,config_obj)
-    res_obj = {"list_id":list_id}
-    res_obj["query"] = query_obj
-    res_obj["resultcount"] = len(record_list)
-
-    return res_obj
-
-
-
-
-
 def biomarker_detail(query_obj, config_obj):
 
     dbh, error_obj = get_mongodb()
@@ -164,6 +105,8 @@ def biomarker_search(query_obj, config_obj, original_query):
         return {"error_list":error_list}
 
 
+
+
     record_type = "biomarker"
     api_name = "biomarker_search"
     list_id = get_hash_id(api_name, record_type, query_obj)
@@ -190,7 +133,7 @@ def biomarker_search(query_obj, config_obj, original_query):
     field2sec = {}
     field2sec = {
         "biomarker_id":"biomarker_id",
-        "canonical_id":"biomarker_id",  
+        "canonical_id":"biomarker_canonical_id",  
         "biomarker":"biomarker_vocab",
         "biomarker_entity_id":"entity_id",
         "biomarker_entity_name":"entity_name",
@@ -202,6 +145,7 @@ def biomarker_search(query_obj, config_obj, original_query):
         "specimen_loinc_code":"loinc_code",
         "specimen_name":"specimen_name",
         "publication_id":"publication",
+        "keywords":"keywords",
         "data_source":"source_list"
     }
 
@@ -220,8 +164,6 @@ def biomarker_search(query_obj, config_obj, original_query):
         val = query_obj[f]
         ts_list.append("1a-"+datetime.datetime.now(pytz.timezone('US/Eastern')).strftime(ts_format))
         query_obj_new = {"term":val,"term_category":sec}
-        #res_obj = use_indexed_search("biomarker_search_simple", query_obj_new,config_obj, exact_match_flag)
-        #return res_obj
         quote_flag = False
         for c in ["\"", "\'"]:
             if val[0] == c and val[-1] == c:
@@ -240,13 +182,6 @@ def biomarker_search(query_obj, config_obj, original_query):
 
     ts_list.append("0-"+datetime.datetime.now(pytz.timezone('US/Eastern')).strftime(ts_format))
 
-    #mongo_query = get_mongo_query(query_obj)
-    #return mongo_query
-    #collection = "c_biomarker"
-    #record_list = []
-    #prj_obj = {"biomarker_id":1}
-    #for obj in dbh[collection].find(mongo_query,prj_obj):
-    #    record_list.append(obj["biomarker_id"])
 
     ts_list.append("1-"+datetime.datetime.now(pytz.timezone('US/Eastern')).strftime(ts_format))
 
