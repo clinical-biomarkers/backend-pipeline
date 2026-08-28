@@ -26,7 +26,8 @@ def main():
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s" % (rel)
 
     cmd_dict = {}
-    db_list = ["citedb","normalrangesdb","diseasedb","idgendb","idtrackdb","biomarkerdb","listdb","indexdb","sortdb","searchinitdb","statdb"]
+    db_list = ["citedb","normalrangesdb","diseasedb","idgendb","idtrackdb","biomarkerdb","listdb","indexdb","sortdb"]
+    db_list += ["statdb", "searchinitdb"]
     #db_list = ["biomarkerdb"]
     for idx in range(0, len(db_list)):
         db = db_list[idx]

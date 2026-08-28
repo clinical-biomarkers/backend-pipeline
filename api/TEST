@@ -18,6 +18,7 @@ http POST :4040/auth/login/ < ~/auth/auth.json
 http POST :4040/auth/userdelete/ < tests/examples/auth/auth_userdelete.json
 http POST :4040/auth/userinfo/ < tests/examples/auth/auth_userinfo.json
 http POST :4040/auth/userid/ < tests/examples/auth/auth_userid.json
+http POST :4040/auth/contact/ < tests/examples/auth/auth_contact.json
 
 http POST :4040/event/addnew/ < tests/examples/event/event_addnew.json
 http POST :4040/event/list/ < tests/examples/event/event_list.json

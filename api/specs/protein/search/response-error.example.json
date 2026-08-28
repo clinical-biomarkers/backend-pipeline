@@ -1,8 +1,0 @@
-{
-   "error_list": [
-     {
-       "field": "glytoucan_c", 
-       "error_code": "unexpected-field-in-query"
-     }
-   ]
- }

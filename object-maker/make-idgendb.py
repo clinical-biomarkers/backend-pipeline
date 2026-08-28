@@ -26,9 +26,17 @@ def main():
     global release_dir
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
 
+    # clean out_dir
+    out_dir = "%s/jsondb/idgendb/*" % (release_dir)
+    if os.path.isdir(out_dir):
+        cmd = "rm -rf %s/*" % (out_dir)
+        x = subprocess.getoutput(cmd)
 
     # this gets old IDs from datasets with non-empty values in column=legacy_biomarker_id
-    legacy_biomarkerid_dict = csvutil.load_legacy_biomarkerid_dict(release_dir)
+    legacy_biomarkerid_dict, orig_dict = csvutil.load_legacy_biomarkerid_dict(release_dir)
+
+
+
 
     term_dict = csvutil.load_biomarker_orig(rel)
 
@@ -38,7 +46,7 @@ def main():
     canon_id_md5_list = sorted(list(canon2conagent_dict.keys()))
    
     # this loads canonmd52id dictionary -- uses idgendb from old releases 
-    canon_id_dict = csvutil.load_canon_id_dict(rel,canon_id_md5_list)
+    canon_id_dict, canonid2maxindex, cmblist2biomarkerid = csvutil.load_canon_id_dict(rel,canon_id_md5_list)
  
     
     disease_dict = {}
@@ -52,19 +60,18 @@ def main():
 
     record_obj_list = []
     out_dir = release_dir + "jsondb/idgendb/"
-    bmkb_idx = 0
     batch_idx = 0
-    
-    #canon_id_md5_list = ["f1d03337f2ed196373220ce74fb2c28c"]
+   
+
+ 
     for canon_id_md5 in canon_id_md5_list:
         canon_id = canon_id_dict[canon_id_md5]
-        idx = 0
+        bmkb_idx = canonid2maxindex[canon_id] if canon_id in canonid2maxindex else 0
         for d_id in canon2conagent_dict[canon_id_md5]:
-            idx += 1
             bmkb_idx += 1
             s = canon_id_md5 + d_id
             biomarker_id_md5 = hashlib.md5(s.encode('utf-8')).hexdigest()         
-            biomarker_id_new = "%s-%s" % (canon_id, idx)
+            biomarker_id_new = "%s-%s" % (canon_id, bmkb_idx)
             cmb_list = canon2conagent_dict[canon_id_md5][d_id]["cmblist"]
             grp = canon2conagent_dict[canon_id_md5][d_id]["grp"]
             cmb_list_new = []
@@ -82,9 +89,14 @@ def main():
             if cmb_list_str_new in legacy_biomarkerid_dict:
                 biomarker_id_list = sorted(list(legacy_biomarkerid_dict[cmb_list_str_new].keys()))
            
+            if biomarker_id_list == [] and cmb_list_str_new in cmblist2biomarkerid:
+                biomarker_id_list = [cmblist2biomarkerid[cmb_list_str_new]]
+
             if biomarker_id_list == []:
                 biomarker_id_list = [biomarker_id_new]
             biomarker_id = biomarker_id_list[0]
+
+            #print (biomarker_id_list, biomarker_id_new)
 
             #print (biomarker_id_md5, biomarker_id, cmb_list, missing_disease_flag)
             if missing_disease_flag:

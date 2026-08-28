@@ -126,9 +126,8 @@ def auth_contact(query_obj, config_obj):
         "visibility":"visible"
     }
     
-    github_endpoint = "https://api.github.com/repos/glygener/glygen-issues/issues"
-    #github_token = os.environ['GITHUB_TOKEN']
-    #github_assignee = os.environ['GITHUB_ASSIGNEE'] 
+    #github_endpoint = "https://api.github.com/repos/glygener/glygen-issues/issues"
+    github_endpoint = "https://api.github.com/repos/clinical-biomarkers/biomarker-issue-repo/issues"
     github_token = current_app.config["GITHUB_TOKEN"]
     github_assignee = current_app.config["GITHUB_ASSIGNEE"]
 
@@ -136,7 +135,7 @@ def auth_contact(query_obj, config_obj):
         "title":query_obj["subject"],
         "body":msg_text,
         "assignees":[github_assignee],
-        "labels":["frontend_user_issue"]
+        "labels":["biomarker-frontend"]
     } 
     try:
         if config_obj["server"] != "dev":

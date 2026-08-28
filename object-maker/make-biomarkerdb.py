@@ -194,7 +194,7 @@ def main():
 
     canon2conagent_dict = csvutil.load_canon2conagent_dict(grp2cmblist, release_dir)
     canon_id_md5_list = sorted(list(canon2conagent_dict.keys()))
-    canon_id_dict = csvutil.load_canon_id_dict(rel,canon_id_md5_list)
+    canon_id_dict, canonid2maxindex, cmblist2biomarkerid = csvutil.load_canon_id_dict(rel,canon_id_md5_list)
 
 
     # this means, jsondb/idgendb/ objects need to be created

@@ -25,13 +25,22 @@ def get_cmb_list_str_list():
                 else:
                     condition_id = row[f_list.index("condition_id")]
                     agent_id = row[f_list.index("exposure_agent_id")]
-                    grp_idx = row[f_list.index("component_group")]
+                    grp_idx = ""
+                    for k in ["biomarker_index", "component_group"]:
+                        grp_idx = row[f_list.index(k)] if k in f_list else grp_idx
+                    if grp_idx == "":
+                        continue
                     if condition_id == "" and agent_id == "":
                         continue
                     grp = "%s|%s" % (source, grp_idx)
                     cmb_list = grp2cmblist[grp]
                     cmb_list_str = json.dumps(cmb_list)
                     seen_cmb_list_str[cmb_list_str] = True
+    
+
+
+
+
     cmb_list_str_list = sorted(list(seen_cmb_list_str.keys()))
     
     return cmb_list_str_list
@@ -108,7 +117,11 @@ def main():
                 else:
                     condition_id = row[f_list.index("condition_id")]
                     agent_id = row[f_list.index("exposure_agent_id")]
-                    grp_idx = row[f_list.index("component_group")]
+                    grp_idx = ""
+                    for k in ["biomarker_index", "component_group"]:
+                        grp_idx = row[f_list.index(k)] if k in f_list else grp_idx
+                    if grp_idx == "":
+                        continue
                     if condition_id == "" and agent_id == "":
                         continue
                     grp = "%s|%s" % (source, grp_idx)

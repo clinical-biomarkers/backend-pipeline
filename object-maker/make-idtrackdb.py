@@ -42,6 +42,7 @@ def main():
 
     
 
+    live_dict = {}
     src_dict = {}    
     hist_dict = {}
     for rel in release_list:
@@ -58,6 +59,8 @@ def main():
                 hist_dict[biomarker_id_md5]["rel"][rel] = True
                 hist_dict[biomarker_id_md5]["id_list"] += doc["biomarker_id_list"]
                 src_dict[biomarker_id_md5] += doc["source_list"]
+                if rel == current_rel:
+                    live_dict[biomarker_id_md5] = doc["biomarker_id_list"][0]
 
     debug_list = []
     record_dict = {}
@@ -75,37 +78,35 @@ def main():
             "source_list":src_list, 
             "biomarker_id_list":id_list
         }
-        if current_rel in rel_list:
+        live_id = live_dict[biomarker_id_md5] if biomarker_id_md5 in live_dict else ""
+        if current_rel in rel_list and live_id != "":
             if len(rel_list) == len(release_list):
-                grp, text = "group_1", "Introduced in release %s" % (rel_list[0])
-                grp_dict[id_list[0]] = {"grp":grp, "text":text}
-                record_dict[id_list[0]] = tmp_record_obj.copy()
-                if len(id_list) > 1:
-                    for bmkb_id in id_list[1:]:
-                        grp, text = "group_2", "Introduced in release %s, replaced by %s" % (rel_list[0], id_list[0])
+                for bmkb_id in id_list:
+                    grp, text = "group_1", "Introduced in release %s" % (rel_list[0])
+                    grp_dict[bmkb_id] = {"grp":grp, "text":text}
+                    record_dict[bmkb_id] = tmp_record_obj.copy()
+                    if bmkb_id != live_id:
+                        grp, text = "group_2", "Introduced in release %s, replaced by %s" % (rel_list[0], live_id)
                         grp_dict[bmkb_id] = {"grp":grp, "text":text}
-                        record_dict[bmkb_id] = tmp_record_obj.copy()
-                        record_dict[bmkb_id]["replacement_id"] = id_list[0]
+                        record_dict[bmkb_id]["replacement_id"] = live_id
             elif len(rel_list) == 1:
-                grp, text = "group_3", "Introduced in release %s" % (rel_list[0])
-                grp_dict[id_list[0]] = {"grp":grp, "text":text} 
-                record_dict[id_list[0]] = tmp_record_obj.copy()
-                if len(id_list) > 1:
-                    for bmkb_id in id_list[1:]:
-                        grp, text = "group_4", "Introduced in release %s, replaced by %s" % (rel_list[0], id_list[0])
+                for bmkb_id in id_list:
+                    grp, text = "group_3", "Introduced in release %s" % (rel_list[0])
+                    grp_dict[bmkb_id] = {"grp":grp, "text":text}
+                    record_dict[bmkb_id] = tmp_record_obj.copy()
+                    if bmkb_id != live_id:
+                        grp, text = "group_4", "Introduced in release %s, replaced by %s" % (rel_list[0], live_id)
                         grp_dict[bmkb_id] = {"grp":grp, "text":text}
-                        record_dict[bmkb_id] = tmp_record_obj.copy()
-                        record_dict[bmkb_id]["replacement_id"] = id_list[0]
+                        record_dict[bmkb_id]["replacement_id"] = live_id
             else:
-                grp, text = "group_5", "Introduced in release %s" % (rel_list[0])
-                grp_dict[id_list[0]] = {"grp":grp, "text":text}
-                record_dict[id_list[0]] = tmp_record_obj.copy()
-                if len(id_list) > 1:
-                    for bmkb_id in id_list[1:]:
-                        grp, text = "group_6", "Introduced in release %s, replaced by %s" % (rel_list[0], id_list[0])
+                for bmkb_id in id_list:
+                    grp, text = "group_5", "Introduced in release %s" % (rel_list[0])
+                    grp_dict[bmkb_id] = {"grp":grp, "text":text}
+                    record_dict[bmkb_id] = tmp_record_obj.copy()
+                    if bmkb_id != live_id:
+                        grp, text = "group_6", "Introduced in release %s, replaced by %s" % (rel_list[0], live_id)
                         grp_dict[bmkb_id] = {"grp":grp, "text":text}
-                        record_dict[bmkb_id] = tmp_record_obj.copy()
-                        record_dict[bmkb_id]["replacement_id"] = id_list[0]
+                        record_dict[bmkb_id]["replacement_id"] = live_id                
         else:
             last_rel = rel_list[-1]
             xrel = release_list[release_list.index(last_rel) + 1]

@@ -58,13 +58,28 @@ def biomarker_detail(query_obj, config_obj):
     if obj == None:
         post_error_list.append({"error_code":"non-existent-record"})
         res_obj = {"error_list":post_error_list}
-        q = {"record_id":{'$eq': query_obj["biomarker_id"]}}
+        q = {"biomarker_id":{'$eq': query_obj["biomarker_id"]}}
         history_obj = dbh["c_idtrack"].find_one(q)
         if history_obj != None:
-            res_obj["reason"] = history_obj["history"][-1]
+            o = {"type":"unknown","description":"unknown"}
+            if "history" in history_obj:
+                if "text" in history_obj["history"]:
+                    o["description"] = history_obj["history"]["text"] 
+                    o["type"] = "discontinued"
+                if "replacement_id" in history_obj:
+                    o["type"] = "replaced"
+                    o["replacement_id_list"] = [history_obj["replacement_id"]] 
+            res_obj["reason"] = o
         else:
             res_obj["reason"] = {"type":"invalid","description": "Invalid accession"}
         return res_obj
+
+
+    #"reason": {"type": "discontinued", "description": "Discontinued in release 3.1.1"}
+    #"reason": {"type": "replaced", "description": "Replaced by AN5582-6 as of release 3.1.1",
+    #    "replacement_id_list": ["AN5582-6"]
+        
+
 
 
     

@@ -209,7 +209,7 @@ def load_cmblist2src(release_dir):
                     f_list = row
                 else:
                     biomarker = row[f_list.index("biomarker")]
-                    biomarker_controlled_vocab = row[f_list.index("biomarker_controlled_vocab")]
+                    c_vocab = row[f_list.index("biomarker_controlled_vocab")].lower()
                     entity_id = row[f_list.index("assessed_biomarker_entity_id")]
                     condition_id = row[f_list.index("condition_id")]
                     exposure_agent_id = row[f_list.index("exposure_agent_id")]
@@ -217,7 +217,6 @@ def load_cmblist2src(release_dir):
                     aspect_type = row[f_list.index("aspect_type_vocab")]
                     mod_type = row[f_list.index("mod_type_vocab")]
 
-                    
                     vocab_parts = biomarker + " [biomarker_term_in_review]"
                     if change_type != "not_specified":
                         vocab_parts = "change_type:%s" % (change_type)
@@ -230,9 +229,6 @@ def load_cmblist2src(release_dir):
                     for k in ["biomarker_index", "component_group"]:
                         grp_idx = row[f_list.index(k)] if k in f_list else grp_idx
                     
-                    #if source in ["exposure_agents", "cadsr"]:
-                    #    print (entity_id,exposure_agent_id, source, grp_idx)
- 
                     if grp_idx == "":
                         continue 
                     grp = "%s|%s" % (source, grp_idx)
@@ -241,6 +237,11 @@ def load_cmblist2src(release_dir):
                     if condition_id == "" and exposure_agent_id != "":
                         condition_or_agent_id = exposure_agent_id
                         ctype = "exposure_agent"
+                    
+                    if c_vocab.find("presence of bmkb") != -1 or c_vocab.find("presence of bmkb") != -1:
+                        mut_id = c_vocab.split(" ")[2].replace("bmkb_ii::","bmkb:").replace("bmkb_i::","bmkb:")
+                        entity_id += "@%s" % (mut_id)
+
                     cmb = "%s|%s|%s|%s" % (entity_id,condition_or_agent_id,ctype,vocab_parts.lower())
                     if grp not in cmb_dict:
                         cmb_dict[grp] = {}
@@ -385,8 +386,8 @@ def load_new_biomarkerid_dict(release_dir):
                 biomarker_id_list = doc["biomarker_id_list"]
                 for biomarker_id in biomarker_id_list:
                     tmp_dict[cmb_list_str][biomarker_id] = True
-
     return tmp_dict
+
 
 
 
@@ -402,6 +403,7 @@ def load_legacy_biomarkerid_dict(release_dir):
             file_list.append(in_file)
 
 
+    orig_dict = {}
     vocab_dict = load_vocab_dict(release_dir)
     tmp_dict = {}
     for in_file in file_list:
@@ -419,24 +421,43 @@ def load_legacy_biomarkerid_dict(release_dir):
                     entity_id = row[f_list.index("assessed_biomarker_entity_id")]
                     entity_type = row[f_list.index("assessed_entity_type")]
                     condition_id = row[f_list.index("condition_id")]
-                    agent_id = row[f_list.index("exposure_agent_id")]
+                    exposure_agent_id = row[f_list.index("exposure_agent_id")]
                     biomarker = row[f_list.index("biomarker")]
+                    change_type = row[f_list.index("change_type_vocab")]
+                    aspect_type = row[f_list.index("aspect_type_vocab")]
+                    mod_type = row[f_list.index("mod_type_vocab")]
+                    c_vocab = ""
+                    if "biomarker_controlled_vocab" in f_list:
+                        c_vocab = row[f_list.index("biomarker_controlled_vocab")].lower().replace("presense","presence")
                     if entity_id == "" or biomarker_id == "":
                         continue
-                    vocab = "not-mapped"
-                    if biomarker in vocab_dict:
-                        ent_cmb = "%s|%s" % (entity_type.lower(),entity_id)
-                        #ent_cmb = entity_id
-                        if ent_cmb in vocab_dict[biomarker]:
-                            vocab = vocab_dict[biomarker][ent_cmb]
+                  
+                    if biomarker_id not in orig_dict:
+                        orig_dict[biomarker_id] = {}
+                    orig_dict[biomarker_id][biomarker] = True
+                          
+                    vocab_parts = biomarker + " [biomarker_term_in_review]"
+                    if change_type != "not_specified":
+                        vocab_parts = "change_type:%s" % (change_type)
+                    if aspect_type != "not_specified":
+                        vocab_parts += ",aspect_type:%s" % (aspect_type)
+                    if mod_type != "not_specified":
+                        vocab_parts += ",mod_type:%s" % (mod_type)
 
-                    vocab_lc = vocab.lower()
-                    cmb = "%s|%s|%s|%s" % (entity_id,condition_id,agent_id,vocab_lc)
+                    condition_or_agent_id = condition_id
+                    ctype = "condition"
+                    if condition_id == "" and exposure_agent_id != "":
+                        condition_or_agent_id = exposure_agent_id
+                        ctype = "exposure_agent"
+                   
+                    if c_vocab.find("presence of bmkb") != -1 or c_vocab.find("presence of bmkb") != -1:
+                        mut_id = c_vocab.split(" ")[2].replace("bmkb_ii::","bmkb:").replace("bmkb_i::","bmkb:")
+                        entity_id += "@%s" % (mut_id)
+ 
+                    cmb = "%s|%s|%s|%s" % (entity_id,condition_or_agent_id,ctype,vocab_parts.lower())
                     if biomarker_id not in tmp_dict:
                         tmp_dict[biomarker_id] = {}
                     tmp_dict[biomarker_id][cmb] = True
-                
-
 
     final_dict = {}
     for biomarker_id in tmp_dict:
@@ -445,7 +466,8 @@ def load_legacy_biomarkerid_dict(release_dir):
         if cmb_list_str not in final_dict:
             final_dict[cmb_list_str] = {}
         final_dict[cmb_list_str][biomarker_id] = True
-    return final_dict
+    return final_dict, orig_dict
+
 
 
 
@@ -542,13 +564,15 @@ def load_canon_id_dict(current_rel, canon_id_md5_list):
     is_bmkb = {}
     seen_canon_id = {}
     canon_id_dict = {}
+    canonid2maxindex = {}
 
     r = current_rel.replace(".","")
     if r.isdigit() == False:
         print ("bad current release value=%s" % current_rel)
         exit()
     current_rel_int = int(r)
-    
+
+    cmblist2biomarkerid = {}
     for rel in release_list:
         r = rel.replace(".","")
         if r.isdigit() == False:
@@ -556,18 +580,29 @@ def load_canon_id_dict(current_rel, canon_id_md5_list):
         if int(r) < 311 and int(r) >= current_rel_int:
             continue
         d = "/data/shared/biomarkerdb/releases/data/v-%s/jsondb/idgendb" % (rel)
- 
         file_list = glob.glob(d + "/*.json")
         for in_file in file_list:
             doc_list = json.load(open(in_file))
             for doc in doc_list:
                 biomarker_id = doc["record_id"] if "record_id" in doc else doc["biomarker_id"]
+                
+                cmb_list_str = json.dumps(doc["cmb_list"])
+                cmblist2biomarkerid[cmb_list_str] = biomarker_id
+                
                 canon_id = biomarker_id.split("-")[0]
                 canon_id_md5 = doc["canon_id_md5"]
                 canon_id_dict[canon_id_md5] = canon_id
                 seen_canon_id[canon_id] = True
                 if biomarker_id[:4] == "BMKB":
                     is_bmkb[canon_id_md5] = True
+
+                if biomarker_id != "":
+                    biomarker_id_index = int(biomarker_id.split("-")[-1])
+                    if canon_id not in canonid2maxindex:
+                        canonid2maxindex[canon_id] = 0
+                    if biomarker_id_index > canonid2maxindex[canon_id]:
+                        canonid2maxindex[canon_id] = biomarker_id_index
+
  
     alphabet_list = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     for canon_id_md5 in canon_id_md5_list:
@@ -590,7 +625,8 @@ def load_canon_id_dict(current_rel, canon_id_md5_list):
         #else:
         #    print ("B|%s|%s" % (canon_id_md5,canon_id))
 
-    return canon_id_dict
+    return canon_id_dict, canonid2maxindex, cmblist2biomarkerid
+
 
 
 def load_biomarker_orig(rel):

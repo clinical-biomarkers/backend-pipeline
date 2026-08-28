@@ -3,6 +3,31 @@ import json
 import glob
 
 
+def load_vocab_dict(rel):
+
+    tmp_dict = {}
+    file_list = glob.glob("/data/shared/biomarkerdb/releases/data/v-%s/unreviewed/biomarkers_*.tsv" % (rel))
+    for in_file in file_list:
+        source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
+        f_list = []
+        with open(in_file, "r") as FR:
+            lcount = 0
+            for line in FR:
+                lcount += 1
+                line = line.replace("assesed_biomarker_entity", "assessed_biomarker_entity")
+                row = line.replace("\n", "").replace("\"", "\'").split("\t")
+                if lcount == 1:
+                    f_list = row
+                else:
+                    c_vocab = row[f_list.index("biomarker_controlled_vocab")]
+                    biomarker_index = row[f_list.index("biomarker_index")]
+                    component_index = row[f_list.index("component_index")]
+                    entity_index = row[f_list.index("entity_index")]
+                    condition_id = row[f_list.index("condition_id")]
+                    cmb = "%s|%s|%s|%s|%s" % (source,biomarker_index,component_index,entity_index,condition_id)
+                    tmp_dict[cmb] = c_vocab.lower()
+
+    return tmp_dict
 
 
 
@@ -12,6 +37,9 @@ def main():
     rel = "3.5.1"
     downloads_dir = "/data/shared/biomarkerdb/downloads/"
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+
+    vocab_dict = load_vocab_dict(rel)
+
 
     required_fields = [
         "biomarker_index",
@@ -48,7 +76,7 @@ def main():
 	"biomarkers_user_submitted":"2026_02_26"
     }
 
-    ignore_list = ["biomarker_controlled_vocab", "component_group", "biomarker_id"]
+    ignore_list = ["component_group", "biomarker_id"]
     ptrn_list = json.load(open("temp/ptrn_list.json"))
 
 
@@ -87,6 +115,8 @@ def main():
                         val_dict = {}
                         for f in f_list:
                             val_dict[f] = row[f_list.index(f)] if f in f_list else ""
+                        
+
                         selected_o = {}
                         biomarker = val_dict["biomarker"] if "biomarker" in val_dict else "not_given"
                         if cv_dict != {}:
@@ -136,9 +166,20 @@ def main():
                             val_dict["component_index"] = cmp_idx
                             val_dict["entity_index"] = 1
                             #print ("C|%s|b_idx_%s|c_idx_%s|e_idx_%s|%s" % (ds, bmk_idx, cmp_idx, ent_idx, "xxx"))
+                        
+                        
+                        c_list = [source]
+                        for cc in ["biomarker_index","component_index","entity_index", "condition_id"]:
+                            c_list.append(str(val_dict[cc]))
+                        c = "|".join(c_list)
+                        val_one = val_dict["biomarker_controlled_vocab"].lower().replace("presense","presence")
+                        if c in vocab_dict:
+                            val_dict["biomarker_controlled_vocab"] = vocab_dict[c]
+   
                         newrow = []
                         for f in f_list_new:
                             newrow.append(str(val_dict[f]) if f in val_dict else "")
+
                         extra_row = []
                         for k in ["change_type", "aspect_type", "mod_type"]:
                             val = "not_specified"
@@ -146,7 +187,7 @@ def main():
                                 if selected_o[k] != "":
                                     val = selected_o[k]
                             extra_row.append(val)
-                            print (k, val)
+                            #print (k, val)
 
                         biomarker_id = "no_legacy_biomarker_id"
                         if "biomarker_id" in val_dict:
@@ -154,6 +195,10 @@ def main():
                                 biomarker_id =val_dict["biomarker_id"]
                         extra_row.append(biomarker_id)
                         row_list.append(newrow + extra_row)
+                        
+
+
+
 
             FW = open(out_file, "w")
             for newrow in row_list:

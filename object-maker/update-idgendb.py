@@ -21,7 +21,6 @@ def main():
         term_dict = csvutil.load_biomarker_orig(rel)
 
 
-        rep_dict = json.load(open("replace.json"))
         
 
  
@@ -93,7 +92,8 @@ def main():
                     elif c_vocab.find("presence of level of metabolite") != -1:
                         change, aspect = "presence of", "level"
                         flag = True
-
+            
+                        
                     new_c_vocab = "xxx"
                     if flag:
                         new_c_vocab = "change_type:%s" % (change)
@@ -102,26 +102,22 @@ def main():
                     elif c_vocab.find("[biomarker_term_in_review]") != -1:
                         new_c_vocab = c_vocab
                     cmb_parts[-1] = new_c_vocab
+
+                    if c_vocab.find("presence of bmkb_i::") != -1 or c_vocab.find("presence of bmkb_ii::") != -1:
+                        mut_id = c_vocab.split(" ")[2].replace("bmkb_ii::","bmkb:").replace("bmkb_i::","bmkb:")
+                        cmb_parts[0] += "@%s" % (mut_id)
+                        #print (cmb_parts[0])
                     cmb_list_new.append("|".join(cmb_parts))
-                
+               
+                    
+ 
                 doc["cmb_list"] = cmb_list_new
                 doc["biomarker_id"] = doc["record_id"]
                 doc.pop("record_id")
                 doc["biomarker"] = term_dict[doc["biomarker_id"]] if doc["biomarker_id"] in term_dict else ""
 
-                bmkb_id = doc["biomarker_id"]
-                if bmkb_id in rep_dict:
-                    if bmkb_id == "AN5564-1":
-                        print (bmkb_id)
-                        print (doc["cmb_list"])
-                        print (rep_dict[bmkb_id])
-                    flag = doc["cmb_list"] == rep_dict[bmkb_id]["from"]
-                    #if False and flag:
-                        #doc["cmb_list"] = rep_dict[bmkb_id]["to"]
-                        #print (bmkb_id, rep_dict[bmkb_id])
-                        #print (json.dumps(doc, indent=4))
-                        #exit()
-                        
+
+ 
                 cmb_list_canon = []
                 for cmb in doc["cmb_list"]:
                     ent_id, d_id, ctype, vocab = cmb.split("|")
