@@ -779,7 +779,8 @@ def create_list_objects(dbh,cache_id, cache_info, cache_collection, final_fields
     qry_obj = {"list_id":cache_id}
     for doc in dbh[cache_collection].find(qry_obj):
         id_list += doc["results"]
-    
+   
+ 
     debug_list = []
     batch_size = config_obj["supersearch_batch_size"]
     record_count = len(id_list)
@@ -789,7 +790,7 @@ def create_list_objects(dbh,cache_id, cache_info, cache_collection, final_fields
         end = (i+1)*batch_size
         end = len(id_list) if end > len(id_list) else end
         mongo_query = {"record_id":{"$in": id_list[start:end]}}
-        #debug_list.append(mongo_query)
+        debug_list.append(mongo_query)
         for obj in dbh["c_list"].find(mongo_query, prj_obj):
             if "_id" in obj:
                 obj.pop("_id")
@@ -802,8 +803,9 @@ def create_list_objects(dbh,cache_id, cache_info, cache_collection, final_fields
             obj["hit_score"] = hit_score
             obj["score_info"] = hit_info
             tmp_obj_list.append(obj)
-    
-    #return debug_list
+            debug_list.append(obj["record_id"])
+ 
+    return debug_list
     return tmp_obj_list
 
 
@@ -894,7 +896,7 @@ def make_list_objects_indirect(query_obj, config_obj, limit_flag):
     if cached_obj["results"] == []:
         cached_obj["results"] = create_list_objects(dbh,cache_id, cache_info,cache_collection,
             final_fields,score_dict, prj_obj, config_obj)
-        #return {"flag":cached_obj["results"]}
+        return {"flag":cached_obj["results"]}
  
     ts = datetime.datetime.now(pytz.timezone('US/Eastern')).strftime(ts_format)
     ts_list.append("3-%s (record_count=%s)" % (ts, len(cached_obj["results"])))
@@ -1286,12 +1288,12 @@ def get_errors_in_query(svc_name, query_obj, config_obj):
 
     for key1 in query_obj:
         if key1 not in field_info:
-            error_list.append({"error_code":"unexpected-field-in-query-I", "field":key1})
+            error_list.append({"error_code":"unexpected-field-in-query-I-%s" % (svc_name), "field":key1})
         else:
             if type(query_obj[key1]) is dict:
                 for key2 in query_obj[key1]:
                     if key2 not in field_info[key1]:
-                        error_list.append({"error_code":"unexpected-field-in-query-II", "field":key2})
+                        error_list.append({"error_code":"unexpected-field-in-query-II-%s" % (svc_name), "field":key2})
                     elif "type" in field_info[key1][key2]:
                         combo_key = "%s.%s" % (key1, key2)
                         val_type = ""

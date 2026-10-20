@@ -1,0 +1,22 @@
+{
+	"hgnc_id": "HGNC:6018",
+	"ref_id": "NCBI:3569",
+	"recommended_name": "IL6",
+	"synonyms": [
+        {"synonym": "IL6"},
+		  ...
+	],
+	"entities":[
+		{
+    		"entity_type": "gene",
+    		"entity_id": "NCBI:3569",
+    		"orig_entity_id": "NCBI:3569",
+    		"entity_normal_ranges": [],
+    		"annotations": [],
+    		"crossref": [],
+    		"citation": [],
+    		"biomarkers": []
+		},
+		...
+	]
+}

@@ -3,7 +3,6 @@ import string
 from optparse import OptionParser
 import glob
 import json
-from bson import json_util
 import pymongo
 from pymongo import MongoClient
 import datetime
@@ -33,18 +32,18 @@ def main():
     coll = options.coll
 
 
+    
     config_obj = json.loads(open("./conf/config.json", "r").read())
     mongo_port = config_obj["dbinfo"]["port"][server]
 
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+    db_name = "bmkbdb"
     db_obj = config_obj["dbinfo"][db_name]
     db_user, db_pass =  db_obj["user"], db_obj["password"]
 
     if coll in ["c_initcache", "c_initlistcache"]:
         print ("\n\tAre you sure you want to delete this collection?!!!\n\n")
         exit()
-
 
 
 
@@ -58,13 +57,41 @@ def main():
         )
         client.server_info()
         dbh = client[db_name]
+        
+        index_info = {
+            "c_usercache":{
+                "list_id":"list_id_index"
+            },
+            "c_userlistcache":{
+                "list_id":"list_id_index",
+                "glbl.cache_info.cache_id":"glbl_cache_info_cache_id_index"
+            }
+        }
+        doc_dict = {
+            "c_usercache":{"list_id":""},
+            "c_userlistcache":{"list_id":"","glbl":{"cache_info":{"cache_id":""}}}
+        }
+        dbh[coll].drop()
+        res = dbh[coll].insert_one(doc_dict[coll])
+       
+         
+        index_name_list = []
+        for cur in dbh[coll].list_indexes():
+            index_name_list.append(cur["name"])
+
+        for path in index_info[coll]:
+            index_name = index_info[coll][path]
+            if index_name in index_name_list:
+                res = dbh[coll].drop_index(index_name)
+            res = dbh[coll].create_index([(path, -1 )], name=index_name)
+
+
         seen = {}
         for doc in dbh[coll].find({}):
             if len(doc.keys()) == 1:
                 res = dbh[coll].delete_many({"_id":doc["_id"]})
                 print ("deleted|empty cache")
                 continue
-
             list_id = doc["list_id"]
             if list_id in seen:
                 continue
@@ -95,3 +122,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

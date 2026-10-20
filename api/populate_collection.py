@@ -108,7 +108,7 @@ def main():
 
     archived_colls = ["c_video", "c_outreach", "c_event"]
 
-    batch_colls = ["c_biomarker","c_list","c_index", "c_idtrack"]
+    batch_colls = ["c_biomarker","c_ent","c_list","c_index", "c_idtrack"]
 
     db_list = config_obj["downloads"]["jsondb"]
     coll_list = get_coll_list(db_list)
@@ -158,6 +158,7 @@ def main():
                 nrecords_total = len(file_list)
                 nrecords = 0
                 for in_file in file_list:
+                    print (in_file)
                     doc_list = []
                     if coll in batch_colls:
                         doc_list = orjson.loads(open(in_file, "r").read())
@@ -170,6 +171,7 @@ def main():
                             for obj in doc:
                                 result = tmpdb_dbh[coll].insert_one(obj)
                         else:
+                            #print (doc["ref_id"])
                             result = tmpdb_dbh[coll].insert_one(doc)     
                         nrecords += 1
                         if nrecords != 0 and nrecords%1000 == 0:

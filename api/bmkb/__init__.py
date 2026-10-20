@@ -20,6 +20,7 @@ from .event import api as event_api
 from .misc import api as misc_api
 from .biomarker import api as biomarker_api
 from .pagination import api as pagination_api
+from .entity import api as entity_api
 
 
 def create_app():
@@ -44,7 +45,7 @@ def create_app():
     api.add_namespace(typeahead_api)
     api.add_namespace(auth_api)
     api.add_namespace(log_api)
-    #api.add_namespace(video_api)
+    api.add_namespace(entity_api)
     api.add_namespace(event_api)
     #api.add_namespace(cart_api) 
     api.add_namespace(misc_api)

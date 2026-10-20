@@ -1,6 +1,4 @@
 #srv="prd"
-#srv="beta"
-#srv="tst"
 srv="dev"
 
 sudo systemctl stop docker-bmkb-api-$srv.service

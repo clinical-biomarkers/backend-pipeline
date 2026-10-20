@@ -259,11 +259,92 @@ def load_cmblist2src(release_dir):
 
     return cmblist2src, grp2cmblist
 
+def load_canon2geneid():
+
+    tmp_dict = {}
+    in_file = "/data/shared/biomarkerdb/downloads/glygen/current/human_protein_xref_geneid.csv"
+    data_frame = {}
+    load_sheet(data_frame, in_file, [], ",")
+    f_list = data_frame["fields"]
+    for row in data_frame["data"]:
+        canon = row[f_list.index("uniprotkb_canonical_ac")]
+        gene_id = row[f_list.index("xref_id")]
+        if canon not in tmp_dict:
+            tmp_dict[canon] = {}
+        tmp_dict[canon][gene_id] = True
+
+    return tmp_dict
+
+
+def load_upkb2geneid():
+
+    tmp_dict = {}
+    in_file = "/data/shared/biomarkerdb/downloads/glygen/current/human_protein_xref_geneid.csv"
+    data_frame = {}
+    load_sheet(data_frame, in_file, [], ",")
+    f_list = data_frame["fields"]
+    for row in data_frame["data"]:
+        upkb = "UPKB:" + row[f_list.index("uniprotkb_canonical_ac")].split("-")[0]
+        gene_id = "NCBI:" + row[f_list.index("xref_id")]
+        if upkb not in tmp_dict:
+            tmp_dict[upkb] = {}
+        tmp_dict[upkb][gene_id] = True
+
+    return tmp_dict
+
+
+def load_refid2hgncid():
+
+    canon2geneid = load_canon2geneid()
+
+    tmp_dict = {}
+    hgnc2uniprotac = {}
+    in_file = "/data/shared/biomarkerdb/downloads/glygen/current/human_protein_xref_hgnc.csv"
+    data_frame = {}
+    load_sheet(data_frame, in_file, [], ",")
+    f_list = data_frame["fields"]
+    for row in data_frame["data"]:
+        canon = row[f_list.index("uniprotkb_canonical_ac")]
+        ref_id = "UPKB:" + canon.split("-")[0]
+        hgnc_id = row[f_list.index("xref_id")]
+        if ref_id not in tmp_dict:
+            tmp_dict[ref_id] = {}
+        tmp_dict[ref_id][hgnc_id] = True
+        
+        x = "HGNC:" + hgnc_id
+        if x not in hgnc2uniprotac:
+            hgnc2uniprotac[x] = {}
+        hgnc2uniprotac[x][ref_id] = True
+
+
+    in_file = "/data/shared/biomarkerdb/downloads/ncbi/gene_info/Homo_sapiens.gene_info"
+    with open(in_file, "r") as FR:
+        f_list, lcount = [], 0
+        for line in FR:
+            lcount += 1
+            row = line[0:-1].split("\t")
+            if lcount == 1:
+                f_list = row
+            else:
+                gene_id =  row[f_list.index("GeneID")]
+                db_xrefs = row[f_list.index("dbXrefs")]
+                ref_id = "NCBI:" + gene_id
+                for xref in db_xrefs.split("|"):
+                    if xref.find("HGNC:HGNC:") != -1:
+                        hgnc_id = xref.split(":")[-1]
+                        if ref_id not in tmp_dict:
+                            tmp_dict[ref_id] = {}
+                        tmp_dict[ref_id][hgnc_id] = True
+
+    return tmp_dict, hgnc2uniprotac
 
 
 def load_entity_names():
 
-    name_dict = {"gene_names":{}, "protein_names":{}}
+    name_dict = {"gene_names":{}, "protein_names":{}, "glycan_names":{}}
+
+    canon2geneid = load_canon2geneid()
+    
     file_list = glob.glob("/data/shared/biomarkerdb/downloads/glygen/current/*_protein_*names.csv")
     file_list += glob.glob("/data/shared/biomarkerdb/downloads/glygen/current/*_protein_*names_refseq.csv")
     file_list += glob.glob("/data/shared/biomarkerdb/downloads/glygen/current/*_protein_*names_uniprotkb.csv")
@@ -298,6 +379,35 @@ def load_entity_names():
                         combo_id = "%s|%s|%s|%s" % (canon,name_type,nm,resource)
                         name_dict[prop_name][combo_id] = name_obj
 
+    prop_name = "glycan_names"
+    in_file = "/data/shared/biomarkerdb/downloads/bgsl/current/bgsl.tsv"
+    with open(in_file, "r") as FR:
+        f_list, lcount = [], 0
+        for line in FR:
+            lcount += 1
+            row = line[0:-1].split("\t")
+            if lcount == 1:
+                f_list = row
+            else:
+                bgsl_id = row[f_list.index("bgsl_id")].split(":")[-1]
+                term = row[f_list.index("term")]
+                abbreviations = row[f_list.index("abbreviations")]
+                exact_synonyms = row[f_list.index("exact_synonyms")]
+                xref_id = bgsl_id
+                name_type = "synonym"
+                resource, resource_badge = "bgsl","bGSL"
+                nm_list = abbreviations.split(";") if abbreviations != "" else []
+                nm_list += exact_synonyms.split(";") if exact_synonyms != "" else []
+                for nm in list(set(nm_list)):
+                    combo_id = "%s|%s|%s|%s" % (bgsl_id,name_type,nm,resource)
+                    name_obj = { "name":nm, "resource":resource_badge,"type":name_type,"id":xref_id}
+                    name_dict[prop_name][combo_id] = name_obj
+                if term != "":
+                    name_type = "recommended"
+                    combo_id = "%s|%s|%s|%s" % (bgsl_id,name_type,term,resource)
+                    name_obj = { "name":term, "resource":resource_badge,"type":name_type,"id":xref_id}
+                    name_dict[prop_name][combo_id] = name_obj
+                
     prt_name_dict = {}
     for combo_id in name_dict["protein_names"]:
         entity_id = "UPKB:" + combo_id.split("-")[0]    
@@ -316,17 +426,112 @@ def load_entity_names():
     gene_name_dict = {}
     for combo_id in name_dict["gene_names"]:
         canon = combo_id.split("|")[0]
-        if canon in canon2gene:
-            for gene_name in canon2gene[canon]:
-                entity_id = "HGNC:" + gene_name
+        gene_id_list = list(canon2geneid[canon].keys()) if canon in canon2geneid else []
+        for gene_id in gene_id_list:
+            entity_id = "NCBI:" + gene_id
+            if entity_id not in gene_name_dict:
+                gene_name_dict[entity_id] = []
+            gene_name_dict[entity_id].append(name_dict["gene_names"][combo_id])
+
+
+
+    #entity_id = "NCBI:3082"
+    #print (json.dumps(gene_name_dict[entity_id], indent=4))
+
+    in_file = "/data/shared/biomarkerdb/downloads/ncbi/gene_info/Homo_sapiens.gene_info"
+    with open(in_file, "r") as FR:
+        f_list, lcount = [], 0
+        for line in FR:
+            lcount += 1
+            row = line[0:-1].split("\t")
+            if lcount == 1:
+                f_list = row
+            else:
+                gene_id =  row[f_list.index("GeneID")]
+                entity_id = "NCBI:" + gene_id
+                
+                rec_name = row[f_list.index("Symbol")]
+                synonyms = row[f_list.index("Symbol")]
                 if entity_id not in gene_name_dict:
                     gene_name_dict[entity_id] = []
-                gene_name_dict[entity_id].append(name_dict["gene_names"][combo_id])
+                    o = {"name":rec_name, "resource":"RefSeq", "type":"recommended", "id":entity_id}
+                    gene_name_dict[entity_id].append(o)
+                    for nm in row[f_list.index("Symbol")].split("|"):
+                        o = {"name":nm, "resource":"RefSeq", "type":"synonym", "id":entity_id} 
+                        gene_name_dict[entity_id].append(o)
+               
+
+        tmp_obj_list = [
+            {"entity_id":"NCBI:64012", "rec_name":"Rad50", "synonyms":["Rad50l"]},
+            {"entity_id":"NCBI:17062", "rec_name":"Metrn", "synonyms":["1810006K14Rik","hmetrn","ymetrn"]},
+            {"entity_id":"NCBI:581485", "rec_name":"LOC581485", "synonyms":[]},
+            {"entity_id":"NCBI:59508", "rec_name":"LOC59508", "synonyms":[]},
+        ]
+        for o in tmp_obj_list:
+            entity_id,rec_name, synonyms = o["entity_id"], o["rec_name"], o["synonyms"]
+            gene_name_dict[entity_id] = []
+            gene_name_dict[entity_id].append({"name":rec_name,"resource":"RefSeq","type":"recommended","id":entity_id})
+            for nm in synonyms:
+                gene_name_dict[entity_id].append({"name":nm, "resource":"RefSeq", "type":"synonym", "id":entity_id})
+    
+    glycan_name_dict = {}
+    for combo_id in name_dict["glycan_names"]:
+        bgsl_id = combo_id.split("|")[0]
+        entity_id = "bGSL:" + bgsl_id
+        if entity_id not in glycan_name_dict:
+            glycan_name_dict[entity_id] = []
+        glycan_name_dict[entity_id].append(name_dict["glycan_names"][combo_id])
 
        
-    return prt_name_dict, gene_name_dict
+    return prt_name_dict, gene_name_dict, glycan_name_dict
 
 
+def get_unmapped_rsid_list(release_dir):
+
+    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
+    seen_rsid = {}
+    for in_file in file_list:
+        file_name = in_file.split("/")[-1]
+        source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
+        with open(in_file, "r") as FR:
+            f_list, lcount = [], 0
+            for line in FR:
+                lcount += 1
+                row = line[0:-1].split("\t")
+                if lcount == 1:
+                    f_list = row
+                else:
+                    ent_id = row[f_list.index("assessed_biomarker_entity_id")]
+                    ent_type = row[f_list.index("assessed_entity_type")]
+                    c_vocab = row[f_list.index("biomarker_controlled_vocab")]
+                    ref_id_list = []
+                    ref_id_list = [ent_id] if ent_type == "gene" else ref_id_list
+                    ref_id_list = [ent_id] if ent_type == "protein" else ref_id_list
+                    et_list = ["metabolite","glycan","cell","amino acid","mRNA","other", "RNA", "miRNA","image"]
+                    et_list += ["protein complex","lipoprotein", "chemical element", "peptide", "lipid", "DNA"]
+                    ref_id_list = [ent_id] if ent_type in et_list else ref_id_list
+                    if ent_type == "gene" and ent_id.find("dbSNP:") != -1:
+                        c_vocab_id = c_vocab.split("/")[-1]
+                        ref_id_list = [] if c_vocab_id.split(":")[1] == "" else [c_vocab_id]
+                        if ref_id_list == [] and c_vocab.find("sequence variation in gene") != -1:
+                            seen_rsid[ent_id] = True
+    return seen_rsid
+
+
+
+def get_range_list(n):
+    batch_size = int(n/10) if n > 10 else n
+    range_list = []
+    for i in range(0, 12):
+        s = i*batch_size + 1
+        e = s + batch_size
+        ss = s if i == 0 else s + 1
+        if e >= n:
+            e = n
+            range_list.append({"s":ss, "e":e})
+            break
+        range_list.append({"s":ss, "e":e})
+    return range_list
 
 
 
@@ -388,6 +593,67 @@ def load_new_biomarkerid_dict(release_dir):
                     tmp_dict[cmb_list_str][biomarker_id] = True
     return tmp_dict
 
+def load_origid2entid(current_rel):
+
+    legacy_release_list = ["3.1.1","3.2.1","3.2.2","3.3.1","3.4.1","3.4.2"]
+    url = "https://api.biomarkerkb.org//misc/verlist/"
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+    tmp_list = response.json()
+    release_list = legacy_release_list + sorted(tmp_list)
+
+    tmp_dict = {}
+    for rel in release_list:
+        if rel == current_rel:
+            continue
+        r = rel.replace(".","")
+        current_r = current_rel.replace(".","")
+        if r.isdigit() == False or current_r.isdigit() == False:
+            continue
+        if int(r) < 311 or int(r) >= int(current_r):
+            continue
+
+        d = "/data/shared/biomarkerdb/releases/data/v-%s/jsondb/entdb" % (rel)
+        file_list = glob.glob(d + "/*.json")
+        for in_file in file_list:
+            doc_list = json.load(open(in_file))
+            for doc in doc_list:
+                if "orig_id" in doc:
+                    tmp_dict[doc["orig_id"]] = doc["entity_id"]
+    #exit()
+    return tmp_dict
+
+
+
+
+
+
+def check_biomarker_input_files(release_dir):
+
+    error_list = []
+    required_f_list = ["biomarker_index", "component_index", "entity_index"]
+    required_f_list += ["assessed_biomarker_entity_id", "assessed_entity_type"]
+    required_f_list += ["change_type_vocab", "aspect_type_vocab", "mod_type_vocab"]
+    
+    file_list = []
+    ds_dict = json.load(open(release_dir + "misc/datasets.json"))
+    for ds in ds_dict["biomarkers"]:
+        for file_name in ds_dict["biomarkers"][ds]:
+            in_file = "/data/shared/biomarkerdb/downloads/%s/current/%s" % (ds.replace("biomarkers_",""), file_name)
+            file_list.append(in_file)
+    for in_file in file_list:
+        with open(in_file, "r") as FR:
+            file_name = in_file.split("/")[-1]
+            lcount = 0
+            f_list = []
+            for line in FR:
+                row = line.replace("\n", "").replace("\"", "\'").split("\t")
+                f_list = row
+                for f in required_f_list:
+                    if f not in f_list:
+                        error_list.append("field=%s missing in file=%s" % (f, file_name))
+                break
+    return error_list
 
 
 
@@ -577,7 +843,7 @@ def load_canon_id_dict(current_rel, canon_id_md5_list):
         r = rel.replace(".","")
         if r.isdigit() == False:
             continue
-        if int(r) < 311 and int(r) >= current_rel_int:
+        if int(r) < 311 or int(r) >= current_rel_int:
             continue
         d = "/data/shared/biomarkerdb/releases/data/v-%s/jsondb/idgendb" % (rel)
         file_list = glob.glob(d + "/*.json")
@@ -647,5 +913,140 @@ def load_biomarker_orig(rel):
                     term_dict[biomarker_id] = biomarker
 
     return term_dict
+
+
+
+
+
+def get_new_comp_section(in_comp_obj_list):
+
+    tmp_dict = {}
+    for obj in in_comp_obj_list:
+        component_index = obj["component_index"]
+        entity_index = obj["entity_index"]
+        if component_index not in tmp_dict:
+            tmp_dict[component_index] = {}
+        tmp_dict[component_index][entity_index] = obj
+        
+    k_list_one = ["assessed_biomarker_entity_id","assessed_biomarker_entity","assessed_entity_type"]
+    k_list_one += ["assessed_entity_type"]
+    
+    out_comp_obj_list = []
+    for component_index in tmp_dict:
+        comp_obj = {"component_index":component_index, "entities":[]}
+        seen, new_evdn_obj_list = {}, []
+        for entity_index in tmp_dict[component_index]:
+            obj = tmp_dict[component_index][entity_index]
+            for k in obj:
+                if k not in k_list_one and k not in comp_obj:
+                    comp_obj[k] = obj[k]
+            o = {"entity_index":entity_index}
+            for k in k_list_one:
+                o[k] = obj[k]
+            comp_obj["entities"].append(o)
+            for evdn_obj in obj["evidence_source"]:
+                cmb = "%s|%s" % (evdn_obj["id"], evdn_obj["database"])
+                if cmb not in seen:
+                    new_evdn_obj_list.append(evdn_obj)
+                    seen[cmb] = True
+        comp_obj["evidence_source"] = new_evdn_obj_list
+        out_comp_obj_list.append(comp_obj)
+ 
+    return out_comp_obj_list
+
+
+
+
+def load_annotation_dict(release_dir):
+
+
+    url_dict = load_url_dict(release_dir + "misc/xref_info.csv")
+   
+    in_file = release_dir + "unreviewed/annotations.tsv"
+
+    tmp_dict_one = {}
+    with open(in_file, "r") as FR:
+        f_list, lcount = [], 0
+        for line in FR:
+            lcount += 1
+            row = line[0:-1].split("\t")
+            if lcount == 1:
+                f_list = row
+            else:
+                
+                ent_id = row[f_list.index("assessed_biomarker_entity_id")]
+                xref_key = row[f_list.index("xref_key")]
+                xref_id = row[f_list.index("xref_id")]
+                annotation_category = row[f_list.index("annotation_category")]
+                annotation_term = row[f_list.index("annotation_term")]
+                if xref_key == "protein_xref_uniprotkb_fun" and ent_id.find(xref_id) == -1:
+                    continue
+                if ent_id.find("UPKB:") != -1:
+                    ent_id = ent_id.split("-")[0]
+
+                cmb_one = "%s|%s|%s" % (ent_id,annotation_category, annotation_term)
+                cmb_two = "%s|%s" % (xref_key, xref_id)
+                if cmb_one not in tmp_dict_one:
+                    tmp_dict_one[cmb_one] = {}
+                tmp_dict_one[cmb_one][cmb_two] = True
+
+    tmp_dict_two = {}
+    for cmb_one in tmp_dict_one:
+        ent_id = cmb_one.split("|")[0]
+        annotation_category = cmb_one.split("|")[1]
+        annotation_term = "|".join(cmb_one.split("|")[2:])
+        if ent_id not in tmp_dict_two:
+            tmp_dict_two[ent_id] = []
+        ann_obj = {"entity_id":ent_id, "annotation_category":annotation_category, "annotation_term":annotation_term, "evidence":[]}
+        for cmb_two in tmp_dict_one[cmb_one]:
+            xref_key, xref_id = cmb_two.split("|")
+            xref_lbl, xref_url = "", ""
+            if xref_key in url_dict:
+                xref_lbl, xref_url = url_dict[xref_key]["lbl"], url_dict[xref_key]["url"] % (xref_id)
+            evdn_obj = {"id":xref_id, "database":xref_lbl, "url":xref_url}
+            ann_obj["evidence"].append(evdn_obj)
+        tmp_dict_two[ent_id].append(ann_obj)
+
+    return tmp_dict_two
+
+
+def load_entity_crossref_dict(release_dir):
+
+    url_dict = load_url_dict(release_dir + "misc/xref_info.csv")
+
+    in_file = release_dir + "unreviewed/xrefs.tsv"
+    tmp_dict = {}
+    with open(in_file, "r") as FR:
+        f_list, lcount = [], 0
+        for line in FR:
+            lcount += 1
+            row = line[0:-1].split("\t")
+            if lcount == 1:
+                f_list = row
+            else:
+                source_file = row[f_list.index("source_file")]
+                biomarker_idx = row[f_list.index("biomarker_idx")]
+                entity_id = row[f_list.index("entity_id")]
+                xref_key = row[f_list.index("xref_key")]
+                xref_id = row[f_list.index("xref_id")]
+                cmb_two = "%s|%s" % (xref_key,xref_id)
+                if entity_id not in tmp_dict:
+                    tmp_dict[entity_id] = {}
+                tmp_dict[entity_id][cmb_two] = True
+
+    xref_dict = {}
+    for entity_id in tmp_dict:
+        for cmb_two in tmp_dict[entity_id]:
+            xref_key, xref_id = cmb_two.split("|")
+            if xref_key in url_dict:
+                xref_lbl, xref_url = url_dict[xref_key]["lbl"], url_dict[xref_key]["url"] % (xref_id)
+                o = {"id":xref_id, "url":xref_url, "database":xref_lbl, "categories":[]}
+                if entity_id not in xref_dict:
+                    xref_dict[entity_id] = []
+                xref_dict[entity_id].append(o)
+
+    return xref_dict
+
+    
 
 

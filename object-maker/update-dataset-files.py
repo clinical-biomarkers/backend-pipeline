@@ -83,7 +83,7 @@ def main():
         biomarker_id_list = []
         if cmb_list_str_new in new_biomarkerid_dict:
             biomarker_id_list = sorted(list(new_biomarkerid_dict[cmb_list_str_new].keys()))
-        id_dict[cmb_list_str] = biomarker_id_list[0]
+            id_dict[cmb_list_str] = biomarker_id_list[0]
     
 
     #first copy all files to reviewed
@@ -98,6 +98,7 @@ def main():
     #file_list = glob.glob(release_dir + "unreviewed/biomarkers_micro*.tsv")
     file_idx = 0
     for in_file in file_list:
+        print (in_file)
         file_name = in_file.split("/")[-1]
         file_idx += 1
         out_file = in_file.replace("unreviewed", "reviewed")
@@ -129,8 +130,8 @@ def main():
                     cmb_list_str = json.dumps(cmb_list)
                     biomarker_id = id_dict[cmb_list_str] if cmb_list_str in id_dict else "NO_BIOMARKER_ID"
                     newrow = [biomarker_id] + row
-                    if biomarker_id == "NO_BIOMARKER_ID":
-                        print (cmb_list)
+                    #if biomarker_id == "NO_BIOMARKER_ID":
+                    #    print (cmb_list)
                     FW1.write("%s\n" % ("\t".join(newrow + [source])))
                     FW2.write("%s\n" % ("\t".join(newrow)))
         FW2.close()

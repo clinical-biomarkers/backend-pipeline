@@ -1,0 +1,448 @@
+{
+    "biomarker_id": "CD9557-2",
+    "biomarker_canonical_id": "CD9557",
+    "biomarker_id_md5": "172782bdc2b829a263bdeb510d0f21f6",
+    "canon_id_md5": "9ae36efe03230a367747db5c87962569",
+    "biomarker_id_new": "CD9557-1",
+    "condition": {
+        "id": "DOID:5212",
+        "recommended_name": {
+            "id": "DOID:5212",
+            "name": "congenital disorder of glycosylation",
+            "description": "A carbohydrate metabolic disorder that involves deficient or defective glycosylation of a variety of tissue proteins and/or lipids.",
+            "resource": "Disease Ontology",
+            "url": "http://purl.obolibrary.org/obo/DOID_5212"
+        },
+        "synonyms": [
+            {
+                "id": "DOID:5212",
+                "name": "carbohydrate-deficient glycoprotein syndrome",
+                "resource": "Disease Ontology",
+                "url": "http://purl.obolibrary.org/obo/DOID_5212"
+            }
+        ]
+    },
+    "best_biomarker_role": [
+        {
+            "role": "diagnostic"
+        }
+    ],
+    "biomarker_component": [
+        {
+            "component_index": "1",
+            "entity_index": "1",
+            "assessed_biomarker_entity_id": "bGSL:6d8d4be9-d746-5d48-9da6-ca1f0eb3b919",
+            "assessed_biomarker_entity_url": "",
+            "assessed_biomarker_entity": {
+                "recommended_name": "monoantennary N-glycans",
+                "synonyms": []
+            },
+            "assessed_entity_type": "glycan",
+            "biomarker_orig": "increased level of monoantennary N-glycans on alpha-1-antitrypsin",
+            "biomarker": "Increased level of glycan monoantennary N-glycans/bGSL:6d8d4be9-d746-5d48-9da6-ca1f0eb3b919",
+            "annotations": [],
+            "evidence_source": [
+                {
+                    "id": "",
+                    "database": "LLM-Extracted",
+                    "url": "",
+                    "evidence_list": [],
+                    "tags": []
+                },
+                {
+                    "id": "BMK_000003",
+                    "database": "BiomarkerKB Dataset",
+                    "url": "https://data.biomarkerkb.org/BMK_000003",
+                    "evidence_list": [],
+                    "tags": []
+                },
+                {
+                    "id": "1470190",
+                    "database": "PubMed",
+                    "url": "https://pubmed.ncbi.nlm.nih.gov/1470190",
+                    "evidence_list": [
+                        {
+                            "evidence": "This new marker-glycoprotein suggests a defect of the production of biantennary and of triantennary N-glycans during an early step of their synthesis, resulting in monoantennary N-glycans."
+                        }
+                    ],
+                    "tags": []
+                }
+            ],
+            "specimen": [
+                {
+                    "id": "UBERON:0001977",
+                    "name": "serum",
+                    "loinc_code": "",
+                    "name_space": "UBERON",
+                    "url": "http://purl.obolibrary.org/obo/UBERON_0001977",
+                    "loince_code_url": ""
+                }
+            ]
+        },
+        {
+            "component_index": "1",
+            "entity_index": "2",
+            "assessed_biomarker_entity_id": "UPKB:P01009",
+            "assessed_biomarker_entity_url": "https://www.uniprot.org/uniprotkb/P01009/entry",
+            "assessed_biomarker_entity": {
+                "recommended_name": "alpha-1-antitrypsin",
+                "synonyms": [
+                    {
+                        "synonym": "Serpin A1"
+                    },
+                    {
+                        "synonym": "Alpha-1 protease inhibitor"
+                    },
+                    {
+                        "synonym": "Alpha-1-antiproteinase"
+                    },
+                    {
+                        "synonym": "alpha-1-antitrypsin precursor"
+                    },
+                    {
+                        "synonym": "protease inhibitor 1 (anti-elastase), alpha-1-antitrypsin"
+                    },
+                    {
+                        "synonym": "serpin peptidase inhibitor, clade A (alpha-1 antiproteinase, antitrypsin), member 1"
+                    },
+                    {
+                        "synonym": "alpha-1 antitrypsin"
+                    },
+                    {
+                        "synonym": "serine (or cysteine) proteinase inhibitor, clade A, member 1"
+                    },
+                    {
+                        "synonym": "alpha-1 proteinase inhibitor"
+                    },
+                    {
+                        "synonym": "serpin A1"
+                    },
+                    {
+                        "synonym": "epididymis secretory sperm binding protein"
+                    },
+                    {
+                        "synonym": "alpha-1-antiproteinase"
+                    },
+                    {
+                        "synonym": "alpha-1 protease inhibitor"
+                    },
+                    {
+                        "synonym": "serpin peptidase inhibitor clade A member 1"
+                    },
+                    {
+                        "synonym": "serpin peptidase inhibitor clade A (alpha-1antiproteinase, antitrypsin) member 1"
+                    }
+                ]
+            },
+            "assessed_entity_type": "protein",
+            "biomarker_orig": "increased level of monoantennary N-glycans on alpha-1-antitrypsin",
+            "biomarker": "Increased level of protein SERPINA1/UPKB:P01009",
+            "annotations": [],
+            "evidence_source": [
+                {
+                    "id": "",
+                    "database": "LLM-Extracted",
+                    "url": "",
+                    "evidence_list": [],
+                    "tags": []
+                },
+                {
+                    "id": "BMK_000003",
+                    "database": "BiomarkerKB Dataset",
+                    "url": "https://data.biomarkerkb.org/BMK_000003",
+                    "evidence_list": [],
+                    "tags": []
+                },
+                {
+                    "id": "1470190",
+                    "database": "PubMed",
+                    "url": "https://pubmed.ncbi.nlm.nih.gov/1470190",
+                    "evidence_list": [
+                        {
+                            "evidence": "This new marker-glycoprotein suggests a defect of the production of biantennary and of triantennary N-glycans during an early step of their synthesis, resulting in monoantennary N-glycans."
+                        }
+                    ],
+                    "tags": []
+                }
+            ],
+            "specimen": [
+                {
+                    "id": "UBERON:0001977",
+                    "name": "serum",
+                    "loinc_code": "",
+                    "name_space": "UBERON",
+                    "url": "http://purl.obolibrary.org/obo/UBERON_0001977",
+                    "loince_code_url": ""
+                }
+            ]
+        }
+    ],
+    "evidence_source": [
+        {
+            "id": "1470190",
+            "database": "PubMed",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/1470190",
+            "evidence_list": [
+                {
+                    "evidence": "This new marker-glycoprotein suggests a defect of the production of biantennary and of triantennary N-glycans during an early step of their synthesis, resulting in monoantennary N-glycans."
+                }
+            ],
+            "tags": []
+        }
+    ],
+    "crossref": [
+        {
+            "id": "P01009",
+            "url": "https://hivelab.biochemistry.gwu.edu/biomuta/proteinview/P01009",
+            "database": "BioMuta",
+            "categories": []
+        },
+        {
+            "id": "P01009",
+            "url": "https://glygen.org/protein/P01009",
+            "database": "GlyGen",
+            "categories": []
+        },
+        {
+            "id": "P01009",
+            "url": "https://www.uniprot.org/uniprotkb/P01009/entry",
+            "database": "UniProtKB",
+            "categories": []
+        }
+    ],
+    "entity_normal_ranges": [
+        {
+            "entity_name": "Alpha-1-antitrypsin",
+            "entity_id": "UPKB:P01009",
+            "source": [
+                {
+                    "source_name": "GWDC",
+                    "lab_term": "ALPHA-1-ANTITRYPSIN (LabCorp)",
+                    "ranges": [
+                        {
+                            "age_grp": "40-49",
+                            "sex": "female",
+                            "mean_val": 146.316,
+                            "median_val": 142.0,
+                            "sd_val": 18.376,
+                            "min": 120.0,
+                            "max": 184.0,
+                            "q1": 131.5,
+                            "q3": 157.0,
+                            "iqr": 25.5,
+                            "lower_whisker": 93.25,
+                            "upper_whisker": 195.25,
+                            "n_val": 19,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "50-59",
+                            "sex": "female",
+                            "mean_val": 130.194,
+                            "median_val": 131.0,
+                            "sd_val": 11.732,
+                            "min": 110.0,
+                            "max": 154.0,
+                            "q1": 120.0,
+                            "q3": 137.0,
+                            "iqr": 17.0,
+                            "lower_whisker": 94.5,
+                            "upper_whisker": 162.5,
+                            "n_val": 31,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "50-59",
+                            "sex": "male",
+                            "mean_val": 146.455,
+                            "median_val": 144.0,
+                            "sd_val": 16.881,
+                            "min": 124.0,
+                            "max": 182.0,
+                            "q1": 133.0,
+                            "q3": 155.5,
+                            "iqr": 22.5,
+                            "lower_whisker": 99.25,
+                            "upper_whisker": 189.25,
+                            "n_val": 11,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "60-69",
+                            "sex": "female",
+                            "mean_val": 142.673,
+                            "median_val": 142.0,
+                            "sd_val": 15.991,
+                            "min": 113.0,
+                            "max": 176.0,
+                            "q1": 132.5,
+                            "q3": 151.25,
+                            "iqr": 18.75,
+                            "lower_whisker": 104.375,
+                            "upper_whisker": 179.375,
+                            "n_val": 52,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "60-69",
+                            "sex": "male",
+                            "mean_val": 132.615,
+                            "median_val": 128.0,
+                            "sd_val": 12.821,
+                            "min": 114.0,
+                            "max": 165.0,
+                            "q1": 124.25,
+                            "q3": 143.75,
+                            "iqr": 19.5,
+                            "lower_whisker": 95.0,
+                            "upper_whisker": 173.0,
+                            "n_val": 26,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "70-79",
+                            "sex": "male",
+                            "mean_val": 135.818,
+                            "median_val": 132.0,
+                            "sd_val": 18.11,
+                            "min": 116.0,
+                            "max": 185.0,
+                            "q1": 125.0,
+                            "q3": 137.5,
+                            "iqr": 12.5,
+                            "lower_whisker": 106.25,
+                            "upper_whisker": 156.25,
+                            "n_val": 11,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "70-79",
+                            "sex": "female",
+                            "mean_val": 148.711,
+                            "median_val": 148.5,
+                            "sd_val": 20.769,
+                            "min": 110.0,
+                            "max": 192.0,
+                            "q1": 131.75,
+                            "q3": 162.75,
+                            "iqr": 31.0,
+                            "lower_whisker": 85.25,
+                            "upper_whisker": 209.25,
+                            "n_val": 38,
+                            "units": "mg/dL"
+                        }
+                    ]
+                },
+                {
+                    "source_name": "GWDC",
+                    "lab_term": "ALPHA-1-ANTITRYPSIN (GWUH)",
+                    "ranges": [
+                        {
+                            "age_grp": "40-49",
+                            "sex": "female",
+                            "mean_val": 183.154,
+                            "median_val": 186.0,
+                            "sd_val": 24.131,
+                            "min": 125.0,
+                            "max": 213.0,
+                            "q1": 171.0,
+                            "q3": 200.0,
+                            "iqr": 29.0,
+                            "lower_whisker": 127.5,
+                            "upper_whisker": 243.5,
+                            "n_val": 13,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "50-59",
+                            "sex": "female",
+                            "mean_val": 151.4,
+                            "median_val": 149.0,
+                            "sd_val": 18.286,
+                            "min": 124.0,
+                            "max": 195.0,
+                            "q1": 142.5,
+                            "q3": 161.5,
+                            "iqr": 19.0,
+                            "lower_whisker": 114.0,
+                            "upper_whisker": 190.0,
+                            "n_val": 15,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "50-59",
+                            "sex": "male",
+                            "mean_val": 160.467,
+                            "median_val": 161.0,
+                            "sd_val": 25.258,
+                            "min": 109.0,
+                            "max": 201.0,
+                            "q1": 149.5,
+                            "q3": 174.0,
+                            "iqr": 24.5,
+                            "lower_whisker": 112.75,
+                            "upper_whisker": 210.75,
+                            "n_val": 15,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "60-69",
+                            "sex": "female",
+                            "mean_val": 156.848,
+                            "median_val": 159.0,
+                            "sd_val": 20.098,
+                            "min": 126.0,
+                            "max": 208.0,
+                            "q1": 138.0,
+                            "q3": 166.0,
+                            "iqr": 28.0,
+                            "lower_whisker": 96.0,
+                            "upper_whisker": 208.0,
+                            "n_val": 33,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "60-69",
+                            "sex": "male",
+                            "mean_val": 184.6,
+                            "median_val": 162.0,
+                            "sd_val": 67.449,
+                            "min": 94.0,
+                            "max": 330.0,
+                            "q1": 132.5,
+                            "q3": 237.0,
+                            "iqr": 104.5,
+                            "lower_whisker": -24.25,
+                            "upper_whisker": 393.75,
+                            "n_val": 15,
+                            "units": "mg/dL"
+                        },
+                        {
+                            "age_grp": "70-79",
+                            "sex": "female",
+                            "mean_val": 158.667,
+                            "median_val": 147.0,
+                            "sd_val": 22.846,
+                            "min": 132.0,
+                            "max": 215.0,
+                            "q1": 144.5,
+                            "q3": 169.0,
+                            "iqr": 24.5,
+                            "lower_whisker": 107.75,
+                            "upper_whisker": 205.75,
+                            "n_val": 15,
+                            "units": "mg/dL"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "keywords": [
+        "panel_biomarker"
+    ],
+    "source_list": [
+        "llm_glycan"
+    ],
+    "citation": []
+}

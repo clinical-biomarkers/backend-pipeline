@@ -128,6 +128,8 @@ def auth_contact(query_obj, config_obj):
     
     #github_endpoint = "https://api.github.com/repos/glygener/glygen-issues/issues"
     github_endpoint = "https://api.github.com/repos/clinical-biomarkers/biomarker-issue-repo/issues"
+    #github_endpoint = "https://github.com/clinical-biomarkers/biomarker-issue-repo/issues"
+    
     github_token = current_app.config["GITHUB_TOKEN"]
     github_assignee = current_app.config["GITHUB_ASSIGNEE"]
 

@@ -25,12 +25,22 @@ def main():
 
     global release_dir
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
+    log_dir = "/data/shared/biomarkerdb/logs/"
 
     # clean out_dir
     out_dir = "%s/jsondb/idgendb/*" % (release_dir)
     if os.path.isdir(out_dir):
         cmd = "rm -rf %s/*" % (out_dir)
         x = subprocess.getoutput(cmd)
+
+    log_file = log_dir + "make-idgendb.log"
+    with open(log_file, "w") as FL:
+        FL.write("Started logging ...\n")
+    error_list = csvutil.check_biomarker_input_files(release_dir)
+    for err in error_list:
+        with open(log_file, "a") as FL:
+            FL.write("ERROR: %s\n" % (err))
+
 
     # this gets old IDs from datasets with non-empty values in column=legacy_biomarker_id
     legacy_biomarkerid_dict, orig_dict = csvutil.load_legacy_biomarkerid_dict(release_dir)
@@ -62,6 +72,7 @@ def main():
     out_dir = release_dir + "jsondb/idgendb/"
     batch_idx = 0
    
+
 
  
     for canon_id_md5 in canon_id_md5_list:

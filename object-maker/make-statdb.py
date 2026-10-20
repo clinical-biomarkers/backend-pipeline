@@ -62,6 +62,8 @@ def main():
                 if "id" in doc["exposure_agent"]:
                     agent_id = doc["exposure_agent"]["id"]
 
+            if agent_id != "":
+                csvutil.write_log_msg(log_file, "agent_id=%s, biomarker_id=%s" % (agent_id, biomarker_id), "a")
             source_list = doc["source_list"]
             kw_list = doc["keywords"]
             role_list = []

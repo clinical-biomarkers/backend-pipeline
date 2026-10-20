@@ -405,6 +405,10 @@
             },
             "columns": {
                 "type": "list"
+            },
+				"mcp_tool": {
+                "type": "string",
+                "maxlen": 200
             }
         },
         "requiredfields": [],
@@ -869,6 +873,10 @@
             "paginated_tables": {
                 "type": "string",
                 "maxlen": 10000
+            },
+				"mcp_tool": {
+                "type": "string",
+                "maxlen": 200
             }
         },
         "requiredfields": [
@@ -988,6 +996,10 @@
 				"publication_id": {
                 "type": "string",
                 "maxlen": 200
+            },
+				"mcp_tool": {
+                "type": "string",
+                "maxlen": 200
             }
         },
         "requiredfields": [],
@@ -1012,6 +1024,10 @@
             },
             "offset": {
                 "type": "number"
+            },
+				"mcp_tool": {
+                "type": "string",
+                "maxlen": 200
             }
         },
         "returnfields": {
@@ -2252,7 +2268,23 @@
             "c_event"
         ]
     },
-    "video_addnew": {
+    "entity_detail": {
+        "field_info": {
+            "ref_id": {
+                "type": "string"
+            }, 
+				"entity_id": {
+                "type": "string"
+            }
+        },
+        "requiredfields": [
+            "ref_id"
+        ],
+        "collectionlist": [
+            "c_ent"
+        ]
+    },
+	 "video_addnew": {
         "field_info": {
             "url": {
                 "type": "string"

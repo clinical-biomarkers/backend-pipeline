@@ -11,6 +11,8 @@ bmkb/data_apilib.py
 bmkb/data_models.py
 bmkb/db.py
 bmkb/document.py
+bmkb/entity.py
+bmkb/entity_apilib.py
 bmkb/event.py
 bmkb/event_apilib.py
 bmkb/globalsearch.py

@@ -378,6 +378,9 @@ def make_biomarker_ds(dataset):
                     condition_id = row[f_list.index("condition_id")]
                     agent_id = row[f_list.index("exposure_agent_id")] if "exposure_agent_id" in f_list else ""
                     evidence_source = row[f_list.index("evidence_source")]    
+                    biomarker_index = row[f_list.index("biomarker_index")]
+                    component_index = row[f_list.index("component_index")]
+                    entity_index = row[f_list.index("entity_index")]
                     biomarker = row[f_list.index("biomarker")] if "biomarker" in f_list else ""
                     biomarker_controlled_vocab = ""
                     if "biomarker_controlled_vocab" in f_list:
@@ -396,19 +399,26 @@ def make_biomarker_ds(dataset):
                         e_type_list = entity_type_map[entity_type]
                     if agent_id.find("<utils.data_types.json_types") != -1:
                         agent_id = ""
-                    
+ 
                     vocab_ptrn, flag_list = "", ["already_mapped"]
                     if biomarker_controlled_vocab == "":
                         vocab_ptrn, flag_list = csvutil.get_vocab_pattern(entity_id,biomarker, ptrn_dict,e_type_list)
                     newrow = []
                     for f in f_list:
+                        val = row[f_list.index(f)]
                         if f not in ignore_field_list: 
-                            newrow.append(row[f_list.index(f)])
+                            newrow.append(val)
+                    
+                    if biomarker_index == "":
+                        raw_flag_list.append("empty_biomarker_index")
+                    if component_index == "":      
+                        raw_flag_list.append("empty_component_index") 
+                    if entity_index == "":      
+                        raw_flag_list.append("empty_entity_index")         
                     if raw_flag_list == []:
                         out_rows.append(newrow + ["not_mapped"])
                     else:
                         fl_rows.append(row + [";".join(raw_flag_list)])
-
     typo_dict = {
         "NRAS (Q61)":"NRAS Q61",
         "FLT3-ITD":"FLT3 ITD",
@@ -827,7 +837,7 @@ def make_xrefs_ds(dataset):
 
     
     seen_debug = {}
-    out_rows = [["source_file","biomarker_idx","xref_key","xref_id"]]
+    out_rows = [["source_file","biomarker_idx","entity_id", "xref_key","xref_id"]]
     file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
     for in_file in file_list:
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
@@ -857,13 +867,13 @@ def make_xrefs_ds(dataset):
                             xref_key = xref_key.replace("|extra", "")
                             for x_id in xref_id.split(";"):
                                 ignore_flag = f=="assessed_biomarker_entity" and x_id not in genename2geneid
-                                newrow = [source,biomarker_idx,xref_key,x_id]
+                                newrow = [source,biomarker_idx,ent_id,xref_key,x_id]
                                 if ignore_flag == False:
                                     out_rows.append(newrow)
-                                else:
-                                    print ("\t".join(newrow))
+                                #else:
+                                #    print ("\t".join(newrow))
                         elif xref_key == ent_prefix:
-                            newrow = [source,biomarker_idx,xref_key,xref_id] 
+                            newrow = [source,biomarker_idx,ent_id,xref_key,xref_id] 
                             out_rows.append(newrow)
 
     file_format = "tsv"

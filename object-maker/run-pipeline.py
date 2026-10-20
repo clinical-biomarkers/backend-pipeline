@@ -26,9 +26,11 @@ def main():
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s" % (rel)
 
     cmd_dict = {}
-    db_list = ["citedb","normalrangesdb","diseasedb","idgendb","idtrackdb","biomarkerdb","listdb","indexdb","sortdb"]
-    db_list += ["statdb", "searchinitdb"]
-    #db_list = ["biomarkerdb"]
+    db_list = ["citedb","normalrangesdb","diseasedb","idgendb","idtrackdb","entdb","biomarkerdb","listdb","indexdb","sortdb"]
+    db_list += ["batchdb","statdb", "searchinitdb"]
+     
+    #db_list = ["batchdb","statdb", "searchinitdb"]
+ 
     for idx in range(0, len(db_list)):
         db = db_list[idx]
         cmd_dict[idx] = {"db":db, "cmdlist":[]}
@@ -36,7 +38,7 @@ def main():
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 make-%s.py -r %s " % (db,rel))
-        elif db in ["indexdb", "citedb"]:
+        elif db in ["indexdb", "citedb", "batchdb"]:
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 wrap-make-%s.py -r %s" % (db,rel))
@@ -47,6 +49,10 @@ def main():
             cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/interm/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 wrap-make-%s.py -r %s" % (db,rel))
             cmd_dict[idx]["cmdlist"].append("python3 update-%s.py -r %s" % (db,rel))
+        elif db in ["entdb"]:
+            cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/interm/%s/*" % (release_dir, db))
+            cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/interm/%s" % (release_dir, db))
+            cmd_dict[idx]["cmdlist"].append("python3 make-%s.py -r %s" % (db,rel))
         elif db in ["listdb"]:
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/interm/%s/*" % (release_dir, db)) 
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
@@ -66,7 +72,7 @@ def main():
     #exit()
 
 
-    log_file = "/data/shared/biomarkerdb/logs/run-pipeline.log"
+    log_file = "/data/shared/biomarkerdb/logs/run-pipeline-v-%s.log" % (rel)
     with open(log_file, "w") as FL:
         FL.write("Started logging ...\n")
 
@@ -82,11 +88,21 @@ def main():
                 x = subprocess.getoutput(cmd)
         out_dir = "%s/jsondb/%s/*" % (release_dir,db)
         file_list = glob.glob("%s/jsondb/%s/*" % (release_dir,db))
+        if db in ["entdb"]:
+            file_list = glob.glob("%s/jsondb/interm/%s/*" % (release_dir,db))
         n = 0
         for in_file in file_list:
             n += len(json.load(open(in_file)))
         with open(log_file, "a") as FL:
             FL.write("created %s %s records under %s\n" % (n,db[:-2], out_dir))
+
+    db = "entdb"
+    cmd = "rm -f %s/jsondb/%s/*" % (release_dir, db)
+    x = subprocess.getoutput(cmd)
+    cmd = "python3 update-%s.py -r %s" % (db,rel)
+    x = subprocess.getoutput(cmd)
+    
+
 
     cmd = "rm -f %s/reviewed/*" % (release_dir)
     x = subprocess.getoutput(cmd)

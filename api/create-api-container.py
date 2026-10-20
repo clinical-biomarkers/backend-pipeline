@@ -78,8 +78,7 @@ def main():
     cmd_list.append(cmd)
 
     for cmd in cmd_list:
-        x = subprocess.getoutput(cmd)
-        print (x)
+        subprocess.run(cmd, shell=True)
         #print (cmd)
 
 

@@ -29,4 +29,12 @@ http POST :4040/event/delete/ < tests/examples/event/event_delete.json
 
 http POST :4040/typeahead/typeahead/ < tests/examples/typeahead/biomarker_id.json
 
+http POST :4040/entity/detail/hgnc_6018/
+http POST :4040/entity/detail/hgnc_6018/ < tests/temp/q.1.json
+
+http POST :4040/entity/detail/hgnc_6018/UPKB_P05231
+
+http POST :4040/entity/detail/PCCID_1662/
+
+
 
