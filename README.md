@@ -25,6 +25,7 @@ $ python3 wrap-make-datasets.py -r 3.1.1
 ```
 The output datasets will be created under /../shared/biomarkerdb/releases/data/v-3.1.1/unreviewed/
 
+
 ### Step-4: qualtity control of dataset files
 Compare dataset files created above to older version files from $PREV_REL
 ```
@@ -33,8 +34,41 @@ $ python3 qc-datasets.py -r 3.1.1 -p $PREV_REL
 ```
 The output for this step will be created under /../shared/biomarkerdb/releases/data/v-3.1.1/logs/qc-datasets.csv
 
+### Step-5: downloading medline data
+```
+$ cd /../shared/repos/backend-pipeline/object-maker/
+$ nohup python3 medline-download-step-1.py -r 3.1.1  &
+```
+The above script uses /../downloads/ncbi/medline_json/pmid.*.json and /../shared/biomarkerdb/releases/data/v-3.1.1/unreviewed/biomarkers_*.tsv files as input to make a list of PMIDs in /../shared/biomarkerdb/logs/medline-download-list.txt. Make sure this output file has been created before you go to next steps.
 
-### Step-5: creating MongoDB objects
+
+The following command downloads files from https://data.glygen.org/ln2data/downloads/ncbi/medline_xml/ and puts them under /../shared/biomarkerdb/downloads/ncbi/medline_xml/. Make sure you edit the file conf/medline.json to make the needed changes. Make sure the xml files has been downloaded before you go to next step.
+```
+$ cd /../shared/repos/backend-pipeline/object-maker/
+$ nohup python3 medline-download-step-2.py &
+```
+
+This command uses /../shared/biomarkerdb/downloads/ncbi/medline_xml/*.gz as input and outputs files into /../shared/biomarkerdb/downloads/ncbi/medline_list/. It also creates /../shared/biomarkerdb/logs/medline_xml_file_list.3.json -- make sure these output file(s) are created before you proceed.
+```
+$ cd /../shared/repos/backend-pipeline/object-maker/
+$ nohup python3 medline-download-step-3.py &
+```
+
+This command uses /../data/shared/biomarkerdb/downloads/ncbi/medline_xml/* and /../shared/biomarkerdb/downloads/ncbi/medline_list/* and /../shared/biomarkerdb/logs/medline-download-list.txt as input and outputs /../shared/biomarkerdb/logs/medline_xml_file_list.4.json -- make sure these output file(s) are created before you proceed.
+```
+$ cd /../shared/repos/backend-pipeline/object-maker/
+$ nohup python3 medline-download-step-4.py &
+```
+
+This command uses /../shared/biomarkerdb/logs/medline-download-list.txt and 
+/../shared/biomarkerdb/logs/medline_xml_file_list.4.json, and 
+outputs to /../shared/biomarkerdb/downloads/ncbi/medline_json/ -- make sure these output file(s) are created before you proceed.
+```
+$ cd /../shared/repos/backend-pipeline/object-maker/
+$ nohup python3 medline-download-step-5.py &
+```
+
+### Step-6: creating MongoDB objects
 Run the following commands to create various JSON objects that will be loaded to MongoDB. The location of the objects creates in this record is /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb/*db/
 
 ```
@@ -56,7 +90,7 @@ created 1 stat records under /../shared/biomarkerdb/releases/data/v-3.1.1/jsondb
 updated 18 dataset files under /../shared/biomarkerdb/releases/data/v-3.1.1/reviewed/*
 ```
 
-### Step-6: loading MongoDB objects
+### Step-7: loading MongoDB objects
 Run the following commands to load objectst to MongoDB.
 ```
 $ cd /../shared/repos/backend-pipeline/api/
@@ -76,7 +110,7 @@ $ ls  -ltr /data/shared/biomarkerdb/logs/*_loading_progress_dev.txt
 ```
 
 
-### Step-7: updating init caches
+### Step-8: updating init caches
 Run the following commands to update init caches -- they are used when users perform empty query searches that result in large number of results
 ```
 $ cd /../shared/repos/backend-pipeline/api/
@@ -90,7 +124,7 @@ $ nohup python3 wrap-update-initlistcache.py &
 Check the logfile  /../shared/biomarkerdb/logs/c_initlistcache.biomarker_all.prd|dev.log and you should see 9 lines in it.
 
 
-### Step-8: updating version label for data 
+### Step-9: updating version label for data 
 Run the following commands to update version label data 
 ```
 $ cd /../shared/repos/backend-pipeline/api/

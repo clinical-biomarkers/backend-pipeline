@@ -14,11 +14,9 @@ import glob
 def main():
 
     doc = json.loads(open("conf/medline.json", "r").read())
-
     category = "updatefiles"
     updatefiles_start = doc[category]["start"]
    
-
     xml_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_xml/"
     out_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_list/"
     tmp_list = glob.glob("/data/shared/biomarkerdb/downloads/ncbi/medline_xml/*.gz")    
@@ -35,7 +33,6 @@ def main():
     with open("/data/shared/biomarkerdb/logs/medline_xml_file_list.3.json", "w") as FW:
         FW.write("%s\n" % (json.dumps(gz_xml_file_list)))
 
- 
     n = len(gz_xml_file_list)
     batch_size = int(len(gz_xml_file_list)/10) if len(gz_xml_file_list) > 10 else len(gz_xml_file_list)
 

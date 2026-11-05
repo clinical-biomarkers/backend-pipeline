@@ -24,12 +24,8 @@ def load_pmid_dict(in_file):
 ###############################
 def main():
 
-    xml_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_xml/"
-    list_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_list/"
-    json_folder = "/data/shared/biomarkerdb/downloads/ncbi/medline_json/"
     list_file = "/data/shared/biomarkerdb/logs/medline-download-list.txt"
     pmid_dict = load_pmid_dict(list_file)
-
 
 
     xml_file_list = json.loads(open("/data/shared/biomarkerdb/logs/medline_xml_file_list.4.json", "r").read())

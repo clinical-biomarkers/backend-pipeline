@@ -33,10 +33,6 @@ def main():
     global release_dir
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
 
-
-
-
-
     file_list = glob.glob("/data/shared/biomarkerdb/downloads/ncbi/medline_json/pmid.*.json")
     is_downloaded = {}
     for in_file in file_list:
