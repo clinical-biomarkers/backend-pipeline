@@ -13,25 +13,10 @@ from cacheutil import get_c_initcache_queries,get_supersearch_init_query, get_pu
 
 def main():
 
-    usage = "\n%prog  [options]"
-    parser = OptionParser(usage,version="%prog version___")
-    parser.add_option("-s","--server",action="store",dest="server",help="dev/tst/beta/prd")
-    
-    
-    (options,args) = parser.parse_args()
-    for key in ([options.server]):
-        if not (key):
-            parser.print_help()
-            sys.exit(0)
-                                         
-    server = options.server
-
-
-
      
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+    db_name = "bmkbdb"
     config_obj = json.loads(open("./conf/config.json", "r").read())
-    mongo_port = config_obj["dbinfo"]["port"][server]
+    mongo_port = config_obj["dbinfo"]["port"]
     host_ip = "127.0.0.1"
 
     db_obj = config_obj["dbinfo"][db_name]
@@ -52,7 +37,7 @@ def main():
     for record_type in query_doc:
         for cache_name in query_doc[record_type]:
             # update initcache
-            cmd = "python3 update-initcache.py -s %s -n %s" % (server, cache_name)
+            cmd = "python3 update-initcache.py -n %s" % (cache_name)
             x = subprocess.getoutput(cmd)
             #print (cmd)
 

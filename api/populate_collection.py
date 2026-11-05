@@ -10,6 +10,7 @@ import datetime
 import pytz
 import subprocess
 import orjson
+import socket
 
 __version__="1.0"
 __status__ = "Dev"
@@ -67,27 +68,31 @@ def main():
 
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
-    parser.add_option("-s","--server",action="store",dest="server",help="dev/tst/beta/prd")
-    parser.add_option("-v","--dataversion",action="store",dest="dataversion",help="2.0.2/2.0.3 ...")
-    parser.add_option("-c","--coll",action="store",dest="coll",help="OPTIONAL c_glycan,c_protein ")
-        
+    parser.add_option("-r","--dataversion",action="store",dest="dataversion",help="")
+    parser.add_option("-c","--coll",action="store",dest="coll",help="")
+    
     (options,args) = parser.parse_args()
 
-    for key in ([options.server, options.dataversion]):
+    for key in ([options.dataversion]):
         if not (key):
             parser.print_help()
             sys.exit(0)
 
     global log_file
 
-    server = options.server
     ver = options.dataversion
 
+            
+    host_name = socket.gethostname()
+    host_vm = host_name.split("-")[-1]
 
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+
+
+
+    db_name = "bmkbdb"
     
     config_obj = json.loads(open("./conf/config.json", "r").read())
-    mongo_port = config_obj["dbinfo"]["port"][server]
+    mongo_port = config_obj["dbinfo"]["port"]
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
 
 
@@ -130,7 +135,7 @@ def main():
 
         for coll in coll_list:
 
-            log_file = log_dir + "%s_loading_progress_%s_%s.txt" % (coll, ver.replace(".","_"), server)
+            log_file = log_dir + "%s_loading_progress_%s_%s.txt" % (coll, ver.replace(".","_"), host_vm)
             msg = "\n ... started loading %s.%s version %s" % (db_name, coll, ver)
             write_progress_msg(msg, "w")
 
@@ -158,7 +163,6 @@ def main():
                 nrecords_total = len(file_list)
                 nrecords = 0
                 for in_file in file_list:
-                    print (in_file)
                     doc_list = []
                     if coll in batch_colls:
                         doc_list = orjson.loads(open(in_file, "r").read())
@@ -231,7 +235,7 @@ def main():
 
             #update supersearch_init
             if coll == "c_searchinit":
-                cmd = "python3 update-search-init.py -s %s" % (server)
+                cmd = "python3 update-search-init.py" 
                 x = subprocess.getoutput(cmd)
 
 

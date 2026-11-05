@@ -16,7 +16,9 @@ def get_list_obj(doc):
     }
     f_list = ["biomarker", "assessed_biomarker_entity_id", "assessed_entity_type"]
     f_list += ["assessed_biomarker_entity", "specimen", "best_biomarker_role"]
-    f_list += ["condition"]
+    f_list += ["condition", "exposure_agent", "change_type_vocab", "aspect_type_vocab", "mod_type_vocab"]
+    f_list += ["condition_id", "condition_name", "exposure_agent_id", "exposure_agent_name"]
+    f_list += ["specimen_id", "specimen_name", "specimen_loinc_code"] 
     seen = {}
     for f in f_list:
         seen[f] = {}
@@ -36,6 +38,10 @@ def get_list_obj(doc):
         for o in obj[f]:
             val = "%s (%s)" % (o["name"], o["id"])
             seen[f][val] = True
+            seen["specimen_id"][o["id"]] = True
+            seen["specimen_name"][o["name"]] = True
+            if "loinc_code" in o:
+                seen["specimen_loinc_code"][o["loinc_code"]] = True
         f = "evidence_source"
         for o in obj[f]:
             if o["database"] in ["PubMed", "DOI"]:
@@ -46,14 +52,32 @@ def get_list_obj(doc):
         val = obj["role"]
         seen[f][val] = True
 
-    f = "condition"
-    if f in doc:
-        if doc[f] != {}:
-            val = "%s (%s)"%(doc[f]["recommended_name"]["name"], doc[f]["recommended_name"]["id"])
-            seen[f][val] = True
-            #for o in doc[f]["synonyms"]:
-            #    val = "%s (%s)" % (o["name"], o["id"])
-            #    seen[f][val] = True
+    for f in ["change_type_vocab", "aspect_type_vocab", "mod_type_vocab"]:
+        if "c_vocab" in doc:
+            if f in doc["c_vocab"]:
+                val = doc["c_vocab"][f]
+                seen[f][val] = True
+
+    for f in ["condition", "exposure_agent"]:
+        if f in doc:
+            if doc[f] != {}:
+                if "recommended_name" in doc[f]:
+                    obj = doc[f]["recommended_name"]
+                    if "id" in obj and "name" in obj:
+                        val = "%s (%s)"%(obj["name"], obj["id"])
+                        seen[f][val] = True
+                        if f == "condition":
+                            seen["condition_id"][obj["id"]] = True
+                            seen["condition_name"][obj["name"]] = True
+                        if f == "exposure_agent":
+                            seen["exposure_agent_id"][obj["id"]] = True
+                            seen["exposure_agent_name"][obj["name"]] = True
+                    #for o in doc[f]["synonyms"]:
+                    #    val = "%s (%s)" % (o["name"], o["id"])
+                    #    seen[f][val] = True
+
+                    
+
 
     seen_glbl_evdn, seen_glbl_evdn_src = {}, {}
     f = "evidence_source"
@@ -71,7 +95,6 @@ def get_list_obj(doc):
     record_obj["component_count"] = cmp_count
     record_obj["component_evidence_count"] = len(list(seen_cmp_evdn.keys()))
     record_obj["global_evidence_count"] = len(list(seen_glbl_evdn.keys()))
-    
     record_obj["global_evidence_count_src"] = len(list(seen_glbl_evdn_src.keys()))
 
     w_dict = { 
@@ -82,6 +105,12 @@ def get_list_obj(doc):
     for p in w_dict:
         record_obj["hit_score"] += float(w_dict[p] *record_obj[p])
     record_obj["hit_score"] = round(record_obj["hit_score"], 2)
+
+    record_obj["publication_id"] = ";".join(list(seen_glbl_evdn.keys()))
+    record_obj["data_source"] = ";".join(doc["source_list"]) if "source_list" in doc else ""
+ 
+    #print (json.dumps(record_obj, indent=4))
+    #exit()
 
     return record_obj
 

@@ -6,7 +6,6 @@ from bmkb.document import get_one, get_many, insert_one, update_one, delete_one,
 from werkzeug.utils import secure_filename
 import datetime
 import time
-import subprocess
 import json
 import bcrypt
 
@@ -41,6 +40,7 @@ class Globalsearch(Resource):
             req_obj = get_req_obj(request)
             if "error_list" in req_obj:
                 return req_obj
+            return req_obj
             data_path = os.environ["DATA_PATH"]
             res_obj = log_request(req_obj, "/globalsearch/search/", request)
             if "error_list" not in res_obj:

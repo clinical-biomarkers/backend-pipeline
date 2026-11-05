@@ -119,9 +119,6 @@ def biomarker_search(query_obj, config_obj, original_query):
     if error_list != []:
         return {"error_list":error_list}
 
-
-
-
     record_type = "biomarker"
     api_name = "biomarker_search"
     list_id = get_hash_id(api_name, record_type, query_obj)
@@ -149,6 +146,9 @@ def biomarker_search(query_obj, config_obj, original_query):
     field2sec = {
         "biomarker_id":"biomarker_id",
         "canonical_id":"biomarker_canonical_id",  
+        "biomarker_change_type": "change_type_vocab",
+        "biomarker_aspect_type": "aspect_type_vocab",
+        "biomarker_modification_type": "mod_type_vocab",
         "biomarker":"biomarker_vocab",
         "biomarker_entity_id":"entity_id",
         "biomarker_entity_name":"entity_name",
@@ -165,13 +165,11 @@ def biomarker_search(query_obj, config_obj, original_query):
     }
 
 
-
-
     f_list = []
     for f in  query_obj:
         if f in field2sec:
             f_list.append(f)
-    
+   
     debug_list = []
     record_list = []
     for f in f_list:
@@ -186,12 +184,12 @@ def biomarker_search(query_obj, config_obj, original_query):
         phrase_dict = parse_sent(val, 6, 1)
         result_dict, used_phrase_list = get_result_dict_one(dbh,phrase_dict,[sec],quote_flag,record_type,1,False)
         tmp_list = list(result_dict[sec].keys()) if sec in result_dict else []
-        debug_list.append({"f":f, "sec":sec, "resultcount":len(tmp_list)})
+        debug_list.append({"f":f, "sec":sec, "resultcount":len(tmp_list), "phrase_dict":phrase_dict})
         if record_list == []:
             record_list = tmp_list
         else:
             record_list = list(set(record_list).intersection(set(tmp_list))) 
-     
+    
     #return debug_list
     #return record_list
 

@@ -10,7 +10,7 @@ from bson import json_util, ObjectId
 
 
 from bmkb.db import get_mongodb
-from bmkb.util import get_errors_in_query, sort_objects, order_obj, clean_obj, get_paginated_sections, filter_glyco_obj_list
+from bmkb.util import get_errors_in_query, sort_objects, order_obj, clean_obj, get_paginated_sections
 
 
 
@@ -74,17 +74,6 @@ def pagination_page(query_obj, config_obj):
     # apply filters for glycosylation tables 
 
     filters_obj = {}    
-    if record_type in ["protein"] and "filters" in query_obj and table_id.find("glycosylation_") != -1:
-        r = filter_glyco_obj_list(table_id, doc["glycosylation"],query_obj["filters"],config_obj)
-        if "error_list" in r:
-            return r
-        table_obj_list, passed_obj_list, other_table_obj_list, filters_obj = r["a"], r["b"],r["c"],r["d"]
-        doc["filters"] = filters_obj
-        doc["glycosylation"] = passed_obj_list + other_table_obj_list
-        #return {"all":len(table_obj_list), "passed":len(passed_obj_list)}
-
- 
-
  
     if "_id" in doc:
         doc.pop("_id")

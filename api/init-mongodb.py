@@ -17,23 +17,11 @@ __status__ = "Dev"
 def main():
 
     
-    
-    usage = "\n%prog  [options]"
-    parser = OptionParser(usage,version="%prog version___")
-    parser.add_option("-s","--server",action="store",dest="server",help="dev/tst/beta/prd")
-    (options,args) = parser.parse_args()
-
-    for key in ([options.server]):
-        if not (key):
-            parser.print_help()
-            sys.exit(0)
-
-    server = options.server
 
     config_file = "conf/config.json"
     config_obj = json.loads(open(config_file, "r").read())
 
-    mongo_port = config_obj["dbinfo"]["port"][server]
+    mongo_port = config_obj["dbinfo"]["port"]
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
    
  
@@ -41,7 +29,7 @@ def main():
     admin_db = config_obj["dbinfo"]["admin"]["db"]
 
     db_name_tmp = "tmpdb"
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+    db_name = "bmkbdb"
     db_user, db_pass = config_obj["dbinfo"][db_name]["user"], config_obj["dbinfo"][db_name]["password"]
 
     try:

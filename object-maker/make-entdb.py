@@ -27,9 +27,9 @@ def main():
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s/" % (rel)
 
 
+    prt_name_dict, gene_name_dict, glycan_name_dict = csvutil.load_entity_names(release_dir)
     crossref_dict = csvutil.load_entity_crossref_dict(release_dir)
     refid2hgncid, hgnc2upkb = csvutil.load_refid2hgncid()
-    prt_name_dict, gene_name_dict, glycan_name_dict = csvutil.load_entity_names()
     upkb2geneid = csvutil.load_upkb2geneid()
      
 
@@ -42,9 +42,6 @@ def main():
         ent_id = doc["entity_id"]
         normal_ranges_dict[ent_id] = doc
 
-    #for ent_id in normal_ranges_dict:
-    #    print (ent_id)
-    #exit()
 
 
     legacy_ent_id = {}
@@ -141,11 +138,14 @@ def main():
                     if ref_id_list == []:
                         if ent_id.find("dbSNP:") != -1:
                             ref_id = "NCBI:CLASS4"
-                            ref_dict_four[ref_id] = {cmb:True}
+                            if ref_id not in ref_dict_four:
+                                ref_dict_four[ref_id] = {}
+                            ref_dict_four[ref_id][cmb] = True
                         else:
                             ref_id = ent_id
-                            ref_dict_three[ref_id] = {cmb:True}
-
+                            if ref_id not in ref_dict_three:
+                                ref_dict_three[ref_id] = {}
+                            ref_dict_three[ref_id][cmb] = True
 
 
     c_ref_dict = {}
@@ -171,8 +171,6 @@ def main():
             for cmb in ref_dict_four[ref_id]:
                 c_ref_dict[ref_id][cmb] = True
 
-
-    
 
     record_obj_dict = {}
     #these are with references and name info
@@ -221,15 +219,15 @@ def main():
         ent_name_dict = prt_name_dict if ent_type == "protein" else {}
         ent_name_dict = gene_name_dict if ent_type == "gene" else ent_name_dict
         ent_name_dict = glycan_name_dict if ent_type == "glycan" else ent_name_dict
-        record_obj["recommended_name"] = entity
+        record_obj["recommended_name"] = {"name":entity, "evidence":[]}
         record_obj["synonyms"] = []
         if ref_id in ent_name_dict:
             for name_obj in ent_name_dict[ref_id]:
+                evdn_obj = {"database":name_obj["resource"], "id":name_obj["id"], "url":name_obj["url"]}
                 if name_obj["type"] == "synonym":
-                    record_obj["synonyms"].append({"synonym":name_obj["name"]})
+                    record_obj["synonyms"].append({"name":name_obj["name"], "evidence":[evdn_obj]})
                 elif name_obj["type"] == "recommended":
-                    record_obj["recommended_name"] = name_obj["name"]
-
+                    record_obj["recommended_name"] = {"name":name_obj["name"], "evidence":[evdn_obj]}
 
         if ref_id in refid2hgncid:
             for hgnc_id in refid2hgncid[ref_id]:
@@ -242,29 +240,30 @@ def main():
             record_obj_dict[ref_id] = record_obj
 
 
+      
 
     #here we merge UPKB records to corresponding NCBI records
     #this way we have common reference record for both gene and protein
     ref_id_list = list(record_obj_dict.keys())
     rcount = 0
+    ignore_dict = {}
     for src_ref_id in ref_id_list:
         if src_ref_id.find("UPKB:") != -1:
             if src_ref_id in upkb2geneid:
                 src_record = record_obj_dict[src_ref_id]
-                dst_count = 0
+                dst_count_one, dst_count_two = 0, 0
                 for dst_ref_id in upkb2geneid[src_ref_id]:
                     if dst_ref_id in record_obj_dict:
-                        dst_count += 1
+                        dst_count_one += 1
                         dst_record = record_obj_dict[dst_ref_id]
                         for obj in src_record["entities"]:
-                            if obj["entity_id"] == src_ref_id:
-                                dst_record["entities"].append(obj)
-                if dst_count > 0:
+                            #if obj["entity_id"] == src_ref_id:
+                            dst_count_two += 1
+                            dst_record["entities"].append(obj)
+                if dst_count_two > 0:
                     #now we remove src_record
-                    record_obj_dict.pop(src_ref_id)
+                    ignore_dict[src_ref_id] = True
                     rcount += 1
-
-
     
 
     record_obj_list = []

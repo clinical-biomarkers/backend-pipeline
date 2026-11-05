@@ -20,6 +20,7 @@ from bmkb.util import get_errors_in_query, sort_objects, cache_hitlist
 
 def event_addnew(logged_user, query_obj, config_obj):
 
+
     dbh, error_obj = get_mongodb()
     if error_obj != {}:
         return error_obj
@@ -69,7 +70,6 @@ def event_addnew(logged_user, query_obj, config_obj):
             query_obj[k + "_s"] = seconds
             query_obj[k] = datetime.datetime.strptime(query_obj[k],"%m/%d/%Y %H:%M:%S")
                 
-
     if error_list != []:
         return {"error_list":error_list}
 

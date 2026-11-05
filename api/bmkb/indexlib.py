@@ -70,9 +70,15 @@ def parse_sent(s,  max_word_count, min_word_count):
     tmp_dict = {}
     if s.strip() == "":
         return
-    s = s.lower().replace(",", " ").replace("-", " ").replace(";", " ")
-    s = s.replace("(", " ").replace(")", " ").replace("[", " ").replace("]", " ")
-    w_list = s.strip().split(" ")
+   
+    w_list = [] 
+    if s.find("-") != -1 and len(s.split(" ")) == 1:
+        w_list = [s.lower().replace("-", " ")]
+    else:
+        s = s.lower().replace(",", " ").replace("-", " ").replace(";", " ")
+        s = s.replace("(", " ").replace(")", " ").replace("[", " ").replace("]", " ")
+        w_list = s.strip().split(" ")
+   
 
     word_count = len(w_list) + 1
     word_count = max_word_count if word_count > max_word_count else word_count
@@ -261,9 +267,10 @@ def search_one(api_name, query_obj, config_obj, cache_flag, exact_match_flag):
             selected_sections = tmp_dict[term_category]
 
     phrase_dict = parse_sent(query_obj["term"], 6, 1)
+    #return phrase_dict
+
     max_p = 1 if exact_match_flag else len(phrase_dict.keys())
     result_dict, used_phrase_list = get_result_dict_one(dbh,phrase_dict,selected_sections,quote_flag,record_type,max_p,False)
-    #return {"usedphrases":used_phrase_list, "phrase_dict":phrase_dict, "resultdict":result_dict, "selected_sections":selected_sections}
     #xxxx = get_result_dict_one(dbh,phrase_dict,selected_sections,quote_flag,record_type,max_p,True)
     #return xxxx
 
@@ -326,6 +333,9 @@ def search_one(api_name, query_obj, config_obj, cache_flag, exact_match_flag):
             cache_hitlist(dbh,new_list_id,record_list,cache_info,cache_collection,config_obj)
             new_list_id = new_list_id if result_count > 0 else ""
             o = {"section":sec_cat, "list_id":new_list_id, "resultcount":result_count}
+            res_obj["results"].append(o)
+        if res_obj["results"] == []:
+            o = {"section":"", "list_id":"", "resultcount":0}
             res_obj["results"].append(o)
     else:
         section_list = selected_sections if selected_sections != [] else ["all"]
@@ -400,7 +410,6 @@ def search_all(api_name, query_obj, config_obj):
 
     phrase_dict = parse_sent(query_obj["term"], 6, 1)
 
-    #return phrase_dict
    
     max_p = 1 
     result_dict, res_obj["exact_match"] = get_result_dict_all(dbh, phrase_dict,quote_flag,query_obj,max_p)

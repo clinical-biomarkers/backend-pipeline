@@ -105,9 +105,54 @@ def home_init(config_obj, data_path):
         res_obj["video"] = doc
 
 
-
-
     return res_obj 
+
+
+
+def condition_init(config_obj, data_path):
+
+    dbh, error_obj = get_mongodb()
+    if error_obj != {}:
+        return error_obj
+
+    #Collect errors 
+    error_list = get_errors_in_query("pages_condition_init",{}, config_obj)
+    if error_list != []:
+        return {"error_list":error_list}
+
+    res_obj = {}
+    for doc in dbh["c_biomarker"].find({}, {"condition.recommended_name":1}):
+        if "condition" in doc:
+            if "recommended_name" in doc["condition"]:
+                obj = doc["condition"]["recommended_name"]
+                if "id" in obj and "name" in obj:
+                    res_obj[obj["id"]] = obj["name"]
+                        
+    return res_obj
+
+
+def exposure_agent_init(config_obj, data_path):
+
+    dbh, error_obj = get_mongodb()
+    if error_obj != {}:
+        return error_obj
+
+    #Collect errors 
+    error_list = get_errors_in_query("pages_exposure_agent_init",{}, config_obj)
+    if error_list != []:
+        return {"error_list":error_list}
+
+    res_obj = {}
+    for doc in dbh["c_biomarker"].find({}, {"exposure_agent.recommended_name":1}):
+        if "exposure_agent" in doc:
+            if "recommended_name" in doc["exposure_agent"]:
+                obj = doc["exposure_agent"]["recommended_name"]
+                if "id" in obj and "name" in obj:
+                    res_obj[obj["id"]] = obj["name"] 
+                        
+    return res_obj
+
+
 
 
 

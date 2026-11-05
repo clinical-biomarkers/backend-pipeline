@@ -6,7 +6,6 @@ from bmkb.document import get_one, get_many, insert_one, update_one, delete_one,
 from werkzeug.utils import secure_filename
 import datetime
 import time
-import subprocess
 import json
 import bcrypt
 from flask_jwt_extended import (
@@ -72,9 +71,8 @@ delete_query_model = api.model(
 
 @api.route('/addnew/')
 class Event(Resource):
-    #@api.doc(False)
     @api.expect(addnew_query_model)
-    @jwt_required
+    @jwt_required()
     def post(self):
         SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
         json_url = os.path.join(SITE_ROOT, "conf/config.json")
@@ -82,7 +80,6 @@ class Event(Resource):
         res_obj = {}
         try:
             req_obj = get_req_obj(request)
-            #return req_obj
             #current_user, user_info = "rykahsay@gwu.edu", {}
             current_user = get_jwt_identity()
             res_obj = log_request(req_obj, "/event/addnew/", request)
@@ -147,9 +144,8 @@ class Event(Resource):
 
 @api.route('/update/')
 class Event(Resource):
-    #@api.doc(False)
     @api.expect(update_query_model)
-    @jwt_required
+    @jwt_required()
     def post(self):
         SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
         json_url = os.path.join(SITE_ROOT, "conf/config.json")
@@ -177,7 +173,7 @@ class Event(Resource):
 class Event(Resource):
     #@api.doc(False)
     @api.expect(delete_query_model)
-    @jwt_required
+    @jwt_required()
     def post(self):
         SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
         json_url = os.path.join(SITE_ROOT, "conf/config.json")

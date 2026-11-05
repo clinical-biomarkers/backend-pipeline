@@ -6,7 +6,6 @@ from werkzeug.utils import secure_filename
 import datetime
 import time
 import pytz
-import subprocess
 import json
 import bcrypt
 import pymongo
@@ -30,7 +29,8 @@ class Misc(Resource):
             #ip_addr = request.environ['REMOTE_ADDR']
             #ip_addr = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
             #return {"ip":ip_addr}
-            for k in ["DB_NAME", "MAIL_SERVER", "MAIL_PORT", "MAIL_SENDER"]:
+            for k in []:
+            #for k in ["DB_NAME", "MAIL_SERVER", "MAIL_PORT", "MAIL_SENDER"]:
                 if k in os.environ:
                     res_obj["config"][k] = os.environ[k]
                 if k in current_app.config:

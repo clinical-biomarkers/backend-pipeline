@@ -180,6 +180,186 @@
                         "order": 120
                     }
                 ]
+            },
+				{   
+                "id": "change_type_vocab",
+                "property_name": "change_type_vocab",
+                "label": "change_type_vocab",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "aspect_type_vocab",
+                "property_name": "aspect_type_vocab",
+                "label": "change_type_vocab",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "mod_type_vocab",
+                "property_name": "mod_type_vocab",
+                "label": "mod_type_vocab",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "condition_id",
+                "property_name": "condition_id",
+                "label": "condition_id",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "condition_name",
+                "property_name": "condition_name",
+                "label": "condition_name",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "exposure_agent_id",
+                "property_name": "exposure_agent_id",
+                "label": "exposure_agent_id",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{      
+                "id": "exposure_agent_name",
+                "property_name": "exposure_agent_name",
+                "label": "exposure_agent_name",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{      
+                "id": "specimen_id",
+                "property_name": "specimen_id",
+                "label": "specimen_id",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "specimen_name",
+                "property_name": "specimen_name",
+                "label": "specimen_name",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "specimen_loinc_code",
+                "property_name": "specimen_loinc_code",
+                "label": "specimen_loinc_code",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "publication_id",
+                "property_name": "publication_id",
+                "label": "publication_id",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    {
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
+            },
+				{
+                "id": "data_source",
+                "property_name": "data_source",
+                "label": "data_source",
+                "order": 13,
+                "tooltip": "",
+                "immutable": false,
+                "default": false,
+                "categories": [
+                    { 
+                        "id": "General",
+                        "order": 120
+                    }
+                ]
             }
         ],
         "categories": [

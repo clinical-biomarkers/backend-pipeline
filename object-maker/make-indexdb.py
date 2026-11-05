@@ -16,7 +16,6 @@ def get_disease_obj_list(sec_obj_list, record_id, record_type):
 
     obj_list = []
     phrase_dict_one, phrase_dict_two = {}, {}
-
     for obj in sec_obj_list:
         if "recommended_name" in obj:
             parse_sent(obj["recommended_name"]["id"], phrase_dict_one, 1)
@@ -32,10 +31,30 @@ def get_disease_obj_list(sec_obj_list, record_id, record_type):
         p_list = list(phrase_dict_two.keys())
         obj_list.append({"record_id":record_id, "record_type":record_type,
             "section":"condition_name","phraselist":p_list})
-
-
     return obj_list
 
+
+def get_exposure_agent_obj_list(sec_obj_list, record_id, record_type):
+
+    obj_list = []
+    phrase_dict_one, phrase_dict_two = {}, {}
+    for obj in sec_obj_list:
+        if "recommended_name" in obj:
+            parse_sent(obj["recommended_name"]["id"], phrase_dict_one, 1)
+            parse_sent(obj["recommended_name"]["name"], phrase_dict_two, 1)
+        if "synonyms" in obj:
+            for o in obj["synonyms"]:
+                parse_sent(o["id"], phrase_dict_one, 1)
+    if phrase_dict_one != {}:
+        p_list = list(phrase_dict_one.keys())
+        obj_list.append({"record_id":record_id, "record_type":record_type,
+            "section":"exposure_agent_id", "phraselist":p_list})
+    if phrase_dict_two != {}:
+        p_list = list(phrase_dict_two.keys())
+        obj_list.append({"record_id":record_id, "record_type":record_type,
+            "section":"exposure_agent_name","phraselist":p_list})
+
+    return obj_list
 
 
 def get_crossref_obj_list(sec_obj_list, record_id, record_type):
@@ -95,6 +114,18 @@ def get_biomarker_record(in_file, doc):
         obj_list.append({"record_id":record_id, "record_type":record_type,
             "section":sec, "phraselist":p_list})
 
+     # -- c_vocab
+    if "c_vocab" in doc:
+        for sec in ["change_type_vocab", "aspect_type_vocab", "mod_type_vocab"]:
+            val = doc["c_vocab"][sec] if sec in doc["c_vocab"] else "not_specified"
+            if val != "not_specified":
+                phrase_dict = {}
+                parse_sent(val, phrase_dict, 1)
+                if phrase_dict != {}:
+                    p_list = list(phrase_dict.keys())
+                    obj_list.append({"record_id":record_id,"record_type":record_type,"section":sec,"phraselist":p_list})
+
+
 
     # -- source_list
     sec = "source_list"
@@ -134,6 +165,12 @@ def get_biomarker_record(in_file, doc):
         if sec not in doc:
             continue
         obj_list += get_disease_obj_list([doc[sec]], record_id, record_type)
+
+    #-->exposure_agent
+    for sec in ["exposure_agent"]:
+        if sec not in doc:
+            continue
+        obj_list += get_exposure_agent_obj_list([doc[sec]], record_id, record_type)
 
 
      

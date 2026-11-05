@@ -1,0 +1,60 @@
+change+aspect
+['decreased', 'activity', 'not_specified']
+['decreased', 'expression', 'not_specified']
+['decreased', 'level', 'not_specified']
+['differential', 'expression', 'not_specified']
+['differential', 'level', 'not_specified']
+['increased', 'expression', 'not_specified']
+['increased', 'level', 'not_specified']
+['presence of', 'activity', 'not_specified']
+['presence of', 'expression', 'not_specified']
+['presence of', 'level', 'not_specified']
+
+
+change+modifiction
+['increased', 'not_specified', 'methylation']
+['presence of', 'not_specified', 'methylation']
+['presence of', 'not_specified', 'sequence variation']
+
+
+
+A) change-*-modification
+['presence of', 'not_specified', 'sequence variation'] Presence of dbSNP:rs1555283982 sequence variation in gene BRCA2/NCBI:675
+
+B) change-*-methylation
+['presence of', 'not_specified', 'methylation'] Presence of methylation of gene DCC/NCBI:1630
+
+C) change-aspect-*
+['presence of', 'expression', 'not_specified'] Presence of expression of gene GASK1A/NCBI:729085
+['presence of', 'activity', 'not_specified'] Presence of activity of protein biotinidase/PCSID:379981166
+['presence of', 'level', 'not_specified'] Presence of level of metabolite homoarginine/PCCID:9085
+
+
+['increased', 'expression', 'not_specified'] Increased expression of gene ENO2/NCBI:2026
+['differential', 'expression', 'not_specified'] Differential expression of gene TNFRSF17/NCBI:608
+['decreased', 'level', 'not_specified'] Decreased level of gene CX3CL1/NCBI:6376
+
+
+
+
+[rykahsay@biomarkerkb-vm-dev mcp]$ python3 test-endpoint-one.py -g glbl -n get_biomarker_change_type_list
+[
+    "increased",
+    "decreased",
+    "differential",
+    "presence of"
+]
+[rykahsay@biomarkerkb-vm-dev mcp]$ python3 test-endpoint-one.py -g glbl -n get_biomarker_modification_type_list
+[
+    "sequence variation",
+    "methylation"
+]
+[rykahsay@biomarkerkb-vm-dev mcp]$ python3 test-endpoint-one.py -g glbl -n get_biomarker_aspect_type_list
+[
+    "expression",
+    "activity",
+    "level"
+]
+
+
+

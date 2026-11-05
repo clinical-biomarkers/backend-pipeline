@@ -21,26 +21,24 @@ def main():
 
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
-    parser.add_option("-s","--server",action="store",dest="server",help="dev/tst/beta/prd")
     parser.add_option("-v","--ver",action="store",dest="ver",help="2.0/2.1 ...")
     parser.add_option("-c","--cmp",action="store",dest="cmp",help="data/api/software")
         
     (options,args) = parser.parse_args()
 
-    for key in ([options.server, options.ver, options.cmp]):
+    for key in ([options.ver, options.cmp]):
         if not (key):
             parser.print_help()
             sys.exit(0)
 
-    server = options.server
     ver = options.ver
     cmp = options.cmp
 
     config_obj = json.loads(open("./conf/config.json", "r").read())
-    mongo_port = config_obj["dbinfo"]["port"][server]
+    mongo_port = config_obj["dbinfo"]["port"]
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
 
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+    db_name = "bmkbdb"
     db_user, db_pass = config_obj["dbinfo"][db_name]["user"], config_obj["dbinfo"][db_name]["password"]
 
     try:
@@ -54,9 +52,11 @@ def main():
         client.server_info()
         dbh = client[db_name]
         coll = "c_version"
-        
+       
+        old_version_list = []
         doc = dbh[coll].find_one({"component":cmp})
-        old_version_list = doc["version_list"] if "version_list" in doc else []
+        if doc != None:
+            old_version_list = doc["version_list"] if "version_list" in doc else []
         
         ts = datetime.datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S %Z%z')
         ver_obj = { "component":cmp, "version":ver, "release_date":ts, "version_list":[ver] + old_version_list}

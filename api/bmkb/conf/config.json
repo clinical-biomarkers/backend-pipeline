@@ -1000,6 +1000,18 @@
 				"mcp_tool": {
                 "type": "string",
                 "maxlen": 200
+            },
+				"biomarker_change_type": {
+                "type": "string",
+                "maxlen": 200
+            },
+				"biomarker_aspect_type": {
+                "type": "string",
+                "maxlen": 200
+            },
+				"biomarker_mod_type": {
+                "type": "string",
+                "maxlen": 200
             }
         },
         "requiredfields": [],
@@ -2614,7 +2626,17 @@
         ],
         "collectionlist": []
     },
-    "log_logging": {
+    "pages_condition_init": {
+        "field_info": {},
+        "requiredfields": [],
+        "collectionlist": ["c_biomarker"]
+    },
+	 "pages_exposure_agent_init": {
+        "field_info": {},
+        "requiredfields": [],
+        "collectionlist": ["c_biomarker"]
+    },
+	 "log_logging": {
         "field_info": {
             "id": {
                 "type": "string"
@@ -2949,144 +2971,11 @@
         "json": "application/json"
     },
     "downloadtypes": {
-        "protein_list": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "json",
-                "fasta"
-            ]
-        },
-        "glycan_list": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "json",
-                "iupac",
-                "wurcs",
-                "glycam",
-                "smiles_isomeric",
-                "inchi",
-                "glycoct",
-                "byonic",
-                "grits"
-            ]
-        },
-        "site_list": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "json"
-            ]
-        },
         "biomarker_list": {
             "cache": "c_userlistcache",
             "formatlist": [
                 "csv",
                 "json"
-            ]
-        },
-        "disease_list": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "json"
-            ]
-        },
-        "isoform_mapper_list": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "tsv"
-            ]
-        },
-        "genelocus_list": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "json",
-                "fasta"
-            ]
-        },
-        "ortholog_list": {
-            "cache": "c_usercache",
-            "formatlist": [
-                "csv",
-                "json",
-                "fasta"
-            ]
-        },
-        "idmapping_list_mapped": {
-            "cache": "c_usercache",
-            "formatlist": [
-                "csv"
-            ]
-        },
-        "idmapping_list_unmapped": {
-            "cache": "c_usercache",
-            "formatlist": [
-                "csv"
-            ]
-        },
-        "idmapping_list_all": {
-            "cache": "c_usercache",
-            "formatlist": [
-                "csv"
-            ]
-        },
-        "idmapping_list_all_collapsed": {
-            "cache": "c_usercache",
-            "formatlist": [
-                "csv"
-            ]
-        },
-        "motif_list": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "json",
-                "iupac",
-                "wurcs",
-                "glycam",
-                "smiles_isomeric",
-                "inchi",
-                "glycoct",
-                "byonic"
-            ]
-        },
-        "protein_section": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "tsv"
-            ]
-        },
-        "site_section": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "tsv"
-            ]
-        },
-        "glycan_section": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "tsv"
-            ]
-        },
-        "motif_section": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "tsv"
-            ]
-        },
-        "publication_section": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "tsv"
             ]
         },
         "biomarker_section": {
@@ -3096,90 +2985,23 @@
                 "tsv"
             ]
         },
-        "disease_section": {
-            "cache": "c_userlistcache",
-            "formatlist": [
-                "csv",
-                "tsv"
-            ]
-        },
-        "protein_detail": {
-            "cache": "c_protein",
-            "formatlist": [
-                "json",
-                "fasta"
-            ]
-        },
-        "glycan_detail": {
-            "cache": "c_glycan",
-            "formatlist": [
-                "json",
-                "iupac",
-                "wurcs",
-                "glycam",
-                "smiles_isomeric",
-                "inchi",
-                "glycoct",
-                "byonic"
-            ]
-        },
-        "motif_detail": {
-            "cache": "c_motif",
-            "formatlist": [
-                "json",
-                "csv",
-                "png",
-                "svg"
-            ]
-        },
-        "site_detail": {
-            "cache": "c_site",
-            "formatlist": [
-                "json"
-            ]
-        },
-        "publication_detail": {
-            "cache": "c_publication",
-            "formatlist": [
-                "json"
-            ]
-        },
         "biomarker_detail": {
             "cache": "c_biomarker",
             "formatlist": [
                 "json"
             ]
         },
-        "disease_detail": {
-            "cache": "c_disease",
+		  "entity_section": {
+            "cache": "c_userlistcache",
+            "formatlist": [
+                "csv",
+                "tsv"
+            ]
+        },
+        "entity_detail": {
+            "cache": "c_ent",
             "formatlist": [
                 "json"
-            ]
-        },
-        "protein_detail_isoformset": {
-            "cache": "c_protein",
-            "formatlist": [
-                "fasta"
-            ]
-        },
-        "protein_detail_homologset": {
-            "cache": "c_protein",
-            "formatlist": [
-                "fasta"
-            ]
-        },
-        "glycan_image": {
-            "cache": "c_glycan",
-            "formatlist": [
-                "png",
-                "svg"
-            ]
-        },
-		  "batch_retrieval": {
-            "cache": "c_job",
-            "formatlist": [
-                "json",
-                "csv"
             ]
         }
     },

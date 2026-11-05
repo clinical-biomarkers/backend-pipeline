@@ -17,6 +17,11 @@ def load_dsfilename2bcoid_remote(TOKEN):
 
 
     filename2bcoid = {}
+
+    if False:
+        in_file = release_dir + "misc/ds2bco.json"
+        dsfilename2bcoid = json.load(open(in_file))
+   
     headers = {
         "Authorization":"Token " + TOKEN,
         "Content-Type":"application/json"
@@ -31,9 +36,10 @@ def load_dsfilename2bcoid_remote(TOKEN):
     cmd += ' -H ' + '"Content-type:application/json"'
     cmd += ' -H ' + '"Authorization:Token %s" ' % (TOKEN)
     cmd += ' -d ' + '\'{"POST_api_objects_search":[{"type":"bco_id","search":"BMK_"}]}\''
-    cmd += ' -o logs/bco.txt'
+    cmd += ' -o tmp/bco.txt'
     x = subprocess.getoutput(cmd)
-    x = subprocess.getoutput("cat logs/bco.txt")
+    x = subprocess.getoutput("cat tmp/bco.txt")
+    
     bco_obj_list = json.loads(x)
     for bco_doc in bco_obj_list:
         bco_id = bco_doc["object_id"].split("/")[-2]
@@ -127,40 +133,51 @@ def main():
     #log_dir = "/local/v-%s/logs/" % (rel)
 
 
-    #dsfilename2bcoid = load_dsfilename2bcoid_remote(TOKEN)
-    in_file = release_dir + "misc/ds2bco.json"
-    dsfilename2bcoid = json.load(open(in_file))
+    auth = json.load(open("/software/biomarkerdb/object-maker/auth/auth.json"))
+    dsfilename2bcoid = load_dsfilename2bcoid_remote(auth["token"])
+    #for file_name in dsfilename2bcoid:
+    #    print (file_name, dsfilename2bcoid[file_name])
 
 
+    DEBUG = False
+    #DEBUG = True
+    biomarker_file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
+
+
+
+    
+    unmapped_list = []    
     origid2entid = csvutil.load_origid2entid(rel)
-    #for orig_id in origid2entid:
-    #    print (orig_id, origid2entid[orig_id])
-    #exit()
+    ent_info, norma_ranges_dict, annotation_dict = csvutil.load_entity_data(release_dir)
+    for in_file in biomarker_file_list:
+        with open(in_file, "r") as FR:
+            f_list, lcount = [], 0
+            for line in FR:
+                lcount += 1
+                row = line[0:-1].split("\t")
+                if lcount == 1:
+                    f_list = row
+                else:
+                    entity_id = row[f_list.index("assessed_biomarker_entity_id")]
+                    orig_id = entity_id
+                    if entity_id.lower().find("bgsl:") != -1 and entity_id in origid2entid:
+                        orig_id = origid2entid[entity_id]
+                    if orig_id not in ent_info:
+                        unmapped_list.append("%s|%s|%s" % (entity_id,orig_id,in_file))
+  
+    if unmapped_list != []:
+        log_file = log_dir + "make-biomarkers-error.log" 
+        with open(log_file, "w") as FL:
+            for cmb in unmapped_list:
+                FL.write("%s --> no corresponding entdb record\n" % (cmb))
+        exit()
+
 
 
     url_dict = csvutil.load_url_dict(release_dir + "misc/xref_info.csv")
     ds_dict = json.load(open(release_dir + "misc/datasets.json"))
     crossref_dict = load_crossref_dict()
-
     llm_src_list = ds_dict["llm_dataset_sources"]
-
-    
-
-
-    ent_info = {}
-    norma_ranges_dict = {}
-    annotation_dict = {}
-    file_list = glob.glob(release_dir + "jsondb/interm/entdb/batch.*.json")
-    for in_file in file_list:
-        doc_list = json.load(open(in_file))
-        for doc in doc_list:
-            for obj in doc["entities"]:
-                orig_id = obj["orig_entity_id"] if "orig_entity_id" in obj else obj["entity_id"]
-                o = {"recommended_name":doc["recommended_name"],"synonyms":doc["synonyms"],"entity_id":obj["entity_id"]}
-                ent_info[orig_id] = o
-                ent_info[obj["entity_id"]] = o
-                norma_ranges_dict[obj["entity_id"]] = obj["entity_normal_ranges"]
-                annotation_dict[obj["entity_id"]] = obj["annotations"]
 
  
     cite_dict = csvutil.load_cite_dict(release_dir)
@@ -195,16 +212,14 @@ def main():
 
  
 
-    DEBUG = False
-    #DEBUG = True
-    file_list = glob.glob(release_dir + "unreviewed/biomarkers_*.tsv")
-    #file_list = glob.glob(release_dir + "unreviewed/biomarkers_*micropl*.tsv")
+
+
 
     id_counter = 0
     row_dict = {}
     grp_dict = {}
     dsfilename_dict = {}
-    for in_file in file_list:
+    for in_file in biomarker_file_list:
         file_name = in_file.split("/")[-1]
         source = in_file.split("/")[-1].replace("biomarkers_","").replace(".tsv","")
         log_file = log_dir + "make-biomarkers-%s.log" % (source)
@@ -285,6 +300,7 @@ def main():
     bmkb_idx, batch_idx = 0, 0
 
 
+    cv_fields = ["change_type_vocab", "aspect_type_vocab", "mod_type_vocab"]
     for canon_id_md5 in canon2conagent_dict:
         canon_id_new = canon_id_dict[canon_id_md5]
         idx = 0
@@ -313,7 +329,8 @@ def main():
                 continue
             biomarker_id_list = biomarker_id_dict[biomarker_id_md5]["biomarker_id_list"]
             role_dict, evdn_dict = {}, {}
-            
+            c_vocab_dict = {}
+ 
             comp_dict = {}
             agent_id2name = {}
             for cmb in row_dict[cmb_list_str]:
@@ -337,7 +354,8 @@ def main():
                     biomarker_index = row_obj["biomarker_index"]
                     component_index = row_obj["component_index"]
                     entity_index = row_obj["entity_index"]
- 
+                    for cf in cv_fields:
+                        c_vocab_dict[cf] = row_obj[cf] if cf in row_obj else ""
                     specimen_id, specimen,loinc_code = row_obj["specimen_id"], row_obj["specimen"], row_obj["loinc_code"]
                     specimen_obj = {}
                     if specimen_id != "":
@@ -355,12 +373,18 @@ def main():
                         orig_id = entity_id
                         if entity_id.lower().find("bgsl:") != -1 and entity_id in origid2entid:
                             orig_id = origid2entid[entity_id]
-                        if orig_id not in ent_info:
-                            with open(log_file, "a") as FL:
-                                FL.write("file=%s, %s not in ent_info -- run make-entdb.py first!\n" % (src_list,orig_id))
-                            exit()
-                        rec_name = ent_info[orig_id]["recommended_name"]
-                        syn_obj_list = ent_info[orig_id]["synonyms"]
+                        ent_ref_id = ent_info[orig_id]["ref_id"]
+                        hgnc_id = ent_info[orig_id]["hgnc_id"] if "hgnc_id" in ent_info[orig_id] else ""
+                        local_entity_url = "/%s/" % (ent_ref_id.upper().replace(":","_"))
+                        if hgnc_id != "HGNC:000000":
+                            local_entity_url = "/%s/" % (hgnc_id.upper().replace(":","_"))
+                        if entity_id.upper().find("UPKB:") != -1:
+                            local_entity_url += "%s/" % (entity_id.upper().replace(":","_"))
+                        #print ("%s|%s|%s|%s" % (ent_ref_id,hgnc_id,entity_id,local_entity_url))
+                        rec_name = ent_info[orig_id]["recommended_name"]["name"]
+                        syn_obj_list = []
+                        for oo in ent_info[orig_id]["synonyms"]:
+                            syn_obj_list.append({"synonym":oo["name"]})
                         entity_id_new = ent_info[orig_id]["entity_id"] 
                         ann_obj_list = annotation_dict[entity_id] if entity_id in annotation_dict else []
                         comp_dict[entity_id] = {
@@ -368,6 +392,7 @@ def main():
                             "entity_index":entity_index,
                             "assessed_biomarker_entity_id":entity_id_new,
                             "assessed_biomarker_entity_url":"",
+                            "local_entity_url" : local_entity_url,
                             "assessed_biomarker_entity":{ "recommended_name":rec_name, "synonyms": syn_obj_list},
                             "assessed_entity_type":entity_type,
                             "biomarker_orig":biomarker_orig,
@@ -376,8 +401,8 @@ def main():
                         }
                         entity_ns = entity_id.split(":")[0].lower()
                         if entity_ns in url_dict:
-                            entity_url =  url_dict[entity_ns]["url"] % (entity_id.split(":")[1])
-                            comp_dict[entity_id]["assessed_biomarker_entity_url"] = entity_url
+                            external_entity_url =  url_dict[entity_ns]["url"] % (entity_id.split(":")[1])
+                            comp_dict[entity_id]["assessed_biomarker_entity_url"] = external_entity_url
 
                     if evdn_id != "":
                         if "evidence_dict" not in comp_dict[entity_id]:
@@ -401,6 +426,7 @@ def main():
                 "biomarker_id_md5":biomarker_id_md5,
                 "canon_id_md5":canon_id_md5,
                 "biomarker_id_new":biomarker_id_new,
+                "c_vocab":c_vocab_dict,
                 "condition":{},
                 "best_biomarker_role":[],
                 "biomarker_component":[],

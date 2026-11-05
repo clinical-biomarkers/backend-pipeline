@@ -7,6 +7,7 @@ import glob
 import json
 import hashlib
 import pymongo
+import socket
 from pymongo import MongoClient
 from itertools import combinations
 
@@ -68,19 +69,19 @@ def main():
 
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
-    parser.add_option("-s","--server",action="store",dest="server",help="dev/tst/beta/prd")
     parser.add_option("-n","--cachename",action="store",dest="cachename",help="")
     
     
     (options,args) = parser.parse_args()
-    for key in ([options.server, options.cachename]):
+    for key in ([options.cachename]):
         if not (key):
             parser.print_help()
             sys.exit(0)
                                         
-    global server
- 
-    server = options.server
+        
+    host_name = socket.gethostname()
+    host_vm = host_name.split("-")[-1]
+
     cache_name = options.cachename
     record_type = cache_name.split("_")[0]
     coll = "c_initlistcache"
@@ -91,9 +92,9 @@ def main():
 
 
      
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+    db_name = "bmkbdb"
     config_obj = json.loads(open("./conf/config.json", "r").read())
-    mongo_port = config_obj["dbinfo"]["port"][server]
+    mongo_port = config_obj["dbinfo"]["port"]
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
   
     db_obj = config_obj["dbinfo"][db_name]
@@ -116,7 +117,7 @@ def main():
 
     qry_dict = query_doc[record_type]
     api_name = "%s_list" % (record_type)
-    log_file = log_dir + "c_initlistcache.%s.%s.log" % (api_name, server)
+    log_file = log_dir + "c_initlistcache.%s.%s.log" % (api_name, host_vm)
     cache_coll = "c_initcache"
     qry_dict = query_doc[record_type]
     cache_id_dict = get_cache_id_dict(dbh, cache_name)
@@ -126,7 +127,6 @@ def main():
 
     
 
-    log_file = log_dir + "c_initlistcache.%s.%s.log" % (cache_name, server)
     with open(log_file, "w") as FL:
         FL.write("")
  

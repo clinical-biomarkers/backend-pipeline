@@ -9,7 +9,10 @@
          	"condition.recommended_name.id":"condition_id_index",
          	"condition.synonyms.id":"condition_synonym_id_index",
         		"citation.reference.id":"citation_id_index",
-        		"best_biomarker_role.role":"biomarker_role_index"
+        		"best_biomarker_role.role":"biomarker_role_index",
+				"c_vocab.change_type_vocab":"change_type_vocab_index",
+				"c_vocab.aspect_type_vocab":"aspect_type_vocab_index", 
+				"c_vocab.mod_type_vocab":"mod_type_vocab_index"
 		  },
 		  "c_batch":{
             "record_id":"record_id_index"

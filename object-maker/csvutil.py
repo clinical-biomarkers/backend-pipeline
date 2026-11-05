@@ -339,10 +339,10 @@ def load_refid2hgncid():
     return tmp_dict, hgnc2uniprotac
 
 
-def load_entity_names():
+def load_entity_names(release_dir):
 
+    url_dict = load_url_dict(release_dir + "misc/xref_info.csv")
     name_dict = {"gene_names":{}, "protein_names":{}, "glycan_names":{}}
-
     canon2geneid = load_canon2geneid()
     
     file_list = glob.glob("/data/shared/biomarkerdb/downloads/glygen/current/*_protein_*names.csv")
@@ -371,11 +371,19 @@ def load_entity_names():
                 xref_id = canon.split("-")[0]
                 if xref_key == "protein_xref_refseq":
                     xref_id = row[f_list.index("refseq_ac")]
+                xref_url = ""
+                if xref_key in url_dict:
+                    xref_url = url_dict[xref_key]["url"] % (xref_id)
+                if xref_url == "":
+                    for kk in ["uniprotkb","pubmed"]:
+                        if xref_key.find(kk) != -1 and kk in url_dict:
+                            xref_url = url_dict[kk]["url"] % (xref_id)
+                            break
                 nm_list = name.split(";")
                 for nm in nm_list:
                     nm = nm.strip()
                     if nm != "":
-                        name_obj = { "name":nm, "resource":resource_badge,"type":name_type,"id":xref_id}
+                        name_obj = { "name":nm, "resource":resource_badge,"type":name_type,"id":xref_id,"url":xref_url}
                         combo_id = "%s|%s|%s|%s" % (canon,name_type,nm,resource)
                         name_dict[prop_name][combo_id] = name_obj
 
@@ -394,18 +402,19 @@ def load_entity_names():
                 abbreviations = row[f_list.index("abbreviations")]
                 exact_synonyms = row[f_list.index("exact_synonyms")]
                 xref_id = bgsl_id
+                xref_url = "https://data.biomarkerkb.org/BMK_000003"
                 name_type = "synonym"
                 resource, resource_badge = "bgsl","bGSL"
                 nm_list = abbreviations.split(";") if abbreviations != "" else []
                 nm_list += exact_synonyms.split(";") if exact_synonyms != "" else []
                 for nm in list(set(nm_list)):
                     combo_id = "%s|%s|%s|%s" % (bgsl_id,name_type,nm,resource)
-                    name_obj = { "name":nm, "resource":resource_badge,"type":name_type,"id":xref_id}
+                    name_obj = { "name":nm, "resource":resource_badge,"type":name_type,"id":xref_id,"url":xref_url}
                     name_dict[prop_name][combo_id] = name_obj
                 if term != "":
                     name_type = "recommended"
                     combo_id = "%s|%s|%s|%s" % (bgsl_id,name_type,term,resource)
-                    name_obj = { "name":term, "resource":resource_badge,"type":name_type,"id":xref_id}
+                    name_obj = { "name":term, "resource":resource_badge,"type":name_type,"id":xref_id,"url":xref_url}
                     name_dict[prop_name][combo_id] = name_obj
                 
     prt_name_dict = {}
@@ -449,15 +458,18 @@ def load_entity_names():
             else:
                 gene_id =  row[f_list.index("GeneID")]
                 entity_id = "NCBI:" + gene_id
-                
+                xref_key = "protein_xref_geneid"
+                xref_url = ""
+                if xref_key in url_dict:
+                    xref_url = url_dict[xref_key]["url"] % (gene_id)
                 rec_name = row[f_list.index("Symbol")]
                 synonyms = row[f_list.index("Symbol")]
                 if entity_id not in gene_name_dict:
                     gene_name_dict[entity_id] = []
-                    o = {"name":rec_name, "resource":"RefSeq", "type":"recommended", "id":entity_id}
+                    o = {"name":rec_name, "resource":"RefSeq", "type":"recommended", "id":entity_id, "url":xref_url}
                     gene_name_dict[entity_id].append(o)
                     for nm in row[f_list.index("Symbol")].split("|"):
-                        o = {"name":nm, "resource":"RefSeq", "type":"synonym", "id":entity_id} 
+                        o = {"name":nm, "resource":"RefSeq","type":"synonym","id":entity_id,"url":xref_url} 
                         gene_name_dict[entity_id].append(o)
                
 
@@ -470,9 +482,14 @@ def load_entity_names():
         for o in tmp_obj_list:
             entity_id,rec_name, synonyms = o["entity_id"], o["rec_name"], o["synonyms"]
             gene_name_dict[entity_id] = []
-            gene_name_dict[entity_id].append({"name":rec_name,"resource":"RefSeq","type":"recommended","id":entity_id})
+            gene_id = entity_id.split(":")[1]
+            xref_key = "protein_xref_geneid"
+            xref_url = ""
+            if xref_key in url_dict:
+                xref_url = url_dict[xref_key]["url"] % (gene_id)
+            gene_name_dict[entity_id].append({"name":rec_name,"resource":"RefSeq","type":"recommended","id":entity_id,"url":xref_url})
             for nm in synonyms:
-                gene_name_dict[entity_id].append({"name":nm, "resource":"RefSeq", "type":"synonym", "id":entity_id})
+                gene_name_dict[entity_id].append({"name":nm, "resource":"RefSeq", "type":"synonym", "id":entity_id,"url":xref_url})
     
     glycan_name_dict = {}
     for combo_id in name_dict["glycan_names"]:
@@ -1000,6 +1017,10 @@ def load_annotation_dict(release_dir):
         ann_obj = {"entity_id":ent_id, "annotation_category":annotation_category, "annotation_term":annotation_term, "evidence":[]}
         for cmb_two in tmp_dict_one[cmb_one]:
             xref_key, xref_id = cmb_two.split("|")
+            for kk in ["uniprotkb","pubmed"]:
+                if xref_key.find(kk) != -1:
+                    xref_key = kk
+                    break
             xref_lbl, xref_url = "", ""
             if xref_key in url_dict:
                 xref_lbl, xref_url = url_dict[xref_key]["lbl"], url_dict[xref_key]["url"] % (xref_id)
@@ -1049,4 +1070,26 @@ def load_entity_crossref_dict(release_dir):
 
     
 
+
+
+def load_entity_data(release_dir):
+
+    ent_info = {}
+    norma_ranges_dict = {}
+    annotation_dict = {}
+    file_list = glob.glob(release_dir + "jsondb/interm/entdb/batch.*.json")
+    for in_file in file_list:
+        doc_list = json.load(open(in_file))
+        for doc in doc_list:
+            for obj in doc["entities"]:
+                orig_id = obj["orig_entity_id"] if "orig_entity_id" in obj else obj["entity_id"]
+                o = {"recommended_name":doc["recommended_name"],"synonyms":doc["synonyms"],"entity_id":obj["entity_id"]}
+                o["ref_id"] = doc["ref_id"]
+                if "hgnc_id" in doc:
+                    o["hgnc_id"] = doc["hgnc_id"]
+                ent_info[orig_id] = o
+                ent_info[obj["entity_id"]] = o
+                norma_ranges_dict[obj["entity_id"]] = obj["entity_normal_ranges"]
+                annotation_dict[obj["entity_id"]] = obj["annotations"]
+    return ent_info, norma_ranges_dict, annotation_dict
 

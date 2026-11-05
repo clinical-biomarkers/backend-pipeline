@@ -779,7 +779,7 @@ def create_list_objects(dbh,cache_id, cache_info, cache_collection, final_fields
     qry_obj = {"list_id":cache_id}
     for doc in dbh[cache_collection].find(qry_obj):
         id_list += doc["results"]
-   
+  
  
     debug_list = []
     batch_size = config_obj["supersearch_batch_size"]
@@ -805,7 +805,7 @@ def create_list_objects(dbh,cache_id, cache_info, cache_collection, final_fields
             tmp_obj_list.append(obj)
             debug_list.append(obj["record_id"])
  
-    return debug_list
+    #return debug_list
     return tmp_obj_list
 
 
@@ -896,7 +896,7 @@ def make_list_objects_indirect(query_obj, config_obj, limit_flag):
     if cached_obj["results"] == []:
         cached_obj["results"] = create_list_objects(dbh,cache_id, cache_info,cache_collection,
             final_fields,score_dict, prj_obj, config_obj)
-        return {"flag":cached_obj["results"]}
+        #return {"flag":cached_obj["results"]}
  
     ts = datetime.datetime.now(pytz.timezone('US/Eastern')).strftime(ts_format)
     ts_list.append("3-%s (record_count=%s)" % (ts, len(cached_obj["results"])))
@@ -907,6 +907,7 @@ def make_list_objects_indirect(query_obj, config_obj, limit_flag):
     if "filters" not in cached_obj:
         cached_obj["filters"] = {"applied":[]}
     cached_obj["filters"]["available"] = []
+    
     update_res = update_filters(record_type, cached_obj["results"], cached_obj["filters"], 1, code_dict, filter_conf)
     if "error_list" in update_res:
         return update_res
@@ -1153,7 +1154,9 @@ def update_filters(record_type, obj_list, filters, step, code_dict, filter_conf)
     debug_list = []
     for record_obj in obj_list:
         if "filter_code" not in record_obj:
-            return {"error_list":[{"error_code": "list_obj_without_filter_code","record":record_obj}]}
+            #return {"error_list":[{"error_code": "list_obj_without_filter_code","record":record_obj}]}
+            return {"error_list":obj_list}
+            
         seen_filter_code[record_obj["filter_code"].replace(".", "_")] = True
         record_code_parts = record_obj["filter_code"].split(".")
         debug_list.append(record_code_parts)
@@ -1871,41 +1874,6 @@ def get_hash_id(api_name , record_type, obj):
 
 
 
-def filter_glyco_obj_list(table_id, obj_list, query_filters , config_obj):
-
-    filter_init = config_obj["filter_init"]
-    filters_obj = {"applied":query_filters, "available":[]}
-   
-    query_site_category = table_id.replace("glycosylation_", "")
-    table_obj_list, other_table_obj_list = [], []
-    for gly_obj in obj_list:
-        if query_site_category == gly_obj["site_category"]:
-            table_obj_list.append(gly_obj)
-        else:
-            other_table_obj_list.append(gly_obj)
-    res = get_query_filter_code(query_filters, table_id, filter_init)
-    query_filter_code, code_dict = res["code"], res["dict"]
-    update_res = update_filters(table_id, table_obj_list, filters_obj, 1, code_dict, filter_init)
-    if "error_list" in update_res:
-        return update_res
- 
-
-    
- 
-    grp_id_list = get_grp_id_list(table_id, filter_init)
-    passed_obj_list = []
-    for gly_obj in table_obj_list:
-        flag = compare_filter_codes(gly_obj["filter_code"], query_filter_code, query_filters, code_dict, grp_id_list)
-        if type(flag) is dict:
-            if "error_list" in flag:
-                return flag
-        if flag:
-            passed_obj_list.append(gly_obj)
-    res = {"a":table_obj_list,"b":passed_obj_list, "c":other_table_obj_list, "d":filters_obj}
-    return res
-
-
-
 
 
 
@@ -2036,6 +2004,8 @@ def get_combined_cached_result_list(dbh, record_type, req_obj):
     query_filters = query_obj["filters"] if "filters" in query_obj else []
     res = get_query_filter_code(query_filters, record_type, filter_conf)
     query_filter_code, code_dict = res["code"], res["dict"]
+    
+    #return {"error_list":full_obj_list}
     update_res = update_filters(record_type, full_obj_list, res_obj["filters"], 2, code_dict, filter_conf)
     if "error_list" in update_res:
         return update_res

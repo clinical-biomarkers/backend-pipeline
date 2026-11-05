@@ -17,26 +17,24 @@ __status__ = "Dev"
 ###############################
 def main():
 
-
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
-    parser.add_option("-s","--server",action="store",dest="server",help="dev/tst/beta/prd")
-    parser.add_option("-c","--coll",action="store",dest="coll",help="") 
+    parser.add_option("-c","--coll",action="store",dest="coll",help="collection")
+
     (options,args) = parser.parse_args()
 
-    for key in ([options.server, options.coll]):
+    for key in ([options.coll]):
         if not (key):
             parser.print_help()
             sys.exit(0)
 
-    server = options.server
     coll = options.coll
 
 
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+    db_name = "bmkbdb"
 
     config_obj = json.loads(open("./conf/config.json", "r").read())
-    mongo_port = config_obj["dbinfo"]["port"][server]
+    mongo_port = config_obj["dbinfo"]["port"]
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
   
     db_obj = config_obj["dbinfo"][db_name]
@@ -52,8 +50,6 @@ def main():
         )
         client.server_info()
         dbh = client[db_name]
-        #q = {"glytoucan_ac": "G17689DH"}
-        #q = { "phraselist": {"$eq": "diagnostic"},"record_type": {"$eq": "protein"}}
         q = {}
         for doc in dbh[coll].find(q):
             for p in ["_id", "password", "start_date", "end_date", "createdts", "updatedts", "creation_time", "update_time"]:

@@ -6,11 +6,10 @@ from bmkb.document import get_one, get_many, insert_one, update_one, delete_one,
 from werkzeug.utils import secure_filename
 import datetime
 import time
-import subprocess
 import json
 import bcrypt
 
-from bmkb.pages_apilib import home_init, list_init, ontology
+from bmkb.pages_apilib import home_init, list_init, ontology, condition_init, exposure_agent_init
 from bmkb.util import trim_object, get_req_obj
 import traceback
 
@@ -20,6 +19,9 @@ api = Namespace("pages", description="Pages APIs")
 home_init_query_model = api.model("Pages Home Init Query", {})
 ontology_query_model = api.model("Pages Ontology Query", {})
 list_init_query_model = api.model("Pages List Init Query",{ "table_id": fields.String(required=True, default="")})
+condition_init_query_model = api.model("Pages Disease Init Query", {})
+exposure_agent_init_query_model = api.model("Pages Exposure Agen Init Query", {})
+
 
 
 @api.route('/home_init/')
@@ -97,6 +99,52 @@ class Pages(Resource):
     def get(self):
         return self.post()
 
+
+
+@api.route('/condition_init/', methods=['GET', 'POST'])
+class Pages(Resource):
+    @api.expect(condition_init_query_model)
+    def post(self):
+        SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+        json_url = os.path.join(SITE_ROOT, "conf/config.json")
+        config_obj = json.load(open(json_url))
+        res_obj = {}
+        try:
+            req_obj = {}
+            res_obj = log_request(req_obj, "/pages/condition_init/", request)
+            if "error_list" not in res_obj:
+                res_obj = condition_init(config_obj, req_obj)
+        except Exception as e:
+            res_obj = log_error(traceback.format_exc())
+        http_code = 500 if "error_list" in res_obj else 200
+        return res_obj, http_code
+
+    @api.doc(False)
+    def get(self):
+        return self.post()
+
+
+@api.route('/exposure_agent_init/', methods=['GET', 'POST'])
+class Pages(Resource):
+    @api.expect(exposure_agent_init_query_model)
+    def post(self):
+        SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+        json_url = os.path.join(SITE_ROOT, "conf/config.json")
+        config_obj = json.load(open(json_url))
+        res_obj = {}
+        try:
+            req_obj = {}
+            res_obj = log_request(req_obj, "/pages/exposure_agent_init/", request)
+            if "error_list" not in res_obj:
+                res_obj = exposure_agent_init(config_obj, req_obj)
+        except Exception as e:
+            res_obj = log_error(traceback.format_exc())
+        http_code = 500 if "error_list" in res_obj else 200
+        return res_obj, http_code
+
+    @api.doc(False)
+    def get(self):
+        return self.post()
 
 
 

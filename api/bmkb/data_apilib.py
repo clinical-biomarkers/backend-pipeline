@@ -10,7 +10,6 @@ from flask import Flask, request, jsonify, Response, stream_with_context
 import zlib
 import gzip
 import struct           
-import subprocess
 
 from bmkb.db import get_mongodb
 from bmkb.util import cache_hitlist,  extract_name, get_errors_in_query, order_obj, order_list, make_list_objects_direct, make_list_objects_indirect, retrieve_cached_list_objects
@@ -57,7 +56,6 @@ def list_download(query_obj, config_obj, data_path):
         "idmapping_list_all_collapsed",
         "batch_retrieval"
     ]
-    sequence_format_list = ["fasta", "iupac", "wurcs","glycam","smiles_isomeric","inchi","glycoct", "byonic", "grits"]
 
     data_buffer = ""
     if query_obj["download_type"] in download_type_list:
@@ -114,7 +112,7 @@ def detail_download(query_obj, config_obj, data_path):
             return {"error_list":error_list}
 
     if query_obj["download_type"] not in config_obj["downloadtypes"].keys():
-        error_list.append({"error_code":"download-type-not-supported"})
+        error_list.append({"error_code":"download-type-not-supported:%s" % (query_obj["download_type"])})
         return {"error_list":error_list}
     
     if query_obj["format"].lower() not in config_obj["downloadtypes"][query_obj["download_type"]]["formatlist"]:
@@ -131,39 +129,12 @@ def detail_download(query_obj, config_obj, data_path):
         img_path = data_path + "/releases/data/v-%s/glycanimages_snfg_svg/" % (init_obj["dataversion"])
     img_file = img_path +  "G0000000." + format_lc
  
-    download_type_list =  [
-        "glycan_detail", "motif_detail", "protein_detail","protein_detail_isoformset","protein_detail_homologset", 
-        "site_detail", "publication_detail", "glycan_image", "biomarker_detail", "disease_detail"
-    ]
-    sequence_format_list = ["fasta", "iupac", "wurcs","glycam","smiles_isomeric","inchi","glycoct", "byonic", "grits"]
-
+    download_type_list =  ["biomarker_detail", "entity_detail"]
     data_buffer = ""
     if query_obj["download_type"] in download_type_list:
         record_obj = get_record_object(dbh, query_obj, config_obj)
         if record_obj == None:
             return {"error_list":{"error_code":"non-existent-record"}}
-        elif query_obj["download_type"] in ["glycan_image"] and format_lc in ["png", "svg"]:
-            img_file = img_path + query_obj["id"].upper() + "." + format_lc
-            if os.path.isfile(img_file) == False:
-                img_file = img_path +  "G0000000." + format_lc
-            data_buffer = open(img_file, "rb").read()
-        elif query_obj["download_type"] in ["motif_detail"] and format_lc in ["csv", "tsv"]:
-            m_query = {"motifs.id": {'$eq': query_obj["id"]}}
-            row = ["glytoucan_ac"]
-            if format_lc == "csv":
-                data_buffer += "\"" +  "\",\"".join(row) + "\"\n"
-            elif format_lc == "tsv":
-                data_buffer += "\"" +  "\"\t\"".join(row) + "\"\n"
-            for o in dbh["c_glycan"].find(m_query):
-                row = [o["glytoucan_ac"]]
-                data_buffer += "\"" +  "\",\"".join(row) + "\"\n"
-        elif query_obj["download_type"] in ["motif_detail"] and format_lc in ["png", "svg"]:
-            data_buffer = ""
-            glytoucan_ac = record_obj["glytoucan_ac"]
-            img_file = img_path + glytoucan_ac.upper() + "." + format_lc
-            if os.path.isfile(img_file) == False:
-                img_file = img_path +  "G0000000." + format_lc
-            data_buffer = open(img_file, "rb").read()
         else:
             data_buffer = json.dumps(record_obj,  indent=4)
 
@@ -220,7 +191,7 @@ def section_download(query_obj, config_obj, sec_info, data_path):
         return {"error_list":error_list}
 
     if query_obj["download_type"] not in config_obj["downloadtypes"].keys():
-        error_list.append({"error_code":"download-type-not-supported"})
+        error_list.append({"error_code":"download-type-not-supported:%s" % (query_obj["download_type"])})
         return {"error_list":error_list}
     
     if query_obj["format"].lower() not in config_obj["downloadtypes"][query_obj["download_type"]]["formatlist"]:
@@ -232,9 +203,7 @@ def section_download(query_obj, config_obj, sec_info, data_path):
         return {"error_list":error_list}
    
     format_lc = query_obj["format"].lower()
-    download_type_list =  [ "protein_section", "site_section", "glycan_section", 
-        "motif_section", "publication_section", "biomarker_section", "disease_section"]
-
+    download_type_list =  ["biomarker_section", "entity_section"]
 
     data_buffer = ""
     if query_obj["download_type"] in download_type_list:
@@ -245,7 +214,7 @@ def section_download(query_obj, config_obj, sec_info, data_path):
         if record_type not in sec_info:
             return {"error_list":{"error_code":"unknown-record-type"}}
         if sec not in sec_info[record_type]:
-            return {"error_list":{"error_code":"unknown-section"}}
+            return {"error_list":{"error_code":"unknown-section:%s:recordtype:%s" % (sec, record_type)}}
         if "sectionfield" not in sec_info[record_type][sec]:
             return {"error_list":{"error_code":"unknown-section-field"}}
 
@@ -256,10 +225,16 @@ def section_download(query_obj, config_obj, sec_info, data_path):
             lbl_dict[o["path"]] = o["label"]
 
         record_obj = get_record_object(dbh, query_obj, config_obj)
-        
+
+        if query_obj["download_type"] == "entity_section":
+            for ent_obj in record_obj["entities"]:
+                if ent_obj["entity_id"] == query_obj["id"].upper():
+                    record_obj = ent_obj
+                    break    
+ 
         sec_field = sec_info[record_type][sec]["sectionfield"]
         if sec_field not in record_obj:
-            return {"error_list":{"error_code":"missing-section-field"}}
+            return {"error_list":{"error_code":"missing-section-field:field=%s" % (sec_field)}}
         obj_list = record_obj[sec_field]
 
 
@@ -581,18 +556,29 @@ def get_list_object(query_obj, config_obj):
 
 def get_record_object(dbh, query_obj, config_obj):
 
-    format_lc = query_obj["format"].lower()
-    collection = "c_biomarker"
-    main_id = ""
+    
+    record_obj = None
     if query_obj["download_type"] in ["biomarker_detail", "biomarker_section"]:
-        main_id = "biomarker_id"   
- 
-    val = query_obj["id"]
-    mongo_query = {main_id:{"$eq":val}}
-    #return {"coll":collection, "mquery":mongo_query}
-    record_obj = dbh[collection].find_one(mongo_query)
-    if "_id" in record_obj:
-        record_obj.pop("_id")
+        collection = "c_biomarker"
+        main_id_field = "biomarker_id"   
+        main_id_value = query_obj["id"]
+        mongo_query = {main_id_field:{"$eq":main_id_value}}
+        #return {"coll":collection, "mquery":mongo_query}
+        record_obj = dbh[collection].find_one(mongo_query)
+    elif query_obj["download_type"] in ["entity_detail", "entity_section"]:
+        main_id_value = query_obj["id"].upper().replace("_",":")
+        main_id_field = "hgnc_id" if main_id_value.find("HGNC:") != -1 else "ref_id"
+        collection = "c_ent"
+        mongo_query = {main_id_field:{"$eq":main_id_value}}
+        #return {"coll":collection, "mquery":mongo_query}
+        record_obj = dbh[collection].find_one(mongo_query)
+        if record_obj == None:
+            mongo_query = {"entities.entity_id":{"$eq":main_id_value}}
+            record_obj = dbh[collection].find_one(mongo_query)
+    
+    if record_obj != None:
+        if "_id" in record_obj:
+            record_obj.pop("_id")
 
     return record_obj
 

@@ -7,7 +7,6 @@ from werkzeug.utils import secure_filename
 import datetime
 import pytz
 import time
-import subprocess
 import json
 import bcrypt
 

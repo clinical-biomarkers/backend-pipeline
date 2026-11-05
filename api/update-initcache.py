@@ -17,6 +17,7 @@ from copied_util import get_hash_id, make_list_objects_indirect, cache_list_obje
 from cacheutil import cache_exists, delete_cache, get_c_initcache_queries,get_supersearch_init_query,get_supersearch_log_lines
 
 import orjson
+import socket
 
 
 def cache_hitlist(dbh,list_id, record_list, cache_info, cache_coll):
@@ -91,17 +92,21 @@ def main():
 
     usage = "\n%prog  [options]"
     parser = OptionParser(usage,version="%prog version___")
-    parser.add_option("-s","--server",action="store",dest="server",help="dev/tst/beta/prd")
     parser.add_option("-n","--cachename",action="store",dest="cachename",help="")
     
     
     (options,args) = parser.parse_args()
-    for key in ([options.server, options.cachename]):
+    for key in ([options.cachename]):
         if not (key):
             parser.print_help()
             sys.exit(0)
-                                         
-    server = options.server
+
+
+    
+        
+    host_name = socket.gethostname()
+    host_vm = host_name.split("-")[-1]
+
     cache_name = options.cachename
     record_type = "biomarker"
     coll = "c_initcache"
@@ -119,10 +124,10 @@ def main():
     log_dir = "/data/shared/biomarkerdb/logs/"
     
 
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+    db_name = "bmkbdb"
 
     config_obj = json.loads(open("./conf/config.json", "r").read())
-    mongo_port = config_obj["dbinfo"]["port"][server]
+    mongo_port = config_obj["dbinfo"]["port"]
     host = "mongodb://127.0.0.1:%s" % (mongo_port)
   
     db_obj = config_obj["dbinfo"][db_name]
@@ -149,7 +154,7 @@ def main():
         delete_cache(dbh, list_id, "c_initcache")
     res_obj = update_c_initcache(dbh, cache_name, list_id, record_type, qry_obj)
     if "flag" not in res_obj:
-        log_file = log_dir + "c_initcache.%s.%s.log" % (cache_name, server)
+        log_file = log_dir + "c_initcache.%s.%s.log" % (cache_name, host_vm)
         with open(log_file, "w") as FL:
             FL.write("%s,%s,%s\n" % (list_id, res_obj["recordcount"],cache_name))
 

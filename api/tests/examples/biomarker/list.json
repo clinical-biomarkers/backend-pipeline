@@ -1,7 +1,4 @@
-{
-        "id": "5fa6de78fcac6fa07eeeb2970c792e48",
-        "offset": 1,
-        "limit": 100
-    }
-
+{"id":"24975c86e4c57b215cfca6a01b595810","offset":1,"sort":"hit_score","limit":20,"order":"desc","filters":[], 
+"columns":["change_type_vocab", "aspect_type_vocab", "mod_type_vocab", "condition_id","condition_name","exposure_agent_id", "exposure_agent_name", "specimen_id", "specimen_name", "specimen_loinc_code", "publication_id", "data_source"]
+}
 

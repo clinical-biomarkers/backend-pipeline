@@ -5,7 +5,6 @@ from bmkb.db import log_error, log_request
 from werkzeug.utils import secure_filename
 import datetime
 import time
-import subprocess
 import json
 import bcrypt
 

@@ -6,7 +6,6 @@ from bmkb.document import get_one, get_many, insert_one, update_one, delete_one,
 from werkzeug.utils import secure_filename
 import datetime
 import time
-import subprocess
 import json
 import bcrypt
 
@@ -200,6 +199,8 @@ class Biomarker(Resource):
         res_obj = {}
         try:
             req_obj = get_req_obj(request)
+            if "biomarker_role" in req_obj:
+                req_obj["best_biomarker_role"] = req_obj["biomarker_role"]
             res_obj = log_request(req_obj, "/biomarker/search/", request)
             if "error_list" not in res_obj:
                 res_obj = biomarker_search(req_obj, config_obj, "")
@@ -272,7 +273,7 @@ class Biomarker(Resource):
                 res_obj = retrieve_cached_list_objects(in_dict,req_obj,config_obj,"paginated")
                 if res_obj == None:
                     res_obj = make_list_objects_indirect(req_obj, config_obj, False)
-                    return res_obj
+                    #return res_obj
                     if "error_list" not in res_obj:
                         res = cache_list_objects(api_name, cache_id, listcache_id, res_obj, config_obj)
                         if "error_list" in res:

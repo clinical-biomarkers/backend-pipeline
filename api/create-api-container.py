@@ -4,6 +4,7 @@ from optparse import OptionParser
 import glob
 import json
 import subprocess
+import socket
 
 __version__="1.0"
 __status__ = "Dev"
@@ -13,36 +14,29 @@ __status__ = "Dev"
 ###############################
 def main():
 
-    usage = "\n%prog  [options]"
-    parser = OptionParser(usage,version="%prog version___")
-    parser.add_option("-s","--server",action="store",dest="server",help="dev/tst/beta/prd")
-    (options,args) = parser.parse_args()
 
-    for key in ([options.server]):
-        if not (key):
-            parser.print_help()
-            sys.exit(0)
+        
+    host_name = socket.gethostname()
+    host_vm = host_name.split("-")[-1]
 
-    server = options.server
+
+
 
     config_file = "conf/config.json"
     config_obj = json.loads(open(config_file, "r").read())
-    image = "bmkb_api_%s" % (server) 
+    image = "bmkb_api"
     api_container = "running_" + image
-    mongo_container = "running_bmkb_mongo_" + server
-    api_port = config_obj["api_port"][server]
+    mongo_container = "running_bmkb_mongo"
+    api_port = config_obj["api_port"]
 
         
-    db_name = "bmkbdb_beta" if server == "beta" else "bmkbdb"
+    db_name = "bmkbdb"
 
     data_path = config_obj["data_path"]
-    network = config_obj["dbinfo"]["bridge_network"] + "_" + server
+    network = config_obj["dbinfo"]["bridge_network"]
     mongo_user = config_obj["dbinfo"][db_name]["user"]
     mongo_password = config_obj["dbinfo"][db_name]["password"]
     mongo_db =  config_obj["dbinfo"][db_name]["db"]
-    mail_server = config_obj["mail"]["server"]
-    mail_port = config_obj["mail"]["port"]
-    mail_sender = config_obj["mail"]["sender"]
 
 
 
@@ -60,17 +54,14 @@ def main():
     env_list = [
         " -e MONGODB_CONNSTRING=%s" % (conn_str),
         " -e DB_NAME=%s" % (mongo_db),
-        " -e MAIL_SERVER=%s" % (mail_server), 
-        " -e MAIL_PORT=%s" % (mail_port),
-        " -e MAIL_SENDER=%s" % (mail_sender), 
         " -e DATA_PATH=%s" % (data_path), 
-        " -e SERVER=%s" % (server)
+        " -e SERVER=%s" % (host_vm)
     ] 
     llm_dict = json.load(open("/data/shared/auth/.llm.json"))
     for k in llm_dict:
         env_list.append(" -e %s=%s" % (k, llm_dict[k]))
 
-    cmd = "docker create --name %s --network %s -p 127.0.0.1:%s:80" % (api_container, network, api_port)
+    cmd = "docker create --name %s --network %s -p 127.0.0.1:%s:8888" % (api_container, network, api_port)
     cmd += " -v %s:%s -v /software/pipes:/hostpipe " % (data_path, data_path)
     for env in env_list:
         cmd += env

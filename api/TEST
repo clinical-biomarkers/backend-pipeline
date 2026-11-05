@@ -12,7 +12,12 @@ http POST :4040/biomarker/ai_search < tests/examples/biomarker/ai_search.json
 http POST :4040/biomarker/list < tests/examples/biomarker/list.json
 
 
-http POST :4040/data/list_download < tests/examples/data/list_download.1.json
+http POST :4040/data/list_download < tests/examples/data/list_download.biomarker.json
+http POST :4040/data/detail_download < tests/examples/data/detail_download.biomarker.json
+http POST :4040/data/detail_download < tests/examples/data/detail_download.entity.json
+http POST :4040/data/section_download < tests/examples/data/section_download.biomarker.json
+http POST :4040/data/section_download < tests/examples/data/section_download.entity.json
+
 
 http POST :4040/auth/login/ < ~/auth/auth.json
 http POST :4040/auth/userdelete/ < tests/examples/auth/auth_userdelete.json

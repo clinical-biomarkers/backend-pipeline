@@ -1,14 +1,11 @@
-#srv="prd"
-srv="dev"
-
-sudo systemctl stop docker-bmkb-api-$srv.service
-python3 create-api-container.py -s $srv
-sudo systemctl start docker-bmkb-api-$srv.service
+sudo systemctl stop docker-bmkb-api.service
+python3 create-api-container.py 
+sudo systemctl start docker-bmkb-api.service
 
 
-docker volume prune -a -f 
-docker buildx prune -a -f
-docker builder prune -a -f
+#docker volume prune -a -f 
+#docker buildx prune -a -f
+#docker builder prune -a -f
 
 
 

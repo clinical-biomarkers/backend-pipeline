@@ -265,6 +265,10 @@ def create_github_issue(url, github_token, issue_obj):
         "Authorization": "Bearer " + github_token,
         "X-GitHub-Api-Version":"2022-11-28"
     }
+    masked_token = ""
+    for i in range(0, len(github_token)):
+        masked_token += "*"
+    masked_token = masked_token[:-5] + github_token[-5:]
 
     res_obj = {}
     try:
@@ -274,7 +278,12 @@ def create_github_issue(url, github_token, issue_obj):
             res = response.json()
             res_obj = {"number":res["number"], "url":res["url"]}
         else:
-            res_obj = {"error_list":[{"error_code": "Bad response status code: %s!" % (code)}]}
+            msg = response.json().get("message", response.text)
+            github_details = {"endpoint":url, "masked_token":masked_token}
+            res_obj = {
+                "github_details":github_details, 
+                "error_list":[{"error_code": "status code=%s, message=%s" % (code,msg)}]
+            }
     except Exception as e:
         res_obj = {"error_list":[{"error_code":str(e)}]}
 

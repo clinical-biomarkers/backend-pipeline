@@ -26,11 +26,10 @@ def main():
     release_dir = "/data/shared/biomarkerdb/releases/data/v-%s" % (rel)
 
     cmd_dict = {}
-    db_list = ["citedb","normalrangesdb","diseasedb","idgendb","idtrackdb","entdb","biomarkerdb","listdb","indexdb","sortdb"]
-    db_list += ["batchdb","statdb", "searchinitdb"]
+    db_list = ["citedb","normalrangesdb","diseasedb","idgendb","idtrackdb","entdb","biomarkerdb"]
+    db_list += ["listdb","indexdb","sortdb","batchdb","statdb", "searchinitdb", "ontologydb"]
+    #db_list = ["biomarkerdb","listdb", "indexdb","sortdb","batchdb","statdb", "searchinitdb"]
      
-    #db_list = ["batchdb","statdb", "searchinitdb"]
- 
     for idx in range(0, len(db_list)):
         db = db_list[idx]
         cmd_dict[idx] = {"db":db, "cmdlist":[]}
@@ -38,7 +37,7 @@ def main():
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 make-%s.py -r %s " % (db,rel))
-        elif db in ["indexdb", "citedb", "batchdb"]:
+        elif db in ["indexdb", "citedb"]:
             cmd_dict[idx]["cmdlist"].append("rm -f %s/jsondb/%s/*" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("mkdir -p %s/jsondb/%s" % (release_dir, db))
             cmd_dict[idx]["cmdlist"].append("python3 wrap-make-%s.py -r %s" % (db,rel))

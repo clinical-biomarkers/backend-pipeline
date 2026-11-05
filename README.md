@@ -60,11 +60,11 @@ updated 18 dataset files under /../shared/biomarkerdb/releases/data/v-3.1.1/revi
 Run the following commands to load objectst to MongoDB.
 ```
 $ cd /../shared/repos/backend-pipeline/api/
-$ nohup python3 populate_collection.py -s $SERVER -v 3.1.1  &
-$ python3 clear-cache.py -s $SERVER -c c_usercache
-$ python3 clear-cache.py -s $SERVER -c c_userlistcache
+$ nohup python3 populate_collection.py -v 3.1.1  &
+$ python3 clear-cache.py -c c_usercache
+$ python3 clear-cache.py -c c_userlistcache
 ```
-where $SERVER can be dev or prd. You can monitor the progress of the above command by looking into the logfiles /data/shared/biomarkerdb/logs/*_loading_progress_dev|prd.txt
+You can monitor the progress of the above command by looking into the logfiles /data/shared/biomarkerdb/logs/*_loading_progress_dev|prd.txt
 
 $ ls /../shared/biomarkerdb/logs/*_loading_progress_dev.txt
 ```
@@ -80,21 +80,21 @@ $ ls  -ltr /data/shared/biomarkerdb/logs/*_loading_progress_dev.txt
 Run the following commands to update init caches -- they are used when users perform empty query searches that result in large number of results
 ```
 $ cd /../shared/repos/backend-pipeline/api/
-$ nohup python3 wrap-update-initcache.py -s $SERVER &
+$ nohup python3 wrap-update-initcache.py &
 ```
-After the above command finishes, you will see file /../shared/biomarkerdb/logs/c_initcache.biomarker_all.$SERVER.log containing 1 line. Next, you do the following:
+After the above command finishes, you will see file /../shared/biomarkerdb/logs/c_initcache.biomarker_all.prd|dev.log containing 1 line. Next, you do the following:
 ```
 $ cd /../shared/repos/backend-pipeline/api/
-$ nohup python3 wrap-update-initlistcache.py -s $SERVER &
+$ nohup python3 wrap-update-initlistcache.py &
 ```
-Check the logfile  /../shared/biomarkerdb/logs/c_initlistcache.biomarker_all.$SERVER.log and you should see 9 lines in it.
+Check the logfile  /../shared/biomarkerdb/logs/c_initlistcache.biomarker_all.prd|dev.log and you should see 9 lines in it.
 
 
 ### Step-8: updating version label for data 
 Run the following commands to update version label data 
 ```
 $ cd /../shared/repos/backend-pipeline/api/
-$ python3 update_version.py -s $SERVER -v 3.1.1 -c data
+$ python3 update_version.py -v 3.1.1 -c data
 ```
 
 

@@ -6,7 +6,6 @@ from bmkb.document import get_one, get_many, insert_one, update_one, delete_one,
 from werkzeug.utils import secure_filename
 import datetime
 import time
-import subprocess
 import json
 import bcrypt
 from flask_jwt_extended import (
